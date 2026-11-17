@@ -1,0 +1,197 @@
+[
+  {
+    "id": "IND-01",
+    "mapel": "Bahasa Indonesia",
+    "tingkat": "SMP Kelas 7-9",
+    "bacaan": "Sampah plastik merupakan salah satu penyumbang terbesar pencemaran lingkungan di perkotaan, termasuk di DKI Jakarta. Berdasarkan data Dinas Lingkungan Hidup, ribuan ton sampah plastik diproduksi setiap harinya. Upaya penanggulangan harus dimulai dari lingkungan terkecil, seperti memilah sampah organik dan anorganik dari rumah tangga serta membudayakan penggunaan tas belanja ramah lingkungan.",
+    "pertanyaan": "Gagasan utama dari kutipan teks di atas adalah...",
+    "pilihan": {
+      "A": "Pencemaran lingkungan hanya terjadi di DKI Jakarta akibat limbah industri",
+      "B": "Sampah plastik sebagai penyumbang pencemaran dan perlunya upaya penanggulangan",
+      "C": "Dinas Lingkungan Hidup memproduksi ribuan ton sampah plastik setiap harinya",
+      "D": "Kewajiban pemerintah daerah untuk menanggung seluruh biaya sampah anorganik"
+    },
+    "kunci": "B",
+    "pembahasan": "Gagasan utama mencakup masalah inti (sampah plastik penyumbang pencemaran) dan solusi yang dipaparkan di akhir paragraf."
+  },
+  {
+    "id": "IND-02",
+    "mapel": "Bahasa Indonesia",
+    "tingkat": "SMP Kelas 7-9",
+    "bacaan": "Monumen Nasional (Monas) merupakan salah satu ikon kebanggaan warga Jakarta. Bangunan ini didirikan untuk mengenang perlawanan dan perjuangan rakyat Indonesia dalam merebut kemerdekaan dari pemerintah kolonial Hindia Belanda. Mahkota Monas berbentuk lidah api yang dilapisi emas murni.",
+    "pertanyaan": "Teks deskripsi di atas memaparkan tentang...",
+    "pilihan": {
+      "A": "Biaya pembangunan Monumen Nasional oleh pemerintah Belanda",
+      "B": "Proses peleburan emas murni pada mahkota Monumen Nasional",
+      "C": "Gambaran umum Monas sebagai ikon perjuangan kemerdekaan rakyat Indonesia",
+      "D": "Jadwal kunjungan wisatawan di kawasan Monas Jakarta Pusat"
+    },
+    "kunci": "C",
+    "pembahasan": "Teks mendeskripsikan Monumen Nasional secara umum sebagai ikon dan simbol perjuangan kemerdekaan."
+  },
+  {
+    "id": "IND-03",
+    "mapel": "Bahasa Indonesia",
+    "tingkat": "SMP Kelas 7-9",
+    "bacaan": "",
+    "pertanyaan": "Bacalah kalimat berikut: 'Siswa SMPN 77 Jakarta sedang melakukan latihan simulasi Asesmen Nasional di laboratorium komputer.'\nKata 'simulasi' dalam kalimat tersebut memiliki makna...",
+    "pilihan": {
+      "A": "Pertandingan antar sekolah",
+      "B": "Metode pelatihan yang memperagakan sesuatu dalam bentuk tiruan mirip aslinya",
+      "C": "Ujian akhir yang menentukan kelulusan peserta didik",
+      "D": "Pengumpulan data absensi secara daring"
+    },
+    "kunci": "B",
+    "pembahasan": "KBBI mendefinisikan simulasi sebagai metode pelatihan yang meragakan sesuatu dalam bentuk tiruan yang mirip dengan keadaan yang sesungguhnya."
+  },
+  {
+    "id": "IND-04",
+    "mapel": "Bahasa Indonesia",
+    "tingkat": "SMP Kelas 7-9",
+    "bacaan": "Teks 1: Hujan lebat disertai angin kencang mengguyur kawasan Cempaka Putih kemarin sore. Akibatnya, sejumlah dahan pohon tumbang dan menghambat arus lalu lintas.\n\nTeks 2: Terik matahari terasa menyengat di wilayah Jakarta Pusat sepanjang siang ini. Suhu udara tercatat mencapai 34 derajat Celsius dan kelembapan rendah.",
+    "pertanyaan": "Perbedaan pola penyajian peristiwa dari kedua teks berita di atas adalah...",
+    "pilihan": {
+      "A": "Teks 1 berunsur kapan-bagaimana, sedangkan Teks 2 berunsur apa-di mana",
+      "B": "Teks 1 mengulas kondisi cuaca hujan ekstrem, sedangkan Teks 2 mengulas cuaca panas terik",
+      "C": "Teks 1 tidak menyebutkan lokasi kejadian, sedangkan Teks 2 menyebutkan lokasi",
+      "D": "Kedua teks memuat berita yang sama persis"
+    },
+    "kunci": "B",
+    "pembahasan": "Teks 1 memfokuskan pada fenomena hujan badai dan akibatnya, sementara Teks 2 memfokuskan pada kondisi panas terik dan suhu siang hari."
+  },
+  {
+    "id": "MAT-01",
+    "mapel": "Matematika",
+    "tingkat": "SMP Kelas 7-9",
+    "bacaan": "",
+    "pertanyaan": "Hasil dari (-18) + 24 : (-6) × 3 adalah...",
+    "pilihan": {
+      "A": "-30",
+      "B": "-15",
+      "C": "-6",
+      "D": "30"
+    },
+    "kunci": "A",
+    "pembahasan": "Sesuai urutan operasi (Kabataku): 24 : (-6) = -4. Kemudian -4 × 3 = -12. Terakhir: (-18) + (-12) = -30."
+  },
+  {
+    "id": "MAT-02",
+    "mapel": "Matematika",
+    "tingkat": "SMP Kelas 7-9",
+    "bacaan": "",
+    "pertanyaan": "Diketahui barisan aritmatika: 5, 9, 13, 17, 21, ... Suku ke-25 dari barisan tersebut adalah...",
+    "pilihan": {
+      "A": "97",
+      "B": "101",
+      "C": "105",
+      "D": "109"
+    },
+    "kunci": "B",
+    "pembahasan": "Rumus suku ke-n barisan aritmetika: Un = a + (n-1)b. a = 5, b = 4. U25 = 5 + (24 × 4) = 5 + 96 = 101."
+  },
+  {
+    "id": "MAT-03",
+    "mapel": "Matematika",
+    "tingkat": "SMP Kelas 7-9",
+    "bacaan": "",
+    "pertanyaan": "Sebuah segitiga siku-siku memiliki panjang sisi tegak 9 cm dan 12 cm. Berapakah panjang sisi miring (hipotenusa) segitiga tersebut?",
+    "pilihan": {
+      "A": "14 cm",
+      "B": "15 cm",
+      "C": "16 cm",
+      "D": "18 cm"
+    },
+    "kunci": "B",
+    "pembahasan": "Teorema Pythagoras: c² = a² + b² = 9² + 12² = 81 + 144 = 225. Maka c = √225 = 15 cm."
+  },
+  {
+    "id": "MAT-04",
+    "mapel": "Matematika",
+    "tingkat": "SMP Kelas 7-9",
+    "bacaan": "Di koperasi sekolah SMPN 77, harga 3 buku tulis dan 2 pulpen adalah Rp 17.000,00. Sedangkan harga 2 buku tulis dan 5 pulpen adalah Rp 15.000,00.",
+    "pertanyaan": "Berapakah harga 1 buah buku tulis?",
+    "pilihan": {
+      "A": "Rp 5.000,00",
+      "B": "Rp 4.000,00",
+      "C": "Rp 3.500,00",
+      "D": "Rp 2.000,00"
+    },
+    "kunci": "A",
+    "pembahasan": "Misal buku = x, pulpen = y. (1) 3x + 2y = 17000, (2) 2x + 5y = 15000. Eliminasi y: kali (1) dgn 5 -> 15x + 10y = 85000; kali (2) dgn 2 -> 4x + 10y = 30000. Kurangkan: 11x = 55000 -> x = 5000. Jadi harga 1 buku = Rp 5.000,00."
+  },
+  {
+    "id": "IPA-01",
+    "mapel": "Ilmu Pengetahuan Alam",
+    "tingkat": "SMP Kelas 7-9",
+    "bacaan": "",
+    "pertanyaan": "Organel sel yang berfungsi sebagai tempat terjadinya respirasi seluler untuk menghasilkan energi dalam bentuk ATP adalah...",
+    "pilihan": {
+      "A": "Ribosom",
+      "B": "Mitokondria",
+      "C": "Badan Golgi",
+      "D": "Kloroplas"
+    },
+    "kunci": "B",
+    "pembahasan": "Mitokondria dijuluki sebagai 'the powerhouse of cell' karena fungsinya menghasilkan energi melalui respirasi sel."
+  },
+  {
+    "id": "IPA-02",
+    "mapel": "Ilmu Pengetahuan Alam",
+    "tingkat": "SMP Kelas 7-9",
+    "bacaan": "",
+    "pertanyaan": "Sebuah benda bermassa 4 kg didorong dengan gaya mendatar sebesar 20 Newton di atas lantai licin tanpa gesekan. Percepatan gerak benda tersebut adalah...",
+    "pilihan": {
+      "A": "2 m/s²",
+      "B": "4 m/s²",
+      "C": "5 m/s²",
+      "D": "80 m/s²"
+    },
+    "kunci": "C",
+    "pembahasan": "Hukum II Newton: F = m × a, maka a = F / m = 20 N / 4 kg = 5 m/s²."
+  },
+  {
+    "id": "IPA-03",
+    "mapel": "Ilmu Pengetahuan Alam",
+    "tingkat": "SMP Kelas 7-9",
+    "bacaan": "",
+    "pertanyaan": "Perhatikan rantai makanan berikut:\nTanaman Padi -> Belalang -> Katak -> Ular Sawah -> Burung Elang.\nJika populasi katak menurun drastis akibat perburuan liar, dampak yang kemungkinan besar langsung terjadi adalah...",
+    "pilihan": {
+      "A": "Populasi belalang meningkat dan populasi ular menurun",
+      "B": "Populasi padi meningkat pesat",
+      "C": "Populasi ular meningkat tajam",
+      "D": "Populasi elang bertambah banyak"
+    },
+    "kunci": "A",
+    "pembahasan": "Katak memangsa belalang dan dimangsa ular. Jika katak berkurang drastis, pemangsa belalang berkurang sehingga belalang meningkat, sedangkan sumber makanan ular berkurang sehingga populasi ular menurun."
+  },
+  {
+    "id": "ENG-01",
+    "mapel": "Bahasa Inggris",
+    "tingkat": "SMP Kelas 7-9",
+    "bacaan": "Dear Students of SMPN 77 Jakarta,\nIn order to celebrate National Education Day, the Student Council (OSIS) will hold an English Speech Contest on Monday, May 5th at the School Hall. Registration is open until Friday, May 2nd at the OSIS room.\n\nOSIS Committee",
+    "pertanyaan": "What is the main announcement about?",
+    "pilihan": {
+      "A": "A holiday announcement for students of SMPN 77 Jakarta",
+      "B": "An English Speech Contest to celebrate National Education Day",
+      "C": "The election of the new OSIS Committee members",
+      "D": "A renovation of the School Hall"
+    },
+    "kunci": "B",
+    "pembahasan": "The announcement explicitly invites students to participate in an English Speech Contest to celebrate National Education Day."
+  },
+  {
+    "id": "ENG-02",
+    "mapel": "Bahasa Inggris",
+    "tingkat": "SMP Kelas 7-9",
+    "bacaan": "Rian: 'You look so busy, Maya. Would you like me to help you carry those science books?'\nMaya: 'Thank you very much, Rian! That is very kind of you.'",
+    "pertanyaan": "From the dialogue above, we can conclude that Rian is...",
+    "pilihan": {
+      "A": "Refusing an invitation",
+      "B": "Offering an assistance/help",
+      "C": "Asking for permission",
+      "D": "Giving an opinion about science"
+    },
+    "kunci": "B",
+    "pembahasan": "Rian says 'Would you like me to help you...', which is an expression of offering help/assistance."
+  }
+]

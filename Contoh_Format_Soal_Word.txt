@@ -1,0 +1,45 @@
+FORMAT DOKUMEN SOAL WORD CBT SMP NEGERI 77 JAKARTA
+=====================================================
+Petunjuk:
+Bapak/Ibu Guru dapat menyusun soal di Microsoft Word dengan format seperti di bawah ini,
+kemudian langsung meng-upload berkas .docx atau copy-paste (Ctrl+A -> Ctrl+C) seluruh teks ke aplikasi CBT.
+
+-----------------------------------------------------
+Mata Pelajaran: Bahasa Indonesia
+Tingkat: SMP Kelas 7-9
+
+[Bacaan]
+Sampah plastik merupakan salah satu penyumbang terbesar pencemaran lingkungan di perkotaan, termasuk di DKI Jakarta. Berdasarkan data Dinas Lingkungan Hidup, ribuan ton sampah plastik diproduksi setiap harinya. Upaya penanggulangan harus dimulai dari lingkungan terkecil, seperti memilah sampah organik dan anorganik dari rumah tangga serta membudayakan penggunaan tas belanja ramah lingkungan.
+
+1. Gagasan utama dari kutipan teks di atas adalah...
+A. Pencemaran lingkungan hanya terjadi di DKI Jakarta akibat limbah industri
+B. Sampah plastik sebagai penyumbang pencemaran dan perlunya upaya penanggulangan
+C. Dinas Lingkungan Hidup memproduksi ribuan ton sampah plastik setiap harinya
+D. Kewajiban pemerintah daerah untuk menanggung seluruh biaya sampah anorganik
+Kunci: B
+Pembahasan: Paragraf menguraikan masalah sampah plastik dan solusi penanggulangannya.
+
+2. Bacalah kalimat berikut: 'Siswa SMPN 77 Jakarta sedang melakukan latihan simulasi Asesmen Nasional di laboratorium komputer.'
+Kata 'simulasi' dalam kalimat tersebut memiliki makna...
+A. Pertandingan antar sekolah
+B. Metode pelatihan yang memperagakan sesuatu dalam bentuk tiruan mirip aslinya
+C. Ujian akhir yang menentukan kelulusan peserta didik
+D. Pengumpulan data absensi secara daring
+Kunci: B
+Pembahasan: Simulasi bermakna metode pelatihan yang meragakan sesuatu dalam bentuk tiruan.
+
+3. Sebuah segitiga siku-siku memiliki panjang sisi tegak 9 cm dan 12 cm. Berapakah panjang sisi miring (hipotenusa) segitiga tersebut?
+A. 14 cm
+B. 15 cm
+C. 16 cm
+D. 18 cm
+Kunci: B
+Pembahasan: c = akar(9^2 + 12^2) = akar(81 + 144) = akar(225) = 15 cm.
+
+4. Organel sel yang berfungsi sebagai tempat terjadinya respirasi seluler untuk menghasilkan energi dalam bentuk ATP adalah...
+A. Ribosom
+B. Mitokondria
+C. Badan Golgi
+D. Kloroplas
+Kunci: B
+Pembahasan: Mitokondria adalah pusat penghasil energi sel melalui respirasi.
