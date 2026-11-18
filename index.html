@@ -72,7 +72,7 @@
       <div class="flex items-center space-x-3">
         <!-- Logo Sekolah SMPN 77 -->
         <div id="header-logo-container" class="w-11 h-11 bg-white rounded-xl shadow-md flex items-center justify-center p-1 ring-2 ring-blue-300 overflow-hidden shrink-0">
-          <img id="app-logo-header" src="assets/logo-smpn77.jpg" onerror="this.onerror=null; this.src=(window.LOGO_SMPN77_DEFAULT || 'assets/logo-smpn77.svg');" alt="Logo SMPN 77" class="w-full h-full object-contain">
+          <img id="app-logo-header" src="logo.png" onerror="this.onerror=null; this.src='assets/logo.png';" alt="Logo SMPN 77" class="w-full h-full object-contain">
         </div>
         <div>
           <h1 class="text-lg sm:text-xl font-bold tracking-tight">CBT TRY OUT SMP NEGERI 77 JAKARTA</h1>
@@ -110,7 +110,7 @@
             <p class="text-blue-100 text-sm mt-1">Silakan lengkapi identitas dan masukkan token ujian untuk memulai.</p>
           </div>
           <div class="hidden sm:flex items-center justify-center w-20 h-20 bg-white rounded-2xl p-1.5 shadow-lg border border-blue-300 shrink-0">
-            <img id="app-logo-login" src="assets/logo-smpn77.jpg" onerror="this.onerror=null; this.src=(window.LOGO_SMPN77_DEFAULT || 'assets/logo-smpn77.svg');" alt="Logo SMPN 77" class="w-full h-full object-contain">
+            <img id="app-logo-login" src="logo.png" onerror="this.onerror=null; this.src='assets/logo.png';" alt="Logo SMPN 77" class="w-full h-full object-contain">
           </div>
         </div>
 
@@ -362,7 +362,7 @@
         <div class="text-center pb-6 border-b-2 border-slate-800 mb-6">
           <div class="flex items-center justify-center space-x-3 mb-2">
             <div class="w-16 h-16 flex items-center justify-center shrink-0">
-              <img id="app-logo-print" src="assets/logo-smpn77.jpg" onerror="this.onerror=null; this.src=(window.LOGO_SMPN77_DEFAULT || 'assets/logo-smpn77.svg');" alt="Logo SMPN 77" class="w-full h-full object-contain">
+              <img id="app-logo-print" src="logo.png" onerror="this.onerror=null; this.src='assets/logo.png';" alt="Logo SMPN 77" class="w-full h-full object-contain">
             </div>
             <div class="text-left">
               <h2 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-tight">SMP NEGERI 77 JAKARTA</h2>
@@ -712,7 +712,7 @@
             </div>
             <div class="flex items-center space-x-4">
               <div class="w-20 h-20 bg-white rounded-xl border-2 border-blue-300 p-1.5 flex items-center justify-center overflow-hidden shadow-sm shrink-0">
-                <img id="admin-logo-preview" src="assets/logo-smpn77.jpg" onerror="this.onerror=null; this.src=(window.LOGO_SMPN77_DEFAULT || 'assets/logo-smpn77.svg');" alt="Preview Logo" class="w-full h-full object-contain">
+                <img id="admin-logo-preview" src="logo.png" onerror="this.onerror=null; this.src='assets/logo.png';" alt="Preview Logo" class="w-full h-full object-contain">
               </div>
               <div class="space-y-2 flex-grow">
                 <p class="text-xs text-slate-600">Pilih gambar logo sekolah dari komputer Anda (format JPG, PNG, atau WebP):</p>
@@ -1311,7 +1311,7 @@
     <div class="flex items-center justify-between border-b border-slate-800 pb-4">
       <div class="flex items-center space-x-4">
         <div class="w-14 h-14 bg-white rounded-2xl p-1.5 flex items-center justify-center shadow-lg">
-          <img id="proyektor-logo-img" src="assets/logo-smpn77.jpg" onerror="this.onerror=null; this.src=(window.LOGO_SMPN77_DEFAULT || 'assets/logo-smpn77.svg');" alt="Logo" class="w-full h-full object-contain">
+          <img id="proyektor-logo-img" src="logo.png" onerror="this.onerror=null; this.src='assets/logo.png';" alt="Logo" class="w-full h-full object-contain">
         </div>
         <div>
           <h2 class="text-xl sm:text-2xl font-black tracking-tight text-white">SMP NEGERI 77 JAKARTA</h2>
@@ -1429,26 +1429,24 @@
           if (customLogo) {
             el.src = customLogo;
           } else {
-            // Urutan prioritas untuk perangkat lain / siswa:
-            // 1. assets/logo-smpn77.jpg
-            // 2. assets/logo-smpn77.png
-            // 3. assets/logo.png
-            // 4. assets/logo-smpn77.svg
-            // 5. Fallback inline data URI
-            el.src = 'assets/logo-smpn77.jpg';
-            el.onerror = () => {
-              el.onerror = () => {
-                el.onerror = () => {
-                  el.onerror = () => {
-                    el.onerror = null;
-                    el.src = window.LOGO_SMPN77_DEFAULT;
-                  };
-                  el.src = 'assets/logo-smpn77.svg';
-                };
-                el.src = 'assets/logo.png';
-              };
-              el.src = 'assets/logo-smpn77.png';
+            const sources = [
+              'logo.png',
+              'assets/logo.png',
+              'logo-smpn77.jpg',
+              'assets/logo-smpn77.jpg',
+              'assets/logo-smpn77.svg'
+            ];
+            let sIdx = 0;
+            const trySource = () => {
+              if (sIdx < sources.length) {
+                el.onerror = trySource;
+                el.src = sources[sIdx++];
+              } else {
+                el.onerror = null;
+                el.src = window.LOGO_SMPN77_DEFAULT;
+              }
             };
+            trySource();
           }
         }
       };
@@ -1833,9 +1831,12 @@
       const saved = localStorage.getItem(STORAGE_KEY_SOAL);
       if (!saved) {
         let loaded = false;
-        // Coba load dari data/soal-default.json jika ada
+        // Coba load dari soal-default.json (root) atau data/soal-default.json
         try {
-          const resp = await fetch('data/soal-default.json');
+          let resp = await fetch('soal-default.json');
+          if (!resp.ok) {
+            resp = await fetch('data/soal-default.json');
+          }
           if (resp.ok) {
             const data = await resp.json();
             if (Array.isArray(data) && data.length > 0) {
