@@ -658,12 +658,15 @@
                 <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 <span>Unduh Template</span>
               </button>
-              <div id="dropdown-template-menu" class="hidden absolute right-0 mt-1 w-48 bg-white rounded-xl shadow-xl border border-slate-200 py-1 z-30">
+              <div id="dropdown-template-menu" class="hidden absolute right-0 mt-1 w-56 bg-white rounded-xl shadow-xl border border-slate-200 py-1 z-30">
                 <button onclick="downloadTemplateExcel()" class="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 flex items-center space-x-2">
-                  <span>📊 Template Excel (.csv/.xlsx)</span>
+                  <span>📊 Template Excel (.xlsx / .csv)</span>
                 </button>
                 <button onclick="downloadTemplateWord()" class="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 flex items-center space-x-2">
-                  <span>📝 Format Soal Word (.txt/.docx)</span>
+                  <span>📝 Template Dokumen Word (.doc)</span>
+                </button>
+                <button onclick="downloadTemplateWordText()" class="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 flex items-center space-x-2">
+                  <span>📄 Format Teks Polos Word (.txt)</span>
                 </button>
               </div>
             </div>
@@ -3243,17 +3246,160 @@
         XLSX.utils.book_append_sheet(wb, ws, 'BankSoal');
         XLSX.writeFile(wb, 'Template_Soal_CBT_SMPN77.xlsx');
       } else {
-        // Fallback CSV download
-        window.location.href = 'templates/Template_Soal_CBT_SMPN77.csv';
+        // Fallback CSV download langsung dari memori
+        const csvContent = "\ufeffMata Pelajaran,Tingkat,Bacaan,Pertanyaan,Pilihan A,Pilihan B,Pilihan C,Pilihan D,Kunci Jawaban,Pembahasan\n"
+          + "Bahasa Indonesia,SMP Kelas 7-9,\"Kutipan teks bacaan jika ada\",\"Gagasan pokok dari teks di atas adalah...\",Pilihan A,Pilihan B,Pilihan C,Pilihan D,B,\"Penjelasan kunci jawaban\"\n"
+          + "Matematika,SMP Kelas 7-9,\"\",\"Hasil dari 15 + 4 x (-3) adalah...\",3,-3,27,-27,A,\"15 + (-12) = 3\"\n";
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Template_Soal_CBT_SMPN77.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
       }
     }
 
     function downloadTemplateWord() {
-      // Download format contoh teks Word
+      // Buat dokumen Microsoft Word langsung dari memori (Blob) tanpa bergantung pada file eksternal
+      const wordContent = `<!DOCTYPE html>
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+  <meta charset='utf-8'>
+  <title>Format Soal Word CBT SMPN 77 Jakarta</title>
+  <style>
+    body { font-family: 'Calibri', 'Arial', sans-serif; font-size: 11pt; line-height: 1.6; color: #1e293b; }
+    h2 { color: #1e3a8a; border-bottom: 2px solid #1e3a8a; padding-bottom: 6px; }
+    .box-petunjuk { background-color: #f0fdf4; border: 1px solid #bbf7d0; padding: 12px; margin-bottom: 18px; border-radius: 6px; }
+    .soal-item { margin-bottom: 16px; }
+    .kunci { color: #15803d; font-weight: bold; }
+    .pembahasan { color: #475569; font-style: italic; }
+  </style>
+</head>
+<body>
+  <h2>CONTOH FORMAT SOAL WORD — CBT SMP NEGERI 77 JAKARTA</h2>
+  <div class='box-petunjuk'>
+    <strong>Petunjuk untuk Bapak/Ibu Guru:</strong><br>
+    Bapak/Ibu dapat mengetik atau mengedit soal langsung di dokumen ini. Setelah selesai:<br>
+    1. Buka aplikasi CBT SMPN 77, masuk ke menu <strong>Bank Soal</strong> lalu klik tombol <strong>"📝 Import Word (.docx)"</strong>.<br>
+    2. Anda dapat langsung mengunggah file ini (.docx) ATAU menyalin seluruh teksnya (Ctrl+A lalu Ctrl+C) dan menempelkannya ke kotak teks CBT.
+  </div>
+
+  <p><strong>[Bacaan]</strong><br>
+  Sampah plastik merupakan salah satu penyumbang terbesar pencemaran lingkungan di perkotaan, termasuk di DKI Jakarta. Berdasarkan data Dinas Lingkungan Hidup, ribuan ton sampah plastik diproduksi setiap harinya. Upaya penanggulangan harus dimulai dari lingkungan terkecil, seperti memilah sampah organik dan anorganik dari rumah tangga serta membudayakan penggunaan tas belanja ramah lingkungan.</p>
+
+  <div class='soal-item'>
+    <p>1. Gagasan utama dari kutipan teks di atas adalah...<br>
+    A. Pencemaran lingkungan hanya terjadi di DKI Jakarta akibat limbah industri<br>
+    B. Sampah plastik sebagai penyumbang pencemaran dan perlunya upaya penanggulangan<br>
+    C. Dinas Lingkungan Hidup memproduksi ribuan ton sampah plastik setiap harinya<br>
+    D. Kewajiban pemerintah daerah untuk menanggung seluruh biaya sampah anorganik<br>
+    <span class='kunci'>Kunci: B</span><br>
+    <span class='pembahasan'>Pembahasan: Paragraf menguraikan masalah sampah plastik dan solusi penanggulangannya.</span></p>
+  </div>
+
+  <div class='soal-item'>
+    <p>2. Bacalah kalimat berikut: 'Siswa SMPN 77 Jakarta sedang melakukan latihan simulasi Asesmen Nasional di laboratorium komputer.'<br>
+    Kata 'simulasi' dalam kalimat tersebut memiliki makna...<br>
+    A. Pertandingan antar sekolah<br>
+    B. Metode pelatihan yang memperagakan sesuatu dalam bentuk tiruan mirip aslinya<br>
+    C. Ujian akhir yang menentukan kelulusan peserta didik<br>
+    D. Pengumpulan data absensi secara daring<br>
+    <span class='kunci'>Kunci: B</span><br>
+    <span class='pembahasan'>Pembahasan: Simulasi bermakna metode pelatihan yang meragakan sesuatu dalam bentuk tiruan.</span></p>
+  </div>
+
+  <div class='soal-item'>
+    <p>3. Sebuah segitiga siku-siku memiliki panjang sisi tegak 9 cm dan 12 cm. Berapakah panjang sisi miring (hipotenusa) segitiga tersebut?<br>
+    A. 14 cm<br>
+    B. 15 cm<br>
+    C. 16 cm<br>
+    D. 18 cm<br>
+    <span class='kunci'>Kunci: B</span><br>
+    <span class='pembahasan'>Pembahasan: c = akar(9^2 + 12^2) = akar(81 + 144) = akar(225) = 15 cm.</span></p>
+  </div>
+
+  <div class='soal-item'>
+    <p>4. Organel sel yang berfungsi sebagai tempat terjadinya respirasi seluler untuk menghasilkan energi dalam bentuk ATP adalah...<br>
+    A. Ribosom<br>
+    B. Mitokondria<br>
+    C. Badan Golgi<br>
+    D. Kloroplas<br>
+    <span class='kunci'>Kunci: B</span><br>
+    <span class='pembahasan'>Pembahasan: Mitokondria adalah pusat penghasil energi sel melalui respirasi seluler.</span></p>
+  </div>
+</body>
+</html>`;
+
+      const blob = new Blob(['\ufeff' + wordContent], { type: 'application/msword' });
+      const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.href = 'templates/Contoh_Format_Soal_Word.txt';
-      a.download = 'Contoh_Format_Soal_Word_SMPN77.txt';
+      a.href = url;
+      a.download = 'Template_Soal_Word_SMPN77.doc';
+      document.body.appendChild(a);
       a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function downloadTemplateWordText() {
+      const textContent = `FORMAT DOKUMEN SOAL WORD CBT SMP NEGERI 77 JAKARTA
+=====================================================
+Petunjuk:
+Bapak/Ibu Guru dapat menyusun soal di Microsoft Word dengan format seperti di bawah ini,
+kemudian langsung meng-upload berkas .docx atau copy-paste (Ctrl+A -> Ctrl+C) seluruh teks ke aplikasi CBT.
+
+-----------------------------------------------------
+Mata Pelajaran: Bahasa Indonesia
+Tingkat: SMP Kelas 7-9
+
+[Bacaan]
+Sampah plastik merupakan salah satu penyumbang terbesar pencemaran lingkungan di perkotaan, termasuk di DKI Jakarta. Berdasarkan data Dinas Lingkungan Hidup, ribuan ton sampah plastik diproduksi setiap harinya. Upaya penanggulangan harus dimulai dari lingkungan terkecil, seperti memilah sampah organik dan anorganik dari rumah tangga serta membudayakan penggunaan tas belanja ramah lingkungan.
+
+1. Gagasan utama dari kutipan teks di atas adalah...
+A. Pencemaran lingkungan hanya terjadi di DKI Jakarta akibat limbah industri
+B. Sampah plastik sebagai penyumbang pencemaran dan perlunya upaya penanggulangan
+C. Dinas Lingkungan Hidup memproduksi ribuan ton sampah plastik setiap harinya
+D. Kewajiban pemerintah daerah untuk menanggung seluruh biaya sampah anorganik
+Kunci: B
+Pembahasan: Paragraf menguraikan masalah sampah plastik dan solusi penanggulangannya.
+
+2. Bacalah kalimat berikut: 'Siswa SMPN 77 Jakarta sedang melakukan latihan simulasi Asesmen Nasional di laboratorium komputer.'
+Kata 'simulasi' dalam kalimat tersebut memiliki makna...
+A. Pertandingan antar sekolah
+B. Metode pelatihan yang memperagakan sesuatu dalam bentuk tiruan mirip aslinya
+C. Ujian akhir yang menentukan kelulusan peserta didik
+D. Pengumpulan data absensi secara daring
+Kunci: B
+Pembahasan: Simulasi bermakna metode pelatihan yang meragakan sesuatu dalam bentuk tiruan.
+
+3. Sebuah segitiga siku-siku memiliki panjang sisi tegak 9 cm dan 12 cm. Berapakah panjang sisi miring (hipotenusa) segitiga tersebut?
+A. 14 cm
+B. 15 cm
+C. 16 cm
+D. 18 cm
+Kunci: B
+Pembahasan: c = akar(9^2 + 12^2) = akar(81 + 144) = akar(225) = 15 cm.
+
+4. Organel sel yang berfungsi sebagai tempat terjadinya respirasi seluler untuk menghasilkan energi dalam bentuk ATP adalah...
+A. Ribosom
+B. Mitokondria
+C. Badan Golgi
+D. Kloroplas
+Kunci: B
+Pembahasan: Mitokondria adalah pusat penghasil energi sel melalui respirasi.`;
+
+      const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Contoh_Format_Soal_Word_SMPN77.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     }
 
     /* ========================================================
