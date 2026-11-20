@@ -206,5 +206,47 @@
     },
     "kunci": "B",
     "pembahasan": "Rian says 'Would you like me to help you...', which is an expression of offering help/assistance."
+  },
+  {
+    "id": "PGK-01",
+    "tipe": "pgk",
+    "mapel": "Bahasa Indonesia",
+    "tingkat": "SMP Kelas 7-9",
+    "bacaan": "Sampah plastik sekali pakai di sekolah menjadi perhatian serius. Untuk mendukung program Adiwiyata dan Gerakan Peduli Lingkungan Hidup di Sekolah, SMPN 77 Jakarta merencanakan serangkaian aksi nyata pengurangan sampah plastik.",
+    "pertanyaan": "Berdasarkan stimulus di atas, manakah di antara tindakan-tindakan berikut yang EFEKTIF dalam mengurangi timbunan sampah plastik di sekolah? (Pilihlah lebih dari satu jawaban yang benar)",
+    "pilihan": {
+      "A": "Membawa tumbler (botol minum) dan kotak makan sendiri dari rumah",
+      "B": "Membeli minuman kemasan plastik sekali pakai di kantin setiap istirahat",
+      "C": "Menyediakan kantin sehat bebas plastik dan dispenser isi ulang air minum",
+      "D": "Membuang dan membakar sampah plastik di pekarangan belakang sekolah"
+    },
+    "kunci": ["A", "C"],
+    "pembahasan": "Tindakan A dan C adalah solusi ramah lingkungan. Tindakan B justru menambah sampah, dan D menghasilkan gas beracun (dioksin) yang berbahaya."
+  },
+  {
+    "id": "BS-01",
+    "tipe": "bs",
+    "mapel": "Ilmu Pengetahuan Alam",
+    "tingkat": "SMP Kelas 7-9",
+    "bacaan": "Adaptasi merupakan kemampuan makhluk hidup untuk menyesuaikan diri dengan lingkungannya guna mempertahankan kelangsungan hidup jenisnya. Adaptasi dapat berupa morfologi, fisiologi, maupun tingkah laku.",
+    "pertanyaan": "Berdasarkan konsep IPA Biologi SMP, tentukan apakah setiap pernyataan mengenai adaptasi makhluk hidup di bawah ini Benar (B) atau Salah (S):",
+    "pernyataan": [
+      "Pohon jati menggugurkan daunnya di musim kemarau untuk mengurangi penguapan air.",
+      "Burung elang memiliki paruh pendek dan tumpul untuk memecah biji-bijian keras.",
+      "Kaktus memiliki batang tebal berlapis lilin yang berfungsi sebagai tempat menyimpan cadangan air."
+    ],
+    "kunciBS": ["B", "S", "B"],
+    "pembahasan": "Pernyataan 1 BENAR (meranggas). Pernyataan 2 SALAH (paruh elang tajam dan melengkung untuk mencabik daging). Pernyataan 3 BENAR (batang kaktus sukulen berdaging menyimpan air)."
+  },
+  {
+    "id": "ISIAN-01",
+    "tipe": "isian",
+    "mapel": "Matematika",
+    "tingkat": "SMP Kelas 7-9",
+    "bacaan": "",
+    "pertanyaan": "Sebuah mobil melaju dengan kelajuan konstan sebesar $v = 20\\text{ m/s}$ selama selang waktu $t = 15\\text{ detik}$. Berapakah jarak tempuh ($s = v \\times t$) dalam satuan meter yang dicapai mobil tersebut? (Tuliskan hanya angka hasilnya saja)",
+    "pilihan": {},
+    "kunci": "300; 300 meter; 300m",
+    "pembahasan": "Gunakan rumus gerak lurus beraturan: $s = v \\times t = 20\\text{ m/s} \\times 15\\text{ s} = 300\\text{ meter}$."
   }
 ]
