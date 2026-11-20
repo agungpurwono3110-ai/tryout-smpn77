@@ -12,6 +12,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
   <!-- Library QRCode.js untuk tayangan scan QR di proyektor lab -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- Library KaTeX untuk Render Rumus Matematika & Sains ($...$ dan $$...$$) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
   <script>
     // Fallback Logo Resmi SMP Negeri 77 Jakarta (Vektor SVG Inline Berwarna Presisi)
     window.LOGO_SMPN77_DEFAULT = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 270' width='100%' height='100%'><path d='M 92,15 C 38,42 12,95 24,152 C 34,178 54,196 74,188 C 48,162 36,118 64,68 C 76,46 92,28 92,15 Z' fill='%231862b5'/><path d='M 104,42 C 68,66 42,108 52,152 C 60,172 74,184 88,178 C 68,154 60,122 80,82 C 90,64 104,50 104,42 Z' fill='%23f59e0b'/><path d='M 136,42 C 172,66 198,108 188,152 C 180,172 166,184 152,178 C 172,154 180,122 160,82 C 150,64 136,50 136,42 Z' fill='%23dc2626'/><path d='M 148,15 C 202,42 228,95 216,152 C 206,178 186,196 166,188 C 192,162 204,118 176,68 C 164,46 148,28 148,15 Z' fill='%2316a34a'/><text x='120' y='68' font-family='Arial, sans-serif' font-weight='900' font-size='22' fill='%231862b5' text-anchor='middle' letter-spacing='1.5'>SMPN</text><path d='M 72,78 L 118,78 L 118,88 L 94,88 C 88,110 76,140 64,166 C 54,188 56,204 70,201 C 82,198 86,182 85,170 C 85,162 80,156 75,162 C 72,166 69,173 70,181 C 71,186 75,188 78,184 C 88,170 102,136 116,92 L 116,78 Z' fill='%231862b5' stroke='%231862b5' stroke-width='1.5'/><path d='M 77,82 L 113,82 M 111,88 C 98,130 84,166 74,182' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round'/><path d='M 122,78 L 168,78 L 168,88 L 144,88 C 138,110 126,140 114,166 C 104,188 106,204 120,201 C 132,198 136,182 135,170 C 135,162 130,156 125,162 C 122,166 119,173 120,181 C 121,186 125,188 128,184 C 138,170 152,136 166,92 L 166,78 Z' fill='%231862b5' stroke='%231862b5' stroke-width='1.5'/><path d='M 127,82 L 163,82 M 161,88 C 148,130 134,166 124,182' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round'/><path d='M 120,192 C 84,178 44,194 18,220 C 56,202 92,204 120,222 C 148,204 184,202 222,220 C 196,194 156,178 120,192 Z' fill='%2386efac'/><path d='M 120,186 C 88,172 50,186 26,208 C 60,192 94,196 120,212 C 146,196 180,192 214,208 C 190,186 152,172 120,186 Z' fill='%2322c55e'/><line x1='120' y1='184' x2='120' y2='223' stroke='%2315803d' stroke-width='3'/><text x='120' y='248' font-family='Arial, sans-serif' font-weight='900' font-size='14' fill='%231862b5' text-anchor='middle' letter-spacing='0.5'>SMP NEGERI 77 JAKARTA</text></svg>";
@@ -284,8 +288,21 @@
             </div>
 
             <!-- Teks Pertanyaan -->
-            <div id="cbt-box-pertanyaan" class="mb-6 text-slate-900 font-medium user-select-text font-size-normal leading-relaxed">
+            <div id="cbt-box-pertanyaan" class="mb-4 text-slate-900 font-medium user-select-text font-size-normal leading-relaxed">
               <p id="cbt-teks-pertanyaan" class="whitespace-pre-line">Memuat pertanyaan...</p>
+            </div>
+
+            <!-- Area Gambar Soal (Jika Soal Bergambar) -->
+            <div id="cbt-box-gambar" class="hidden my-4 text-center">
+              <div class="inline-block relative max-w-full">
+                <img id="cbt-img-soal" src="" alt="Gambar Soal" class="max-h-72 sm:max-h-80 max-w-full rounded-2xl border border-slate-200 shadow-sm object-contain mx-auto cursor-pointer transition hover:shadow-md hover:scale-[1.01] bg-white p-1" onclick="bukaZoomGambar(this.src)">
+                <div class="mt-2 flex items-center justify-center">
+                  <button type="button" onclick="bukaZoomGambar(document.getElementById('cbt-img-soal').src)" class="inline-flex items-center space-x-1.5 text-xs text-blue-700 hover:text-blue-900 font-bold bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg border border-blue-200 transition shadow-xs">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/></svg>
+                    <span>🔍 Klik untuk Perbesar Gambar (Zoom)</span>
+                  </button>
+                </div>
+              </div>
             </div>
 
             <!-- Opsi Pilihan Jawaban (A, B, C, D) -->
@@ -413,6 +430,11 @@
             <div class="text-2xl font-black text-blue-700" id="hasil-total">0</div>
             <div class="text-xs font-semibold text-blue-800">Total Soal</div>
           </div>
+        </div>
+
+        <!-- Status Sinkronisasi Nilai ke Google Spreadsheet Terpusat -->
+        <div id="sync-sheets-status" class="hidden mb-6 p-3 rounded-xl text-xs font-bold flex items-center justify-center space-x-2 no-print transition">
+          <!-- Populated by JS -->
         </div>
 
         <!-- Info Waktu & Tanda Tangan Cetak -->
@@ -781,6 +803,42 @@
             </label>
           </div>
 
+          <!-- Pengaturan Sinkronisasi Google Spreadsheet Terpusat -->
+          <div class="p-4 bg-emerald-50/80 border border-emerald-300/80 rounded-2xl space-y-3 shadow-xs">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2.5">
+                <div class="w-8 h-8 bg-emerald-700 text-white rounded-xl flex items-center justify-center font-bold text-sm shadow">
+                  📊
+                </div>
+                <div>
+                  <h4 class="font-bold text-slate-800 text-sm">Sinkronisasi Nilai Terpusat (Google Spreadsheet)</h4>
+                  <p class="text-[11px] text-slate-600">Nilai seluruh siswa dari HP/laptop manapun langsung otomatis terkumpul ke 1 file Google Sheets panitia.</p>
+                </div>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="setting-enable-google-sheet" onchange="toggleGoogleSheetInput()" class="sr-only peer">
+                <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+              </label>
+            </div>
+
+            <div id="box-input-google-sheet" class="space-y-2 pt-2 border-t border-emerald-200/70">
+              <label class="block text-xs font-bold text-slate-700">URL Webhook Google Apps Script (Web App):</label>
+              <div class="flex flex-col sm:flex-row gap-2">
+                <input type="text" id="setting-google-sheet-url" placeholder="https://script.google.com/macros/s/.../exec" class="flex-1 px-3 py-2 rounded-xl border border-slate-300 text-xs font-mono bg-white outline-none focus:ring-2 focus:ring-emerald-600">
+                <button type="button" onclick="ujiKoneksiGoogleSheet()" class="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-xs transition whitespace-nowrap flex items-center justify-center space-x-1.5">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                  <span>Tes Kirim Data</span>
+                </button>
+              </div>
+              <div class="flex flex-wrap items-center justify-between text-[11px] text-slate-600 gap-1 pt-1">
+                <span id="google-sheet-status-text" class="text-emerald-800 font-semibold">💡 Tempelkan URL Web App dari Google Sheets Anda di atas.</span>
+                <button type="button" onclick="bukaModalPanduanGoogleSheet()" class="text-emerald-700 font-bold hover:underline flex items-center space-x-1">
+                  <span>📖 Panduan Pasang & Salin Kode Script</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
           <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
             <div id="toast-simpan-pengaturan" class="hidden text-xs font-bold text-emerald-800 bg-emerald-100 border border-emerald-300 px-4 py-2 rounded-xl flex items-center space-x-1.5 shadow-sm">
               <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -807,6 +865,10 @@
             </select>
           </div>
           <div class="flex items-center space-x-2">
+            <button id="btn-buka-sheets-rekap" onclick="bukaGoogleSheetAdmin()" class="hidden px-3.5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              <span>Buka Google Sheet</span>
+            </button>
             <button onclick="exportRekapExcelCSV()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
               <span>Ekspor Rekap Excel (CSV)</span>
@@ -1240,8 +1302,71 @@
         </div>
 
         <div>
-          <label class="block font-semibold text-slate-700 mb-1">Pertanyaan / Soal <span class="text-red-500">*</span></label>
-          <textarea id="form-soal-pertanyaan" required rows="3" placeholder="Tuliskan pertanyaan di sini..." class="w-full px-3 py-2 rounded-xl border border-slate-300"></textarea>
+          <div class="flex items-center justify-between mb-1">
+            <label class="block font-semibold text-slate-700">Pertanyaan / Soal <span class="text-red-500">*</span></label>
+            <span class="text-[11px] text-blue-700 font-medium">Ketik rumus dengan tanda <code>$rumus$</code></span>
+          </div>
+          <!-- Toolbar Bantuan Cepat Rumus Matematika / IPA -->
+          <div class="flex items-center space-x-1 mb-1.5 flex-wrap gap-1 bg-slate-50 p-2 rounded-xl border border-slate-200">
+            <span class="text-[10px] text-slate-600 font-bold mr-1">📐 Sisipkan Rumus:</span>
+            <button type="button" onclick="sisipkanFormula('$x^2$')" title="Pangkat" class="px-2 py-0.5 rounded bg-white hover:bg-blue-100 text-slate-800 hover:text-blue-900 border border-slate-300 text-[11px] font-mono font-bold transition shadow-xs">x²</button>
+            <button type="button" onclick="sisipkanFormula('$\\frac{a}{b}$')" title="Pecahan" class="px-2 py-0.5 rounded bg-white hover:bg-blue-100 text-slate-800 hover:text-blue-900 border border-slate-300 text-[11px] font-mono font-bold transition shadow-xs">a/b</button>
+            <button type="button" onclick="sisipkanFormula('$\\sqrt{x}$')" title="Akar" class="px-2 py-0.5 rounded bg-white hover:bg-blue-100 text-slate-800 hover:text-blue-900 border border-slate-300 text-[11px] font-mono font-bold transition shadow-xs">√x</button>
+            <button type="button" onclick="sisipkanFormula('$\\times$')" title="Perkalian" class="px-2 py-0.5 rounded bg-white hover:bg-blue-100 text-slate-800 hover:text-blue-900 border border-slate-300 text-[11px] font-mono font-bold transition shadow-xs">×</button>
+            <button type="button" onclick="sisipkanFormula('$\\div$')" title="Pembagian" class="px-2 py-0.5 rounded bg-white hover:bg-blue-100 text-slate-800 hover:text-blue-900 border border-slate-300 text-[11px] font-mono font-bold transition shadow-xs">÷</button>
+            <button type="button" onclick="sisipkanFormula('$\\pm$')" title="Plus Minus" class="px-2 py-0.5 rounded bg-white hover:bg-blue-100 text-slate-800 hover:text-blue-900 border border-slate-300 text-[11px] font-mono font-bold transition shadow-xs">±</button>
+            <button type="button" onclick="sisipkanFormula('$^\\circ\\text{C}$')" title="Derajat Celcius" class="px-2 py-0.5 rounded bg-white hover:bg-blue-100 text-slate-800 hover:text-blue-900 border border-slate-300 text-[11px] font-mono font-bold transition shadow-xs">°C</button>
+            <button type="button" onclick="sisipkanFormula('$\\pi$')" title="Pi" class="px-2 py-0.5 rounded bg-white hover:bg-blue-100 text-slate-800 hover:text-blue-900 border border-slate-300 text-[11px] font-mono font-bold transition shadow-xs">π</button>
+            <button type="button" onclick="sisipkanFormula('$\\text{H}_2\\text{O}$')" title="Rumus Kimia" class="px-2 py-0.5 rounded bg-white hover:bg-blue-100 text-slate-800 hover:text-blue-900 border border-slate-300 text-[11px] font-mono font-bold transition shadow-xs">H₂O</button>
+          </div>
+          <textarea id="form-soal-pertanyaan" required rows="3" placeholder="Tuliskan pertanyaan di sini... Anda bisa mengetik rumus matematika diapit tanda $...$ seperti $x^2 + 5x = 0$" oninput="updateMathPreviewModal()" class="w-full px-3 py-2 rounded-xl border border-slate-300"></textarea>
+          <!-- Pratinjau Langsung Rumus KaTeX -->
+          <div id="box-preview-rumus" class="hidden mt-1.5 p-2.5 bg-indigo-50 border border-indigo-200 rounded-xl text-xs">
+            <span class="text-[10px] uppercase font-bold text-indigo-900 block mb-1 flex items-center space-x-1">
+              <span>📐 Pratinjau Tampilan Rumus Matematika / IPA:</span>
+            </span>
+            <div id="preview-rumus-konten" class="text-slate-900 font-medium leading-relaxed bg-white p-2 rounded-lg border border-indigo-100"></div>
+          </div>
+        </div>
+
+        <!-- Opsi Gambar Soal (Untuk IPA, Matematika, Gambar Cerita, dsb) -->
+        <div class="p-3.5 bg-blue-50/60 border border-blue-200 rounded-2xl space-y-3">
+          <div class="flex items-center justify-between">
+            <label class="font-bold text-blue-950 text-xs flex items-center space-x-1.5">
+              <span>🖼️ Foto / Gambar Soal (Opsional):</span>
+            </label>
+            <span class="text-[11px] text-blue-700">Mendukung JPG, PNG, WebP, SVG</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-700 mb-1">Cara 1: Unggah Berkas dari HP / Laptop</label>
+              <input type="file" id="form-soal-file-gambar" accept="image/*" onchange="handleUploadGambarSoal(event)" class="text-xs file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-blue-700 file:text-white hover:file:bg-blue-800 cursor-pointer w-full text-slate-500 bg-white p-1 rounded-lg border border-slate-300">
+              <p class="text-[10px] text-slate-500 mt-1">Otomatis tersimpan & langsung tampil di semua perangkat tanpa perlu upload ke hosting luar.</p>
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-700 mb-1">Cara 2: Atau Tautan / Link URL Gambar</label>
+              <input type="text" id="form-soal-gambar" placeholder="Contoh: https://.../gambar.png atau logo.png" oninput="updatePreviewGambarModal()" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 text-xs bg-white">
+              <p class="text-[10px] text-slate-500 mt-1">Gunakan link online atau nama file gambar di repositori.</p>
+            </div>
+          </div>
+
+          <!-- Pratinjau Gambar di Modal -->
+          <div id="form-soal-preview-wrap" class="hidden items-center justify-between bg-white p-2.5 rounded-xl border border-blue-300 shadow-xs">
+            <div class="flex items-center space-x-3">
+              <img id="form-soal-preview-img" src="" alt="Pratinjau Gambar Soal" class="h-16 w-24 object-contain rounded-lg border border-slate-200 bg-slate-50 p-0.5">
+              <div class="text-xs">
+                <span class="font-bold text-slate-800 block">Pratinjau Gambar Soal</span>
+                <span class="text-emerald-700 font-semibold flex items-center space-x-1">
+                  <svg class="w-3.5 h-3.5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  <span>Gambar aktif & siap ditampilkan ke siswa</span>
+                </span>
+              </div>
+            </div>
+            <button type="button" onclick="hapusGambarSoalModal()" class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-lg font-bold text-xs transition">
+              Hapus Gambar
+            </button>
+          </div>
         </div>
 
         <div class="space-y-2">
@@ -1303,6 +1428,139 @@
       <div class="pt-4 border-t border-slate-200 flex justify-end">
         <button onclick="tutupReviewModal()" class="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold">
           Tutup Pembahasan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL ZOOM / PERBESAR GAMBAR SOAL ==================== -->
+  <div id="modal-zoom-gambar" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6" onclick="tutupZoomGambar()">
+    <div class="relative max-w-4xl max-h-[92vh] w-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col p-4 border border-slate-700" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between pb-3 mb-2 border-b border-slate-200 text-slate-800">
+        <span class="font-bold text-sm sm:text-base flex items-center space-x-2 text-blue-950">
+          <svg class="w-5 h-5 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/></svg>
+          <span>Tampilan Diperbesar — Gambar / Ilustrasi Soal</span>
+        </span>
+        <button onclick="tutupZoomGambar()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center transition text-lg">&times;</button>
+      </div>
+      <div class="overflow-auto flex-1 flex items-center justify-center bg-slate-50 rounded-xl p-2 min-h-[220px]">
+        <img id="zoom-img-target" src="" alt="Gambar Soal Diperbesar" class="max-w-full max-h-[75vh] object-contain rounded-lg shadow-sm">
+      </div>
+      <div class="pt-3 flex items-center justify-between text-xs text-slate-500">
+        <span>Tekan tombol <strong>Tutup</strong> atau klik di luar untuk kembali ke lembar soal.</span>
+        <button onclick="tutupZoomGambar()" class="px-4 py-1.5 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-lg transition">
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL PANDUAN GOOGLE APPS SCRIPT ==================== -->
+  <div id="modal-panduan-google-sheet" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full p-6 border border-slate-200 max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-4">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-lg">
+            📊
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-800 text-base sm:text-lg">Panduan Pasang Webhook Google Spreadsheet</h3>
+            <p class="text-xs text-slate-500">Nilai otomatis tersimpan ke Google Sheet sekolah secara gratis tanpa sewa server.</p>
+          </div>
+        </div>
+        <button onclick="tutupModalPanduanGoogleSheet()" class="text-slate-400 hover:text-slate-600 font-bold text-2xl">&times;</button>
+      </div>
+
+      <div class="space-y-4 overflow-y-auto flex-1 pr-2 text-xs text-slate-700 leading-relaxed">
+        <div class="p-3.5 bg-blue-50 border border-blue-200 rounded-xl space-y-1 text-blue-900">
+          <p class="font-bold">🎯 Cara Kerja Singkat:</p>
+          <p>Setelah Anda memasang skrip ini di Google Sheets Anda, setiap siswa yang mengklik <em>"Selesaikan Ujian"</em> akan otomatis mengirimkan nilainya ke Google Sheet panitia dalam waktu 1 detik!</p>
+        </div>
+
+        <div class="space-y-3">
+          <div class="flex items-start space-x-2.5">
+            <span class="w-5 h-5 rounded-full bg-emerald-700 text-white font-bold flex items-center justify-center shrink-0 text-[11px] mt-0.5">1</span>
+            <div>
+              <strong class="text-slate-800 text-xs">Buat Google Spreadsheet Baru:</strong>
+              <p class="text-slate-600">Buka <a href="https://sheets.new" target="_blank" class="text-blue-700 font-bold underline">https://sheets.new</a> dan beri judul dokumen, misalnya: <em>"Rekap Nilai CBT SMPN 77"</em>. Biarkan sheet kosong.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-2.5">
+            <span class="w-5 h-5 rounded-full bg-emerald-700 text-white font-bold flex items-center justify-center shrink-0 text-[11px] mt-0.5">2</span>
+            <div>
+              <strong class="text-slate-800 text-xs">Buka Apps Script:</strong>
+              <p class="text-slate-600">Di menu Google Sheet, klik <strong>Ekstensi</strong> (<em>Extensions</em>) &rarr; klik <strong>Apps Script</strong>. Hapus semua tulisan bawaan yang ada.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-2.5">
+            <span class="w-5 h-5 rounded-full bg-emerald-700 text-white font-bold flex items-center justify-center shrink-0 text-[11px] mt-0.5">3</span>
+            <div class="w-full">
+              <div class="flex items-center justify-between mb-1">
+                <strong class="text-slate-800 text-xs">Salin & Tempel Kode Script Ini:</strong>
+                <button type="button" onclick="salinKodeScriptGoogle()" id="btn-salin-script-modal" class="px-3 py-1 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg font-bold text-[11px] transition flex items-center space-x-1 shadow-xs">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                  <span id="btn-salin-script-text">Salin Kode Script</span>
+                </button>
+              </div>
+              <textarea id="text-kode-script-copy" readonly rows="7" class="w-full p-2.5 rounded-xl border border-slate-300 bg-slate-900 text-emerald-400 font-mono text-[11px] select-all outline-none">function doPost(e) {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getActiveSheet();
+    if (sheet.getLastRow() === 0) {
+      var headers = ["Waktu Selesai", "Nama Siswa", "NISN", "Kelas", "Mata Pelajaran", "Benar", "Salah", "Total Soal", "Nilai Akhir", "Status KKM", "Pelanggaran Ganti Tab"];
+      sheet.appendRow(headers);
+      var headerRange = sheet.getRange(1, 1, 1, headers.length);
+      headerRange.setFontWeight("bold").setBackground("#1e3a8a").setFontColor("#ffffff").setHorizontalAlignment("center");
+      sheet.setFrozenRows(1);
+    }
+    var data = (e.postData && e.postData.contents) ? JSON.parse(e.postData.contents) : e.parameter;
+    sheet.appendRow([
+      data.waktuSelesai || new Date().toLocaleString("id-ID"),
+      data.nama || "-",
+      "'" + (data.nisn || "-"),
+      data.kelas || "-",
+      data.mapel || "-",
+      data.benar !== undefined ? data.benar : 0,
+      data.salah !== undefined ? data.salah : 0,
+      data.total !== undefined ? data.total : 0,
+      data.nilai !== undefined ? data.nilai : 0,
+      data.statusKkm || "-",
+      data.pelanggaranTab !== undefined ? data.pelanggaranTab : 0
+    ]);
+    return ContentService.createTextOutput(JSON.stringify({ status: "success" })).setMimeType(ContentService.MimeType.JSON);
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", message: error.toString() })).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+function doGet(e) {
+  return ContentService.createTextOutput("✓ Webhook CBT SMPN 77 Jakarta Aktif!");
+}</textarea>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-2.5">
+            <span class="w-5 h-5 rounded-full bg-emerald-700 text-white font-bold flex items-center justify-center shrink-0 text-[11px] mt-0.5">4</span>
+            <div>
+              <strong class="text-slate-800 text-xs">Deploy sebagai Web App:</strong>
+              <p class="text-slate-600">Klik tombol <strong>Terapkan</strong> (<em>Deploy</em>) &rarr; pilih <strong>Penerapan Baru</strong> &rarr; pilih jenis <strong>Aplikasi Web</strong> (<em>Web app</em>). Ubah bagian <strong>Yang memiliki akses</strong> menjadi: <strong>Siapa saja</strong> (<em>Anyone</em>) &rarr; klik <strong>Terapkan</strong>.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-2.5">
+            <span class="w-5 h-5 rounded-full bg-emerald-700 text-white font-bold flex items-center justify-center shrink-0 text-[11px] mt-0.5">5</span>
+            <div>
+              <strong class="text-slate-800 text-xs">Tempelkan URL Web App:</strong>
+              <p class="text-slate-600">Salin URL berawalan <code class="font-mono text-emerald-800 bg-emerald-100 px-1 py-0.5 rounded">https://script.google.com/macros/s/.../exec</code> lalu tempelkan ke form Pengaturan CBT di halaman ini.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-slate-200 flex justify-end">
+        <button onclick="tutupModalPanduanGoogleSheet()" class="px-5 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold transition">
+          Saya Mengerti, Tutup
         </button>
       </div>
     </div>
@@ -1395,7 +1653,9 @@
       acakSoal: true,
       acakOpsi: false,
       tampilkanNilai: true,
-      antiCurang: true
+      antiCurang: true,
+      googleSheetUrl: '',
+      enableGoogleSheet: false
     };
 
     // Variabel Sesi Ujian Siswa
@@ -1543,6 +1803,15 @@
 
       const elSettingAntiCurang = document.getElementById('setting-anti-curang');
       if (elSettingAntiCurang) elSettingAntiCurang.checked = !!settings.antiCurang;
+
+      const elEnableSheet = document.getElementById('setting-enable-google-sheet');
+      if (elEnableSheet) elEnableSheet.checked = !!settings.enableGoogleSheet;
+
+      const elSheetUrl = document.getElementById('setting-google-sheet-url');
+      if (elSheetUrl) elSheetUrl.value = settings.googleSheetUrl || '';
+
+      toggleGoogleSheetInput();
+      updateBukaSheetButton();
 
       deteksiLinkServer();
     }
@@ -1698,7 +1967,7 @@
         "mapel": "Matematika",
         "tingkat": "SMP Kelas 7-9",
         "bacaan": "",
-        "pertanyaan": "Hasil dari (-18) + 24 : (-6) × 3 adalah...",
+        "pertanyaan": "Hasil dari $(-18) + 24 : (-6) \\times 3$ adalah...",
         "pilihan": {
           "A": "-30",
           "B": "-15",
@@ -1706,14 +1975,14 @@
           "D": "30"
         },
         "kunci": "A",
-        "pembahasan": "Sesuai urutan operasi (Kabataku): 24 : (-6) = -4. Kemudian -4 × 3 = -12. Terakhir: (-18) + (-12) = -30."
+        "pembahasan": "Sesuai urutan operasi (Kabataku): $24 : (-6) = -4$, kemudian $(-4) \\times 3 = -12$. Terakhir: $(-18) + (-12) = -30$."
       },
       {
         "id": "MAT-02",
         "mapel": "Matematika",
         "tingkat": "SMP Kelas 7-9",
         "bacaan": "",
-        "pertanyaan": "Diketahui barisan aritmatika: 5, 9, 13, 17, 21, ... Suku ke-25 dari barisan tersebut adalah...",
+        "pertanyaan": "Diketahui barisan aritmatika: $5, 9, 13, 17, 21, \\dots$ Suku ke-25 ($U_{25}$) dari barisan tersebut adalah...",
         "pilihan": {
           "A": "97",
           "B": "101",
@@ -1721,14 +1990,15 @@
           "D": "109"
         },
         "kunci": "B",
-        "pembahasan": "Rumus suku ke-n barisan aritmetika: Un = a + (n-1)b. a = 5, b = 4. U25 = 5 + (24 × 4) = 5 + 96 = 101."
+        "pembahasan": "Rumus suku ke-$n$ barisan aritmetika: $U_n = a + (n-1)b$. Dengan $a = 5$ dan $b = 4$, maka $U_{25} = 5 + (24 \\times 4) = 5 + 96 = 101$."
       },
       {
         "id": "MAT-03",
         "mapel": "Matematika",
         "tingkat": "SMP Kelas 7-9",
         "bacaan": "",
-        "pertanyaan": "Sebuah segitiga siku-siku memiliki panjang sisi tegak 9 cm dan 12 cm. Berapakah panjang sisi miring (hipotenusa) segitiga tersebut?",
+        "pertanyaan": "Perhatikan gambar segitiga siku-siku berikut ini:\nJika panjang sisi tegak adalah $a = 9\\text{ cm}$ dan $b = 12\\text{ cm}$, berapakah panjang sisi miring ($c = \\sqrt{a^2 + b^2}$) dari segitiga tersebut?",
+        "gambar": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 280 180' width='280' height='180'><polygon points='40,140 220,140 40,30' fill='%23eff6ff' stroke='%232563eb' stroke-width='3'/><rect x='40' y='124' width='16' height='16' fill='none' stroke='%232563eb' stroke-width='2'/><text x='115' y='162' font-family='sans-serif' font-size='14' font-weight='bold' fill='%231e293b'>12 cm</text><text x='8' y='90' font-family='sans-serif' font-size='14' font-weight='bold' fill='%231e293b'>9 cm</text><text x='140' y='75' font-family='sans-serif' font-size='15' font-weight='bold' fill='%23b91c1c'>c = ?</text></svg>",
         "pilihan": {
           "A": "14 cm",
           "B": "15 cm",
@@ -1736,7 +2006,7 @@
           "D": "18 cm"
         },
         "kunci": "B",
-        "pembahasan": "Teorema Pythagoras: c² = a² + b² = 9² + 12² = 81 + 144 = 225. Maka c = √225 = 15 cm."
+        "pembahasan": "Teorema Pythagoras: $c = \\sqrt{a^2 + b^2} = \\sqrt{9^2 + 12^2} = \\sqrt{81 + 144} = \\sqrt{225} = 15\\text{ cm}$."
       },
       {
         "id": "MAT-04",
@@ -1744,6 +2014,7 @@
         "tingkat": "SMP Kelas 7-9",
         "bacaan": "Di koperasi sekolah SMPN 77, harga 3 buku tulis dan 2 pulpen adalah Rp 17.000,00. Sedangkan harga 2 buku tulis dan 5 pulpen adalah Rp 15.000,00.",
         "pertanyaan": "Berapakah harga 1 buah buku tulis?",
+        "gambar": "",
         "pilihan": {
           "A": "Rp 5.000,00",
           "B": "Rp 4.000,00",
@@ -1751,14 +2022,15 @@
           "D": "Rp 2.000,00"
         },
         "kunci": "A",
-        "pembahasan": "Misal buku = x, pulpen = y. (1) 3x + 2y = 17000, (2) 2x + 5y = 15000. Eliminasi y: x = 5000. Jadi harga 1 buku = Rp 5.000,00."
+        "pembahasan": "Misal buku $= x$, pulpen $= y$. Persamaan: $3x + 2y = 17000$ dan $2x + 5y = 15000$. Eliminasi $y$: didapatkan $x = 5000$. Jadi harga 1 buku $= \\text{Rp } 5.000,00$."
       },
       {
         "id": "IPA-01",
         "mapel": "Ilmu Pengetahuan Alam",
         "tingkat": "SMP Kelas 7-9",
         "bacaan": "",
-        "pertanyaan": "Organel sel yang berfungsi sebagai tempat terjadinya respirasi seluler untuk menghasilkan energi dalam bentuk ATP adalah...",
+        "pertanyaan": "Perhatikan diagram organel sel berikut ini:\nOrganel yang dijuluki sebagai 'the powerhouse of cell' dan berfungsi utama sebagai pusat respirasi seluler untuk menghasilkan energi (ATP) adalah...",
+        "gambar": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 280 140' width='280' height='140'><rect width='280' height='140' rx='16' fill='%23f8fafc' stroke='%23e2e8f0'/><ellipse cx='140' cy='65' rx='95' ry='40' fill='%23fef3c7' stroke='%23d97706' stroke-width='3'/><path d='M65,65 Q85,42 105,65 T145,65 T185,65 T215,65' fill='none' stroke='%23b45309' stroke-width='3.5' stroke-linecap='round'/><path d='M75,75 Q95,90 115,75 T155,75 T195,75 T210,75' fill='none' stroke='%23b45309' stroke-width='2.5' stroke-linecap='round'/><text x='85' y='125' font-family='sans-serif' font-size='12' font-weight='bold' fill='%2392400e'>Diagram: Mitokondria Sel</text></svg>",
         "pilihan": {
           "A": "Ribosom",
           "B": "Mitokondria",
@@ -1773,15 +2045,15 @@
         "mapel": "Ilmu Pengetahuan Alam",
         "tingkat": "SMP Kelas 7-9",
         "bacaan": "",
-        "pertanyaan": "Sebuah benda bermassa 4 kg didorong dengan gaya mendatar sebesar 20 Newton di atas lantai licin tanpa gesekan. Percepatan gerak benda tersebut adalah...",
+        "pertanyaan": "Sebuah benda bermassa $m = 4\\text{ kg}$ didorong dengan gaya mendatar sebesar $F = 20\\text{ Newton}$ di atas lantai licin tanpa gesekan. Berdasarkan Hukum II Newton ($a = \\frac{F}{m}$), percepatan gerak benda tersebut adalah...",
         "pilihan": {
-          "A": "2 m/s²",
-          "B": "4 m/s²",
-          "C": "5 m/s²",
-          "D": "80 m/s²"
+          "A": "$2\\text{ m/s}^2$",
+          "B": "$4\\text{ m/s}^2$",
+          "C": "$5\\text{ m/s}^2$",
+          "D": "$80\\text{ m/s}^2$"
         },
         "kunci": "C",
-        "pembahasan": "Hukum II Newton: F = m × a, maka a = F / m = 20 N / 4 kg = 5 m/s²."
+        "pembahasan": "Hukum II Newton menyatakan $F = m \\times a$, maka percepatan: $a = \\frac{F}{m} = \\frac{20\\text{ N}}{4\\text{ kg}} = 5\\text{ m/s}^2$."
       },
       {
         "id": "IPA-03",
@@ -2101,6 +2373,19 @@
       // Pertanyaan
       document.getElementById('cbt-teks-pertanyaan').innerText = soal.pertanyaan;
 
+      // Gambar Soal jika ada
+      const boxGambar = document.getElementById('cbt-box-gambar');
+      const imgSoal = document.getElementById('cbt-img-soal');
+      if (boxGambar && imgSoal) {
+        if (soal.gambar && soal.gambar.trim() !== '') {
+          imgSoal.src = soal.gambar;
+          boxGambar.classList.remove('hidden');
+        } else {
+          imgSoal.src = '';
+          boxGambar.classList.add('hidden');
+        }
+      }
+
       // Render Opsi Jawaban (A, B, C, D)
       const containerOpsi = document.getElementById('cbt-opsi-container');
       containerOpsi.innerHTML = '';
@@ -2120,6 +2405,15 @@
             : 'border-slate-200 hover:border-blue-400 bg-white hover:bg-slate-50'
         }`;
 
+        // Cek jika teks opsi berupa gambar data:image atau URL gambar
+        const teksOpsi = String(soal.pilihan[k]).trim();
+        let htmlOpsi = '';
+        if (teksOpsi.startsWith('data:image/') || teksOpsi.match(/^https?:\/\/.*\.(png|jpg|jpeg|gif|webp|svg)(\?.*)?$/i)) {
+          htmlOpsi = `<img src="${teksOpsi}" alt="Opsi ${k}" class="max-h-24 max-w-full rounded border border-slate-200 bg-white p-1 inline-block object-contain cursor-pointer" onclick="bukaZoomGambar(this.src); event.stopPropagation();">`;
+        } else {
+          htmlOpsi = teksOpsi;
+        }
+
         div.innerHTML = `
           <div class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm shrink-0 transition ${
             isChecked 
@@ -2129,12 +2423,17 @@
             ${k}
           </div>
           <div class="text-sm sm:text-base pt-0.5 text-slate-800 font-medium leading-relaxed user-select-text">
-            ${soal.pilihan[k]}
+            ${htmlOpsi}
           </div>
         `;
 
         containerOpsi.appendChild(div);
       });
+
+      // Render rumus matematika & sains KaTeX jika ada formula $...$ atau $$...$$
+      renderMath(document.getElementById('cbt-teks-pertanyaan'));
+      if (soal.bacaan) renderMath(teksBacaan);
+      renderMath(containerOpsi);
 
       // Status Ragu-Ragu
       const isRagu = !!raguRaguSiswa[soal.id];
@@ -2321,6 +2620,11 @@
 
       // Render Hasil Ujian
       tampilkanHasilUjian(hasilData);
+
+      // Kirim otomatis ke Google Spreadsheet jika diaktifkan oleh panitia
+      if (settings.enableGoogleSheet && settings.googleSheetUrl && settings.googleSheetUrl.startsWith('http')) {
+        kirimHasilKeGoogleSheet(hasilData, settings.googleSheetUrl);
+      }
     }
 
     function tampilkanHasilUjian(hasil) {
@@ -2368,6 +2672,7 @@
             </span>
           </div>
           <p class="text-slate-800 font-medium mb-2 whitespace-pre-line">${soal.pertanyaan}</p>
+          ${soal.gambar ? `<div class="my-2.5 text-center"><img src="${soal.gambar}" alt="Gambar Soal" class="max-h-52 max-w-full rounded-xl border border-slate-200 mx-auto object-contain cursor-pointer shadow-xs hover:opacity-90 bg-white p-1" onclick="bukaZoomGambar(this.src)" title="Klik untuk memperbesar"></div>` : ''}
           <div class="text-xs space-y-1 mb-2 bg-white/80 p-2.5 rounded-lg border border-slate-200">
             <p><span class="font-semibold text-slate-500">Jawaban Anda:</span> <strong class="${isBenar ? 'text-emerald-700' : 'text-rose-700'}">${jwbSiswa}</strong></p>
             <p><span class="font-semibold text-slate-500">Kunci Benar:</span> <strong class="text-blue-800">${soal.kunci} (${soal.pilihan[soal.kunci] || ''})</strong></p>
@@ -2376,6 +2681,9 @@
         `;
         container.appendChild(div);
       });
+
+      // Render rumus matematika di modal pembahasan
+      renderMath(container);
 
       document.getElementById('modal-review-pembahasan').classList.remove('hidden');
     }
@@ -2678,6 +2986,8 @@
       const elAcakOpsi = document.getElementById('setting-acak-opsi');
       const elTampilNilai = document.getElementById('setting-tampil-nilai');
       const elAntiCurang = document.getElementById('setting-anti-curang');
+      const elEnableSheet = document.getElementById('setting-enable-google-sheet');
+      const elSheetUrl = document.getElementById('setting-google-sheet-url');
 
       const token = (elToken && elToken.value.trim().toUpperCase()) ? elToken.value.trim().toUpperCase() : 'SMP77JUARA';
       const durasi = (elDurasi && parseInt(elDurasi.value)) ? parseInt(elDurasi.value) : 30;
@@ -2686,6 +2996,8 @@
       const acakOpsi = elAcakOpsi ? elAcakOpsi.checked : false;
       const tampilkanNilai = elTampilNilai ? elTampilNilai.checked : true;
       const antiCurang = elAntiCurang ? elAntiCurang.checked : true;
+      const enableGoogleSheet = elEnableSheet ? elEnableSheet.checked : false;
+      const googleSheetUrl = (elSheetUrl && elSheetUrl.value) ? elSheetUrl.value.trim() : '';
 
       const settings = getSettings();
       settings.token = token;
@@ -2695,6 +3007,8 @@
       settings.acakOpsi = acakOpsi;
       settings.tampilkanNilai = tampilkanNilai;
       settings.antiCurang = antiCurang;
+      settings.enableGoogleSheet = enableGoogleSheet;
+      settings.googleSheetUrl = googleSheetUrl;
 
       saveSettings(settings);
       initPengaturan();
@@ -2708,6 +3022,219 @@
         alert('✓ Pengaturan Ujian CBT SMPN 77 berhasil disimpan!');
       } catch (e) {
         console.log('Alert suppressed, toast shown.');
+      }
+    }
+
+    /* ========================================================
+       MODUL SINKRONISASI GOOGLE SPREADSHEET (WEBHOOK)
+    ======================================================== */
+    function toggleGoogleSheetInput() {
+      const chk = document.getElementById('setting-enable-google-sheet');
+      const box = document.getElementById('box-input-google-sheet');
+      if (!chk || !box) return;
+      if (chk.checked) {
+        box.classList.remove('hidden');
+      } else {
+        box.classList.add('hidden');
+      }
+    }
+
+    function updateBukaSheetButton() {
+      const settings = getSettings();
+      const btn = document.getElementById('btn-buka-sheets-rekap');
+      if (!btn) return;
+      if (settings.enableGoogleSheet && settings.googleSheetUrl && settings.googleSheetUrl.startsWith('http')) {
+        btn.classList.remove('hidden');
+      } else {
+        btn.classList.add('hidden');
+      }
+    }
+
+    function bukaGoogleSheetAdmin() {
+      const settings = getSettings();
+      if (!settings.googleSheetUrl) {
+        alert('URL Google Spreadsheet belum diatur di menu Pengaturan.');
+        return;
+      }
+      window.open(settings.googleSheetUrl, '_blank');
+    }
+
+    function bukaModalPanduanGoogleSheet() {
+      const modal = document.getElementById('modal-panduan-google-sheet');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function tutupModalPanduanGoogleSheet() {
+      const modal = document.getElementById('modal-panduan-google-sheet');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function salinKodeScriptGoogle() {
+      const textarea = document.getElementById('text-kode-script-copy');
+      if (!textarea) return;
+      textarea.select();
+      navigator.clipboard.writeText(textarea.value).then(() => {
+        const textSpan = document.getElementById('btn-salin-script-text');
+        if (textSpan) {
+          textSpan.innerText = '✓ Kode Tersalin!';
+          setTimeout(() => { textSpan.innerText = 'Salin Kode Script'; }, 3000);
+        }
+        alert('✓ Kode Apps Script berhasil disalin ke clipboard!\nSilakan tempel (paste) ke editor Apps Script Google Sheets Anda.');
+      }).catch(() => {
+        alert('Silakan salin teks kode secara manual dari kotak hitam.');
+      });
+    }
+
+    async function ujiKoneksiGoogleSheet() {
+      const urlInput = document.getElementById('setting-google-sheet-url');
+      const url = urlInput ? urlInput.value.trim() : '';
+
+      if (!url || !url.startsWith('http')) {
+        alert('Harap masukkan URL Web App yang valid (berawalan https://script.google.com/macros/s/.../exec).');
+        return;
+      }
+
+      const statusEl = document.getElementById('google-sheet-status-text');
+      if (statusEl) {
+        statusEl.innerHTML = '<span class="text-amber-700 animate-pulse">⏳ Sedang mengirim data uji coba ke Google Sheets...</span>';
+      }
+
+      const sampleData = {
+        waktuSelesai: new Date().toLocaleString('id-ID'),
+        nama: "TES KONEKSI PROKTOR SMPN 77",
+        nisn: "0000000000",
+        kelas: "SIMULASI",
+        mapel: "Uji Coba Sistem",
+        benar: 10,
+        salah: 0,
+        total: 10,
+        nilai: 100,
+        statusKkm: "TERHUBUNG (Sukses)",
+        pelanggaranTab: 0
+      };
+
+      try {
+        await fetch(url, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify(sampleData)
+        });
+
+        if (statusEl) {
+          statusEl.innerHTML = '<span class="text-emerald-700 font-bold">✓ Data uji coba berhasil dikirim! Buka file Google Sheet Anda untuk memeriksa baris baru.</span>';
+        }
+        alert('🎉 BERHASIL!\nData uji coba telah dikirim ke Google Spreadsheet Anda.\nSilakan buka tab Google Sheets untuk memastikan baris baru telah muncul.');
+      } catch (err) {
+        if (statusEl) {
+          statusEl.innerHTML = '<span class="text-rose-600 font-bold">✗ Gagal mengirim data: ' + err.message + '</span>';
+        }
+        alert('❌ Gagal mengirim: ' + err.message + '\nPastikan saat Deploy Apps Script Anda memilih: "Who has access: Anyone".');
+      }
+    }
+
+    function kirimHasilKeGoogleSheet(hasil, webhookUrl) {
+      if (!webhookUrl || !webhookUrl.startsWith('http')) return;
+
+      const payload = {
+        waktuSelesai: hasil.waktuSelesai || new Date().toLocaleString('id-ID'),
+        nama: hasil.nama || '-',
+        nisn: hasil.nisn || '-',
+        kelas: hasil.kelas || '-',
+        mapel: hasil.mapel || '-',
+        benar: (hasil.benar !== undefined) ? hasil.benar : 0,
+        salah: (hasil.salah !== undefined) ? hasil.salah : 0,
+        total: (hasil.total !== undefined) ? hasil.total : 0,
+        nilai: (hasil.nilai !== undefined) ? hasil.nilai : 0,
+        statusKkm: hasil.statusKkm || '-',
+        pelanggaranTab: hasil.pelanggaranTab || 0
+      };
+
+      const syncEl = document.getElementById('sync-sheets-status');
+      if (syncEl) {
+        syncEl.classList.remove('hidden');
+        syncEl.className = 'mb-6 p-3 rounded-xl text-xs font-bold flex items-center justify-center space-x-2 bg-amber-50 text-amber-800 border border-amber-300 no-print';
+        syncEl.innerHTML = `
+          <svg class="w-4 h-4 animate-spin text-amber-600 shrink-0" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+          <span>Mengirim nilai ujian ke Google Spreadsheet Panitia...</span>
+        `;
+      }
+
+      fetch(webhookUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(() => {
+        if (syncEl) {
+          syncEl.className = 'mb-6 p-3 rounded-xl text-xs font-bold flex items-center justify-center space-x-2 bg-emerald-50 text-emerald-800 border border-emerald-300 no-print';
+          syncEl.innerHTML = `
+            <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            <span>✓ Nilai ujian Anda telah tersimpan otomatis di Google Spreadsheet Panitia SMPN 77 Jakarta</span>
+          `;
+        }
+      })
+      .catch((err) => {
+        console.warn('Gagal sync Google Sheet:', err);
+        if (syncEl) {
+          syncEl.className = 'mb-6 p-3 rounded-xl text-xs font-bold flex items-center justify-center space-x-2 bg-slate-100 text-slate-700 border border-slate-300 no-print';
+          syncEl.innerHTML = `<span>Nilai ujian Anda tetap tersimpan aman di kartu evaluasi ini.</span>`;
+        }
+      });
+    }
+
+    /* ========================================================
+       MODUL FORMULA MATEMATIKA & IPA (KATEX)
+    ======================================================== */
+    function renderMath(element) {
+      if (!element) return;
+      if (typeof renderMathInElement === 'function') {
+        try {
+          renderMathInElement(element, {
+            delimiters: [
+              { left: '$$', right: '$$', display: true },
+              { left: '$', right: '$', display: false },
+              { left: '\\(', right: '\\)', display: false },
+              { left: '\\[', right: '\\]', display: true }
+            ],
+            throwOnError: false
+          });
+        } catch (e) {
+          console.warn('KaTeX render error:', e);
+        }
+      }
+    }
+
+    function sisipkanFormula(snippet) {
+      const textarea = document.getElementById('form-soal-pertanyaan');
+      if (!textarea) return;
+      const start = textarea.selectionStart || 0;
+      const end = textarea.selectionEnd || 0;
+      const text = textarea.value;
+      textarea.value = text.substring(0, start) + snippet + text.substring(end);
+      textarea.focus();
+      textarea.selectionStart = textarea.selectionEnd = start + snippet.length;
+      updateMathPreviewModal();
+    }
+
+    function updateMathPreviewModal() {
+      const textarea = document.getElementById('form-soal-pertanyaan');
+      const box = document.getElementById('box-preview-rumus');
+      const content = document.getElementById('preview-rumus-konten');
+      if (!textarea || !box || !content) return;
+
+      const val = textarea.value.trim();
+      if (val.includes('$') || val.includes('\\(')) {
+        content.innerText = val;
+        renderMath(content);
+        box.classList.remove('hidden');
+      } else {
+        box.classList.add('hidden');
       }
     }
 
@@ -2731,6 +3258,7 @@
           <td class="px-4 py-3 font-semibold text-blue-900">${s.mapel}</td>
           <td class="px-4 py-3">
             <div class="font-medium text-slate-800 line-clamp-2">${s.pertanyaan}</div>
+            ${s.gambar ? '<div class="inline-flex items-center space-x-1 text-[11px] font-bold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-md mt-1"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><span>Ada Gambar</span></div>' : ''}
             ${s.bacaan ? '<div class="text-xs text-slate-400 italic line-clamp-1 mt-0.5">Bacaan: ' + s.bacaan + '</div>' : ''}
           </td>
           <td class="px-4 py-3 text-center font-bold text-emerald-700 bg-emerald-50/50">${s.kunci}</td>
@@ -2740,6 +3268,8 @@
           </td>
         </tr>
       `).join('');
+
+      renderMath(tbody);
     }
 
     function bukaModalTambahSoal() {
@@ -2747,6 +3277,17 @@
       document.getElementById('form-soal-id').value = '';
       document.getElementById('form-soal-bacaan').value = '';
       document.getElementById('form-soal-pertanyaan').value = '';
+      document.getElementById('form-soal-gambar').value = '';
+      const fileInp = document.getElementById('form-soal-file-gambar');
+      if (fileInp) fileInp.value = '';
+      const previewWrap = document.getElementById('form-soal-preview-wrap');
+      if (previewWrap) {
+        previewWrap.classList.add('hidden');
+        previewWrap.classList.remove('flex');
+      }
+      const previewImg = document.getElementById('form-soal-preview-img');
+      if (previewImg) previewImg.src = '';
+
       document.getElementById('form-soal-opt-a').value = '';
       document.getElementById('form-soal-opt-b').value = '';
       document.getElementById('form-soal-opt-c').value = '';
@@ -2754,6 +3295,7 @@
       document.getElementById('form-soal-kunci').value = 'A';
       document.getElementById('form-soal-pembahasan').value = '';
 
+      updateMathPreviewModal();
       document.getElementById('modal-form-soal').classList.remove('hidden');
     }
 
@@ -2768,6 +3310,22 @@
       document.getElementById('form-soal-tingkat').value = s.tingkat || 'SMP Kelas 7-9';
       document.getElementById('form-soal-bacaan').value = s.bacaan || '';
       document.getElementById('form-soal-pertanyaan').value = s.pertanyaan;
+
+      const g = s.gambar || '';
+      document.getElementById('form-soal-gambar').value = g;
+      const fileInp = document.getElementById('form-soal-file-gambar');
+      if (fileInp) fileInp.value = '';
+      const previewWrap = document.getElementById('form-soal-preview-wrap');
+      const previewImg = document.getElementById('form-soal-preview-img');
+      if (g && previewWrap && previewImg) {
+        previewImg.src = g;
+        previewWrap.classList.remove('hidden');
+        previewWrap.classList.add('flex');
+      } else if (previewWrap) {
+        previewWrap.classList.add('hidden');
+        previewWrap.classList.remove('flex');
+      }
+
       document.getElementById('form-soal-opt-a').value = s.pilihan.A || '';
       document.getElementById('form-soal-opt-b').value = s.pilihan.B || '';
       document.getElementById('form-soal-opt-c').value = s.pilihan.C || '';
@@ -2775,11 +3333,81 @@
       document.getElementById('form-soal-kunci').value = s.kunci;
       document.getElementById('form-soal-pembahasan').value = s.pembahasan || '';
 
+      updateMathPreviewModal();
       document.getElementById('modal-form-soal').classList.remove('hidden');
     }
 
     function tutupModalTambahSoal() {
       document.getElementById('modal-form-soal').classList.add('hidden');
+    }
+
+    function handleUploadGambarSoal(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      if (file.size > 3 * 1024 * 1024) {
+        alert('⚠️ Ukuran gambar terlalu besar (maksimal 3MB). Silakan gunakan gambar yang lebih kecil.');
+        e.target.value = '';
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const base64Data = evt.target.result;
+        document.getElementById('form-soal-gambar').value = base64Data;
+        const img = document.getElementById('form-soal-preview-img');
+        const wrap = document.getElementById('form-soal-preview-wrap');
+        if (img && wrap) {
+          img.src = base64Data;
+          wrap.classList.remove('hidden');
+          wrap.classList.add('flex');
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function updatePreviewGambarModal() {
+      const val = document.getElementById('form-soal-gambar').value.trim();
+      const wrap = document.getElementById('form-soal-preview-wrap');
+      const img = document.getElementById('form-soal-preview-img');
+      if (val && wrap && img) {
+        img.src = val;
+        wrap.classList.remove('hidden');
+        wrap.classList.add('flex');
+      } else if (wrap) {
+        wrap.classList.add('hidden');
+        wrap.classList.remove('flex');
+      }
+    }
+
+    function hapusGambarSoalModal() {
+      document.getElementById('form-soal-gambar').value = '';
+      const fileInp = document.getElementById('form-soal-file-gambar');
+      if (fileInp) fileInp.value = '';
+      const wrap = document.getElementById('form-soal-preview-wrap');
+      if (wrap) {
+        wrap.classList.add('hidden');
+        wrap.classList.remove('flex');
+      }
+      const img = document.getElementById('form-soal-preview-img');
+      if (img) img.src = '';
+    }
+
+    function bukaZoomGambar(src) {
+      if (!src) return;
+      const modal = document.getElementById('modal-zoom-gambar');
+      const img = document.getElementById('zoom-img-target');
+      if (modal && img) {
+        img.src = src;
+        modal.classList.remove('hidden');
+      }
+    }
+
+    function tutupZoomGambar() {
+      const modal = document.getElementById('modal-zoom-gambar');
+      const img = document.getElementById('zoom-img-target');
+      if (modal) modal.classList.add('hidden');
+      if (img) img.src = '';
     }
 
     function handleSimpanSoalAdmin(e) {
@@ -2789,6 +3417,7 @@
       const tingkat = document.getElementById('form-soal-tingkat').value;
       const bacaan = document.getElementById('form-soal-bacaan').value.trim();
       const pertanyaan = document.getElementById('form-soal-pertanyaan').value.trim();
+      const gambar = (document.getElementById('form-soal-gambar').value || '').trim();
       const optA = document.getElementById('form-soal-opt-a').value.trim();
       const optB = document.getElementById('form-soal-opt-b').value.trim();
       const optC = document.getElementById('form-soal-opt-c').value.trim();
@@ -2802,6 +3431,7 @@
         tingkat,
         bacaan,
         pertanyaan,
+        gambar,
         pilihan: { A: optA, B: optB, C: optC, D: optD },
         kunci,
         pembahasan
@@ -2830,14 +3460,25 @@
     async function resetSoalDefault() {
       if (!confirm('Kembalikan bank soal ke paket bawaan SMPN 77 Jakarta?')) return;
       try {
-        const resp = await fetch('data/soal-default.json');
+        let resp = await fetch('soal-default.json');
+        if (!resp.ok) {
+          resp = await fetch('data/soal-default.json');
+        }
         if (resp.ok) {
           const data = await resp.json();
           saveBankSoal(data);
           renderAdminSoalList();
           alert('✓ Bank soal berhasil dipulihkan!');
+          return;
         }
       } catch (e) {
+        console.warn('Gagal fetch default:', e);
+      }
+      if (typeof DEFAULT_BANK_SOAL_EMBED !== 'undefined') {
+        saveBankSoal(DEFAULT_BANK_SOAL_EMBED);
+        renderAdminSoalList();
+        alert('✓ Bank soal berhasil dipulihkan dari data cadangan!');
+      } else {
         alert('Gagal memuat file default.');
       }
     }
@@ -2975,6 +3616,7 @@
         const tingkat = findVal(['tingkat', 'kelas']) || 'SMP Kelas 7-9';
         const bacaan = findVal(['bacaan', 'stimulus', 'teks']);
         const pertanyaan = findVal(['pertanyaan', 'soal', 'question']);
+        const gambar = findVal(['gambar', 'urlgambar', 'linkgambar', 'foto', 'image', 'filegambar']);
         const optA = findVal(['pilihana', 'opsia', 'jawaban_a', 'a']);
         const optB = findVal(['pilihanb', 'opsib', 'jawaban_b', 'b']);
         const optC = findVal(['pilihanc', 'opsic', 'jawaban_c', 'c']);
@@ -2993,6 +3635,7 @@
             tingkat,
             bacaan,
             pertanyaan,
+            gambar,
             pilihan: { A: optA, B: optB, C: optC || '', D: optD || '' },
             kunci,
             pembahasan
@@ -3131,9 +3774,17 @@
         const content = rawBlocks[i + 1] || '';
 
         // Parsing komponen soal:
+        // Ekstrak Gambar jika ada: contoh [Gambar: https://... atau data:...]
+        let gambar = '';
+        const matchGambar = content.match(/\[(?:Gambar|Foto|Image)\s*:\s*([^\]]+)\]/i);
+        if (matchGambar) {
+          gambar = matchGambar[1].trim();
+        }
+
         // a. Ekstrak Pertanyaan (dari awal sampai sebelum Opsi A)
         const matchSoal = content.match(/^([\s\S]*?)(?=\n\s*[A-Da-d][\.\)])/);
-        const pertanyaan = matchSoal ? matchSoal[1].trim() : content.split('\n')[0].trim();
+        let pertanyaan = matchSoal ? matchSoal[1].trim() : content.split('\n')[0].trim();
+        pertanyaan = pertanyaan.replace(/\[(?:Gambar|Foto|Image)\s*:\s*[^\]]+\]/gi, '').trim();
 
         // b. Ekstrak Opsi A, B, C, D
         const matchA = content.match(/\n\s*[Aa][\.\)]\s*([\s\S]*?)(?=\n\s*[Bb][\.\)])/);
@@ -3161,6 +3812,7 @@
             tingkat: defaultTingkat,
             bacaan: generalBacaan,
             pertanyaan,
+            gambar,
             pilihan: { A: optA, B: optB, C: optC || '', D: optD || '' },
             kunci,
             pembahasan
@@ -3236,20 +3888,21 @@
       if (typeof XLSX !== 'undefined') {
         const wb = XLSX.utils.book_new();
         const data = [
-          ['Mata Pelajaran', 'Tingkat', 'Bacaan', 'Pertanyaan', 'Pilihan A', 'Pilihan B', 'Pilihan C', 'Pilihan D', 'Kunci Jawaban', 'Pembahasan'],
-          ['Bahasa Indonesia', 'SMP Kelas 7-9', 'Kutipan teks stimulus/bacaan jika ada', 'Gagasan pokok dari teks di atas adalah...', 'Pilihan jawaban A', 'Pilihan jawaban B', 'Pilihan jawaban C', 'Pilihan jawaban D', 'B', 'Penjelasan kunci jawaban benar'],
-          ['Matematika', 'SMP Kelas 7-9', '', 'Hasil dari 15 + 4 x (-3) adalah...', '3', '-3', '27', '-27', 'A', '15 + (-12) = 3'],
-          ['Ilmu Pengetahuan Alam', 'SMP Kelas 7-9', '', 'Organ tubuh yang berfungsi menyaring darah dan menghasilkan urine adalah...', 'Hati', 'Ginjal', 'Paru-paru', 'Jantung', 'B', 'Ginjal berfungsi menyaring darah'],
-          ['Bahasa Inggris', 'SMP Kelas 7-9', '', 'What is the synonym of the word "happy"?', 'Sad', 'Glad', 'Angry', 'Tired', 'B', 'Glad is the synonym of happy']
+          ['Mata Pelajaran', 'Tingkat', 'Bacaan', 'Pertanyaan', 'Gambar (Opsional)', 'Pilihan A', 'Pilihan B', 'Pilihan C', 'Pilihan D', 'Kunci Jawaban', 'Pembahasan'],
+          ['Bahasa Indonesia', 'SMP Kelas 7-9', 'Kutipan teks stimulus/bacaan jika ada', 'Gagasan pokok dari teks di atas adalah...', '', 'Pilihan jawaban A', 'Pilihan jawaban B', 'Pilihan jawaban C', 'Pilihan jawaban D', 'B', 'Penjelasan kunci jawaban benar'],
+          ['Matematika', 'SMP Kelas 7-9', '', 'Hasil dari 15 + 4 x (-3) adalah...', '', '3', '-3', '27', '-27', 'A', '15 + (-12) = 3'],
+          ['Ilmu Pengetahuan Alam', 'SMP Kelas 7-9', '', 'Perhatikan diagram sel berikut. Organel yang berfungsi sebagai tempat terjadinya respirasi seluler adalah...', 'https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&w=400&q=80', 'Ribosom', 'Mitokondria', 'Badan Golgi', 'Kloroplas', 'B', 'Mitokondria menghasilkan energi sel (ATP)'],
+          ['Bahasa Inggris', 'SMP Kelas 7-9', '', 'What is the synonym of the word "happy"?', '', 'Sad', 'Glad', 'Angry', 'Tired', 'B', 'Glad is the synonym of happy']
         ];
         const ws = XLSX.utils.aoa_to_sheet(data);
         XLSX.utils.book_append_sheet(wb, ws, 'BankSoal');
         XLSX.writeFile(wb, 'Template_Soal_CBT_SMPN77.xlsx');
       } else {
         // Fallback CSV download langsung dari memori
-        const csvContent = "\ufeffMata Pelajaran,Tingkat,Bacaan,Pertanyaan,Pilihan A,Pilihan B,Pilihan C,Pilihan D,Kunci Jawaban,Pembahasan\n"
-          + "Bahasa Indonesia,SMP Kelas 7-9,\"Kutipan teks bacaan jika ada\",\"Gagasan pokok dari teks di atas adalah...\",Pilihan A,Pilihan B,Pilihan C,Pilihan D,B,\"Penjelasan kunci jawaban\"\n"
-          + "Matematika,SMP Kelas 7-9,\"\",\"Hasil dari 15 + 4 x (-3) adalah...\",3,-3,27,-27,A,\"15 + (-12) = 3\"\n";
+        const csvContent = "\ufeffMata Pelajaran,Tingkat,Bacaan,Pertanyaan,Gambar,Pilihan A,Pilihan B,Pilihan C,Pilihan D,Kunci Jawaban,Pembahasan\n"
+          + "Bahasa Indonesia,SMP Kelas 7-9,\"Kutipan teks bacaan jika ada\",\"Gagasan pokok dari teks di atas adalah...\",\"\",Pilihan A,Pilihan B,Pilihan C,Pilihan D,B,\"Penjelasan kunci jawaban\"\n"
+          + "Ilmu Pengetahuan Alam,SMP Kelas 7-9,\"\",\"Perhatikan diagram organel sel berikut. Fungsi organel tersebut adalah...\",\"https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&w=400&q=80\",Ribosom,Mitokondria,Badan Golgi,Kloroplas,B,\"Mitokondria berfungsi respirasi sel\"\n"
+          + "Matematika,SMP Kelas 7-9,\"\",\"Hasil dari 15 + 4 x (-3) adalah...\",\"\",3,-3,27,-27,A,\"15 + (-12) = 3\"\n";
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -3312,7 +3965,9 @@
   </div>
 
   <div class='soal-item'>
-    <p>3. Sebuah segitiga siku-siku memiliki panjang sisi tegak 9 cm dan 12 cm. Berapakah panjang sisi miring (hipotenusa) segitiga tersebut?<br>
+    <p>3. Perhatikan gambar bangun segitiga siku-siku berikut ini:<br>
+    [Gambar: data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 280 180' width='280' height='180'><polygon points='40,140 220,140 40,30' fill='%23eff6ff' stroke='%232563eb' stroke-width='3'/><rect x='40' y='124' width='16' height='16' fill='none' stroke='%232563eb' stroke-width='2'/><text x='115' y='162' font-family='sans-serif' font-size='14' font-weight='bold' fill='%231e293b'>12 cm</text><text x='8' y='90' font-family='sans-serif' font-size='14' font-weight='bold' fill='%231e293b'>9 cm</text><text x='140' y='75' font-family='sans-serif' font-size='15' font-weight='bold' fill='%23b91c1c'>c = ?</text></svg>]<br>
+    Berapakah panjang sisi miring (hipotenusa) segitiga tersebut?<br>
     A. 14 cm<br>
     B. 15 cm<br>
     C. 16 cm<br>
@@ -3375,7 +4030,9 @@ D. Pengumpulan data absensi secara daring
 Kunci: B
 Pembahasan: Simulasi bermakna metode pelatihan yang meragakan sesuatu dalam bentuk tiruan.
 
-3. Sebuah segitiga siku-siku memiliki panjang sisi tegak 9 cm dan 12 cm. Berapakah panjang sisi miring (hipotenusa) segitiga tersebut?
+3. Perhatikan gambar bangun segitiga siku-siku berikut ini:
+[Gambar: https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Pythagorean.svg/240px-Pythagorean.svg.png]
+Berapakah panjang sisi miring (hipotenusa) segitiga tersebut?
 A. 14 cm
 B. 15 cm
 C. 16 cm
