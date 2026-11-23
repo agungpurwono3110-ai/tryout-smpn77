@@ -46,6 +46,14 @@
     .animate-urgent {
       animation: pulse-fast 1s infinite;
     }
+    /* Saat siswa di ruang ujian CBT, sembunyikan total header utama, footer, dan tombol petugas */
+    body.in-cbt-room #site-main-header,
+    body.in-cbt-room header,
+    body.in-cbt-room #btn-nav-admin,
+    body.in-cbt-room #btn-nav-siswa,
+    body.in-cbt-room footer {
+      display: none !important;
+    }
     /* Cetak hasil ujian & Cetak Kartu Peserta Ujian */
     @media print {
       body * {
@@ -83,7 +91,7 @@
 <body class="bg-slate-100 text-slate-800 antialiased min-h-screen flex flex-col justify-between">
 
   <!-- ==================== HEADER UTAMA ==================== -->
-  <header class="bg-gradient-to-r from-blue-900 via-indigo-900 to-blue-950 text-white shadow-lg sticky top-0 z-40">
+  <header id="site-main-header" class="bg-gradient-to-r from-blue-900 via-indigo-900 to-blue-950 text-white shadow-lg sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
       <div class="flex items-center space-x-3">
         <!-- Logo Sekolah SMPN 77 -->
@@ -96,13 +104,13 @@
         </div>
       </div>
 
-      <!-- Navigasi Menu Kanan (Disembunyikan saat Siswa Login) -->
-      <div class="flex items-center space-x-2 sm:space-x-3 text-sm">
-        <button id="btn-nav-siswa" onclick="switchView('siswa-login')" class="hidden px-3.5 py-1.5 rounded-lg bg-blue-700/80 hover:bg-blue-600 transition font-medium items-center space-x-1.5 shadow-sm">
+      <!-- Navigasi Menu Kanan (Wajib Disembunyikan Total untuk Siswa) -->
+      <div id="nav-menu-kanan" class="flex items-center space-x-2 sm:space-x-3 text-sm">
+        <button id="btn-nav-siswa" onclick="switchView('siswa-login')" style="display: none !important;" class="hidden px-3.5 py-1.5 rounded-lg bg-blue-700/80 hover:bg-blue-600 transition font-medium items-center space-x-1.5 shadow-sm">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
           <span>Peserta (Siswa)</span>
         </button>
-        <button id="btn-nav-admin" onclick="switchView('admin-login')" class="hidden px-3.5 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 transition font-medium items-center space-x-1.5 shadow-sm">
+        <button id="btn-nav-admin" onclick="switchView('admin-login')" style="display: none !important;" class="hidden px-3.5 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 transition font-medium items-center space-x-1.5 shadow-sm">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
           <span>Petugas / Guru</span>
         </button>
@@ -130,6 +138,7 @@
           </div>
         </div>
 
+
         <!-- Form Login Siswa -->
         <form id="form-login-siswa" onsubmit="handleLoginSiswa(event)" class="p-6 sm:p-8 space-y-5">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -152,33 +161,7 @@
               <label class="block text-sm font-semibold text-slate-700 mb-1.5">Kelas / Rombel <span class="text-red-500">*</span></label>
               <select id="siswa-kelas" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition outline-none bg-white">
                 <option value="">-- Pilih Kelas --</option>
-                <optgroup label="Tingkat VII (Tujuh)">
-                  <option value="VII-A">Kelas VII-A</option>
-                  <option value="VII-B">Kelas VII-B</option>
-                  <option value="VII-C">Kelas VII-C</option>
-                  <option value="VII-D">Kelas VII-D</option>
-                  <option value="VII-E">Kelas VII-E</option>
-                  <option value="VII-F">Kelas VII-F</option>
-                  <option value="VII-G">Kelas VII-G</option>
-                </optgroup>
-                <optgroup label="Tingkat VIII (Delapan)">
-                  <option value="VIII-A">Kelas VIII-A</option>
-                  <option value="VIII-B">Kelas VIII-B</option>
-                  <option value="VIII-C">Kelas VIII-C</option>
-                  <option value="VIII-D">Kelas VIII-D</option>
-                  <option value="VIII-E">Kelas VIII-E</option>
-                  <option value="VIII-F">Kelas VIII-F</option>
-                  <option value="VIII-G">Kelas VIII-G</option>
-                </optgroup>
-                <optgroup label="Tingkat IX (Sembilan)">
-                  <option value="IX-A">Kelas IX-A</option>
-                  <option value="IX-B">Kelas IX-B</option>
-                  <option value="IX-C">Kelas IX-C</option>
-                  <option value="IX-D">Kelas IX-D</option>
-                  <option value="IX-E">Kelas IX-E</option>
-                  <option value="IX-F">Kelas IX-F</option>
-                  <option value="IX-G">Kelas IX-G</option>
-                </optgroup>
+                <!-- Opsi kelas otomatis dimuat dinamis oleh sistem dari Data Kelas SMPN 77 -->
               </select>
             </div>
             <div>
@@ -247,6 +230,7 @@
             <p class="text-xs text-slate-500">NISN: <span id="cbt-nisn-siswa" class="font-mono font-medium">0000000000</span> • Mapel: <span id="cbt-mapel-nama" class="font-semibold text-blue-700">Bahasa Indonesia</span></p>
           </div>
         </div>
+
 
         <!-- Controls: Kiosk Fullscreen, Ukuran Font, Timer, & Tombol Daftar Soal -->
         <div class="flex items-center space-x-2 sm:space-x-3 flex-wrap gap-y-2">
@@ -376,6 +360,7 @@
           </div>
         </div>
 
+
         <!-- Kolom Kanan: Panel Nomor Soal (Sticky Desktop Sidebar) -->
         <div class="hidden lg:block lg:col-span-1">
           <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-5 sticky top-20">
@@ -406,6 +391,7 @@
             </div>
           </div>
         </div>
+
       </div>
     </div>
 
@@ -429,6 +415,7 @@
           </div>
         </div>
 
+
         <!-- Data Siswa Table -->
         <div class="grid grid-cols-2 gap-4 text-sm bg-slate-50 p-4 rounded-xl border border-slate-200 mb-6">
           <div>
@@ -448,6 +435,7 @@
             <p class="font-bold text-slate-900" id="hasil-mapel">-</p>
           </div>
         </div>
+
 
         <!-- Kartu Skor Nilai -->
         <div class="text-center p-8 bg-gradient-to-br from-blue-900 to-indigo-900 text-white rounded-2xl shadow-lg mb-6">
@@ -472,6 +460,7 @@
           </div>
         </div>
 
+
         <!-- Status Sinkronisasi Nilai ke Google Spreadsheet Terpusat -->
         <div id="sync-sheets-status" class="hidden mb-6 p-3 rounded-xl text-xs font-bold flex items-center justify-center space-x-2 no-print transition">
           <!-- Populated by JS -->
@@ -490,6 +479,7 @@
             <p class="border-t border-slate-400 pt-1 font-bold">( ............................................ )</p>
           </div>
         </div>
+
 
         <!-- Tombol Aksi (Tidak tercetak) -->
         <div class="mt-8 flex flex-col sm:flex-row gap-3 no-print">
@@ -606,9 +596,13 @@
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
           <span>Data Peserta & Kartu (<span id="admin-badge-count-peserta">0</span>)</span>
         </button>
+        <button onclick="switchAdminTab('kelas')" id="tab-btn-kelas" class="px-4 py-2 font-bold text-sm rounded-t-xl text-slate-500 hover:text-slate-800 transition flex items-center space-x-2 whitespace-nowrap">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          <span>Kelola Kelas / Rombel (<span id="admin-badge-count-kelas">21</span>)</span>
+        </button>
         <button onclick="switchAdminTab('akun')" id="tab-btn-akun" class="px-4 py-2 font-bold text-sm rounded-t-xl text-slate-500 hover:text-slate-800 transition flex items-center space-x-2 whitespace-nowrap">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-          <span>Kelola Akun & Sandi</span>
+          <span>Kelola Akun Guru & Sandi (<span id="admin-badge-count-guru">5</span>)</span>
         </button>
       </div>
 
@@ -636,6 +630,7 @@
             <p class="text-xs text-slate-500 mt-1">Performa siswa SMPN 77</p>
           </div>
         </div>
+
 
         <!-- Card Panduan & Tautan Akses Siswa -->
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4">
@@ -682,6 +677,7 @@
             </div>
           </div>
         </div>
+
       </div>
 
       <!-- TAB 2: BANK SOAL -->
@@ -747,6 +743,7 @@
           </div>
         </div>
 
+
         <!-- Tabel Daftar Soal -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
           <div class="overflow-x-auto">
@@ -766,6 +763,7 @@
             </table>
           </div>
         </div>
+
       </div>
 
       <!-- TAB 3: PENGATURAN & TOKEN -->
@@ -967,6 +965,7 @@
             </div>
           </div>
         </div>
+
       </div>
 
       <!-- TAB 4: REKAP NILAI SISWA -->
@@ -998,6 +997,20 @@
           </div>
         </div>
 
+        <!-- Info Banner Khusus Guru (Menampilkan Hanya Kelas Binaan) -->
+        <div id="guru-rekap-info-banner" class="hidden bg-blue-50 border border-blue-200 p-4 rounded-2xl flex items-center justify-between gap-3 text-xs shadow-xs text-blue-900">
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-xl bg-blue-700 text-white flex items-center justify-center font-bold text-base shrink-0 shadow-sm">
+              👤
+            </div>
+            <div>
+              <p class="font-bold text-blue-950 text-sm">Mode Guru: <span id="guru-banner-nama">-</span> (<span id="guru-banner-mapel">-</span>)</p>
+              <p class="text-blue-800 mt-0.5 leading-relaxed">Menampilkan hasil ujian siswa khusus untuk kelas yang Anda ajar: <strong id="guru-banner-kelas" class="font-mono bg-blue-100 text-blue-950 px-2 py-0.5 rounded border border-blue-200">-</strong></p>
+            </div>
+          </div>
+          <span class="text-[11px] bg-blue-200/80 text-blue-900 font-bold px-2.5 py-1 rounded-full whitespace-nowrap">Filter Khusus Guru</span>
+        </div>
+
         <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap items-center justify-between gap-3">
           <div class="flex items-center space-x-3 flex-wrap">
             <input type="text" id="filter-cari-siswa" onkeyup="renderAdminRekapNilai()" placeholder="Cari Nama / NISN Siswa..." class="px-3.5 py-1.5 rounded-lg border border-slate-300 text-sm outline-none">
@@ -1018,6 +1031,7 @@
             </button>
           </div>
         </div>
+
 
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
           <div class="overflow-x-auto">
@@ -1040,6 +1054,7 @@
             </table>
           </div>
         </div>
+
       </div>
 
       <!-- TAB 5: DATA PESERTA UJIAN & CETAK KARTU (ANBK) -->
@@ -1061,6 +1076,17 @@
             <div class="text-2xl font-black text-amber-600 mt-1" id="dash-peserta-belum">0</div>
             <p class="text-[11px] text-slate-500 mt-0.5">Menunggu jadwal / login</p>
           </div>
+        </div>
+
+        <!-- Info Banner Khusus Guru di Data Peserta -->
+        <div id="guru-peserta-info-banner" class="hidden bg-blue-50 border border-blue-200 p-3.5 rounded-2xl flex items-center justify-between gap-3 text-xs shadow-xs text-blue-900">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-lg bg-blue-700 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
+              👤
+            </div>
+            <p class="text-blue-900 leading-relaxed">Menampilkan data peserta untuk kelas yang Anda ampu: <strong id="guru-peserta-banner-kelas" class="font-mono bg-blue-100 text-blue-950 px-2 py-0.5 rounded border border-blue-200">-</strong></p>
+          </div>
+          <span class="text-[10px] bg-blue-200/80 text-blue-900 font-bold px-2 py-0.5 rounded-full whitespace-nowrap">Filter Khusus Guru</span>
         </div>
 
         <!-- Toolbar Peserta Ujian -->
@@ -1097,6 +1123,7 @@
           </div>
         </div>
 
+
         <!-- Tabel Daftar Peserta -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
           <div class="overflow-x-auto">
@@ -1118,120 +1145,228 @@
             </table>
           </div>
         </div>
+
       </div>
 
-      <!-- TAB 6: KELOLA AKUN & SANDI (KHUSUS ADMINISTRATOR) -->
-      <div id="admin-tab-akun" class="hidden max-w-2xl mx-auto space-y-6">
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-6">
+      <!-- TAB 6: KELOLA KELAS / ROMBEL (KHUSUS ADMINISTRATOR) -->
+      <div id="admin-tab-kelas" class="hidden space-y-4">
+        <!-- Statistik Kelas & Rombel -->
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+          <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+            <span class="text-xs font-bold uppercase text-slate-400">Total Kelas / Rombel</span>
+            <div class="text-2xl font-black text-blue-900 mt-1" id="dash-kelas-total">21</div>
+            <p class="text-[11px] text-slate-500 mt-0.5">Aktif di Sistem CBT</p>
+          </div>
+          <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+            <span class="text-xs font-bold uppercase text-slate-400">Kelas Tingkat VII</span>
+            <div class="text-2xl font-black text-indigo-700 mt-1" id="dash-kelas-vii">7</div>
+            <p class="text-[11px] text-slate-500 mt-0.5">VII-A s.d VII-G</p>
+          </div>
+          <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+            <span class="text-xs font-bold uppercase text-slate-400">Kelas Tingkat VIII</span>
+            <div class="text-2xl font-black text-purple-700 mt-1" id="dash-kelas-viii">7</div>
+            <p class="text-[11px] text-slate-500 mt-0.5">VIII-A s.d VIII-G</p>
+          </div>
+          <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+            <span class="text-xs font-bold uppercase text-slate-400">Kelas Tingkat IX</span>
+            <div class="text-2xl font-black text-emerald-700 mt-1" id="dash-kelas-ix">7</div>
+            <p class="text-[11px] text-slate-500 mt-0.5">IX-A s.d IX-G</p>
+          </div>
+        </div>
+
+        <!-- Toolbar Kelas -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center space-x-2 sm:space-x-3 flex-wrap gap-y-2">
+            <input type="text" id="filter-cari-kelas" onkeyup="renderAdminKelasList()" placeholder="Cari Nama / Kode Kelas..." class="px-3.5 py-1.5 rounded-lg border border-slate-300 text-sm outline-none">
+            <select id="filter-tingkat-kelas" onchange="renderAdminKelasList()" class="px-3 py-1.5 rounded-lg border border-slate-300 text-sm bg-white outline-none">
+              <option value="SEMUA">Semua Tingkat</option>
+              <option value="VII">Tingkat VII</option>
+              <option value="VIII">Tingkat VIII</option>
+              <option value="IX">Tingkat IX</option>
+              <option value="LAINNYA">Tingkat Lainnya</option>
+            </select>
+          </div>
+
+          <div class="flex items-center space-x-2 flex-wrap gap-y-2">
+            <button onclick="bukaModalTambahKelas()" class="px-3.5 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              <span>+ Tambah Kelas Baru</span>
+            </button>
+            <button onclick="resetKelasDefault()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center space-x-1">
+              <span>Kembalikan Default (VII-A s.d IX-G)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabel Daftar Kelas -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-slate-700">
+              <thead class="bg-slate-50 text-xs uppercase font-bold text-slate-500 border-b border-slate-200">
+                <tr>
+                  <th class="px-4 py-3 w-12 text-center">No</th>
+                  <th class="px-4 py-3">Kode Kelas</th>
+                  <th class="px-4 py-3">Nama Lengkap Kelas</th>
+                  <th class="px-4 py-3 text-center">Tingkat</th>
+                  <th class="px-4 py-3 text-center">Jumlah Siswa</th>
+                  <th class="px-4 py-3">Guru Pengampu</th>
+                  <th class="px-4 py-3 text-center w-36">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-admin-kelas" class="divide-y divide-slate-100">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 7: KELOLA AKUN GURU & SANDI ADMINISTRATOR -->
+      <div id="admin-tab-akun" class="hidden max-w-6xl mx-auto space-y-6">
+        <!-- Header Akun & Penugasan Guru -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-800 flex items-center justify-center font-bold text-2xl shadow-xs">
+              👥
+            </div>
+            <div>
+              <h3 class="text-xl font-extrabold text-slate-800">Manajemen Akun Guru & Penugasan Kelas</h3>
+              <p class="text-xs text-slate-500 mt-0.5">Tiap guru dapat login dengan username dan password masing-masing, serta direlasikan khusus ke kelas yang diajar (misal: hanya kelas VII, kelas VIII, atau VII, VIII, IX).</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="bukaModalTambahGuru()" class="px-4 py-2.5 bg-blue-700 hover:bg-blue-800 text-white rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              <span>+ Tambah Akun Guru Baru</span>
+            </button>
+            <button onclick="resetGuruDefault()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition">
+              Reset Akun Guru
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabel Daftar Akun Guru -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <div class="p-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center space-x-2">
+              <input type="text" id="filter-cari-guru" onkeyup="renderAdminGuruList()" placeholder="Cari Nama Guru / Mapel / Username..." class="px-3.5 py-1.5 rounded-lg border border-slate-300 text-xs outline-none">
+              <select id="filter-mapel-guru" onchange="renderAdminGuruList()" class="px-3 py-1.5 rounded-lg border border-slate-300 text-xs bg-white outline-none">
+                <option value="SEMUA">Semua Mapel</option>
+              </select>
+            </div>
+            <div class="text-xs text-slate-500 font-medium">
+              Total: <strong id="guru-total-count" class="text-blue-900 font-bold">0</strong> Guru Terdaftar
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-slate-700">
+              <thead class="bg-slate-50 text-xs uppercase font-bold text-slate-500 border-b border-slate-200">
+                <tr>
+                  <th class="px-4 py-3 w-12 text-center">No</th>
+                  <th class="px-4 py-3">Nama Guru & NIP</th>
+                  <th class="px-4 py-3">Mata Pelajaran</th>
+                  <th class="px-4 py-3">Username & Kata Sandi</th>
+                  <th class="px-4 py-3">Kelas yang Diajar (Relasi Binaan)</th>
+                  <th class="px-4 py-3 text-center w-36">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-admin-guru" class="divide-y divide-slate-100">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Form Sandi Administrator Utama -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-4">
           <div class="flex items-center space-x-3 pb-3 border-b border-slate-100">
             <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-lg">
               👑
             </div>
             <div>
-              <h3 class="text-lg font-bold text-slate-800">Manajemen Akun & Sandi Petugas CBT</h3>
-              <p class="text-xs text-slate-500">Ubah kata sandi Administrator dan kata sandi Guru/Pengawas ruang.</p>
+              <h3 class="text-lg font-bold text-slate-800">Kata Sandi Administrator Utama (Akses Penuh)</h3>
+              <p class="text-xs text-slate-500">Username bawaan: <code class="font-mono bg-amber-100 text-amber-900 px-1 py-0.5 rounded font-bold">admin</code> (memiliki otoritas mengubah bank soal, konfigurasi ujian, kelola kelas, dan akun).</p>
             </div>
           </div>
 
-          <!-- Form Sandi Admin -->
-          <div class="bg-amber-50/70 p-5 rounded-2xl border border-amber-200 space-y-3">
-            <div class="flex justify-between items-center">
-              <span class="font-bold text-sm text-amber-900">1. Akun Administrator (Akses Penuh)</span>
-              <span class="text-xs bg-amber-200 text-amber-900 px-2.5 py-0.5 rounded-full font-mono font-bold">User: admin</span>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Kata Sandi Baru</label>
+              <input type="password" id="input-sandi-admin-baru" placeholder="Minimal 5 karakter" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 bg-white outline-none">
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Sandi Administrator Baru</label>
-                <input type="password" id="input-sandi-admin-baru" placeholder="Minimal 5 karakter" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 bg-white outline-none">
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Konfirmasi Sandi Baru</label>
-                <input type="password" id="input-sandi-admin-konfirm" placeholder="Ulangi sandi baru" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 bg-white outline-none">
-              </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Konfirmasi Kata Sandi Baru</label>
+              <input type="password" id="input-sandi-admin-konfirm" placeholder="Ulangi sandi baru" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 bg-white outline-none">
             </div>
-            <button onclick="simpanSandiAdmin()" class="px-4 py-2 bg-amber-700 hover:bg-amber-800 text-white font-bold rounded-xl text-xs transition shadow-sm">
+          </div>
+          <div class="flex justify-end">
+            <button onclick="simpanSandiAdmin()" class="px-5 py-2.5 bg-amber-700 hover:bg-amber-800 text-white font-bold rounded-xl text-xs transition shadow-sm">
               Simpan Sandi Administrator
             </button>
           </div>
+        </div>
 
-          <!-- Form Sandi Guru -->
-          <div class="bg-blue-50/70 p-5 rounded-2xl border border-blue-200 space-y-3">
-            <div class="flex justify-between items-center">
-              <span class="font-bold text-sm text-blue-900">2. Akun Guru / Pengawas Ruang (Akses Terbatas)</span>
-              <span class="text-xs bg-blue-200 text-blue-900 px-2.5 py-0.5 rounded-full font-mono font-bold">User: guru</span>
-            </div>
-            <p class="text-xs text-slate-600">Sandi ini dibagikan kepada Bapak/Ibu Guru atau Pengawas untuk memantau tes dan merekap nilai siswa di laboratorium.</p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Sandi Guru / Pengawas Baru</label>
-                <input type="password" id="input-sandi-guru-baru" placeholder="Minimal 5 karakter" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 bg-white outline-none">
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Konfirmasi Sandi Guru</label>
-                <input type="password" id="input-sandi-guru-konfirm" placeholder="Ulangi sandi baru" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 bg-white outline-none">
-              </div>
-            </div>
-            <button onclick="simpanSandiGuru()" class="px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white font-bold rounded-xl text-xs transition shadow-sm">
-              Simpan Sandi Guru / Pengawas
-            </button>
-          </div>
-
-          <!-- Daftar Perbandingan Hak Akses -->
-          <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs space-y-2">
-            <p class="font-bold text-slate-800">Tabel Rincian Pembatasan Hak Akses:</p>
-            <div class="overflow-x-auto">
-              <table class="w-full text-left border-collapse text-[11px]">
-                <thead>
-                  <tr class="border-b border-slate-200 text-slate-500 font-bold">
-                    <th class="py-1.5">Fitur / Menu CBT</th>
-                    <th class="py-1.5 text-center text-amber-800">👑 Administrator</th>
-                    <th class="py-1.5 text-center text-blue-800">👤 Guru / Pengawas</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100 text-slate-700">
-                  <tr>
-                    <td class="py-1.5">Melihat Dashboard & Statistik Nilai</td>
-                    <td class="text-center font-bold text-emerald-600">✓ Ya</td>
-                    <td class="text-center font-bold text-emerald-600">✓ Ya</td>
-                  </tr>
-                  <tr>
-                    <td class="py-1.5">Melihat Token Ujian Harian untuk Siswa</td>
-                    <td class="text-center font-bold text-emerald-600">✓ Ya</td>
-                    <td class="text-center font-bold text-emerald-600">✓ Ya</td>
-                  </tr>
-                  <tr>
-                    <td class="py-1.5">Melihat & Ekspor Rekap Nilai Siswa (Excel)</td>
-                    <td class="text-center font-bold text-emerald-600">✓ Ya</td>
-                    <td class="text-center font-bold text-emerald-600">✓ Ya</td>
-                  </tr>
-                  <tr>
-                    <td class="py-1.5">Melihat & Menambah Bank Soal (Excel/Word)</td>
-                    <td class="text-center font-bold text-emerald-600">✓ Ya</td>
-                    <td class="text-center font-bold text-emerald-600">✓ Ya</td>
-                  </tr>
-                  <tr>
-                    <td class="py-1.5">Mengubah Konfigurasi Token, Durasi & KKM</td>
-                    <td class="text-center font-bold text-emerald-600">✓ Ya</td>
-                    <td class="text-center font-bold text-rose-600">✗ Dikunci (Khusus Admin)</td>
-                  </tr>
-                  <tr>
-                    <td class="py-1.5">Mengganti Logo Sekolah Resmi</td>
-                    <td class="text-center font-bold text-emerald-600">✓ Ya</td>
-                    <td class="text-center font-bold text-rose-600">✗ Dikunci (Khusus Admin)</td>
-                  </tr>
-                  <tr>
-                    <td class="py-1.5">Mereset / Menghapus Seluruh Rekap Nilai</td>
-                    <td class="text-center font-bold text-emerald-600">✓ Ya</td>
-                    <td class="text-center font-bold text-rose-600">✗ Dilarang (Khusus Admin)</td>
-                  </tr>
-                  <tr>
-                    <td class="py-1.5">Mengubah Sandi Pengguna (Admin & Guru)</td>
-                    <td class="text-center font-bold text-emerald-600">✓ Ya</td>
-                    <td class="text-center font-bold text-rose-600">✗ Dilarang (Khusus Admin)</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+        <!-- Daftar Perbandingan Hak Akses -->
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-2xl text-xs space-y-2.5">
+          <p class="font-bold text-slate-800 text-sm">Tabel Rincian Pembatasan Hak Akses Administrator vs Guru:</p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="border-b border-slate-200 text-slate-500 font-bold">
+                  <th class="py-2">Fitur / Menu CBT</th>
+                  <th class="py-2 text-center text-amber-800">👑 Administrator</th>
+                  <th class="py-2 text-center text-blue-800">👤 Guru Mata Pelajaran</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 text-slate-700">
+                <tr>
+                  <td class="py-2">Melihat Dashboard & Statistik Nilai</td>
+                  <td class="text-center font-bold text-emerald-600">✓ Seluruh Sekolah</td>
+                  <td class="text-center font-bold text-blue-700">✓ Khusus Kelas yang Diajar</td>
+                </tr>
+                <tr>
+                  <td class="py-2">Melihat Token Ujian Harian untuk Siswa</td>
+                  <td class="text-center font-bold text-emerald-600">✓ Ya</td>
+                  <td class="text-center font-bold text-emerald-600">✓ Ya</td>
+                </tr>
+                <tr>
+                  <td class="py-2">Melihat & Ekspor Rekap Nilai Siswa (Excel)</td>
+                  <td class="text-center font-bold text-emerald-600">✓ Seluruh Siswa</td>
+                  <td class="text-center font-bold text-blue-700">✓ Khusus Kelas Binaan</td>
+                </tr>
+                <tr>
+                  <td class="py-2">Melihat & Menambah Bank Soal (Excel/Word)</td>
+                  <td class="text-center font-bold text-emerald-600">✓ Ya</td>
+                  <td class="text-center font-bold text-emerald-600">✓ Ya</td>
+                </tr>
+                <tr>
+                  <td class="py-2">Kelola Kelas & Rombel (Tambah/Edit Kelas)</td>
+                  <td class="text-center font-bold text-emerald-600">✓ Ya</td>
+                  <td class="text-center font-bold text-rose-600">✗ Dikunci (Khusus Admin)</td>
+                </tr>
+                <tr>
+                  <td class="py-2">Kelola Akun Guru & Penugasan Kelas</td>
+                  <td class="text-center font-bold text-emerald-600">✓ Ya</td>
+                  <td class="text-center font-bold text-rose-600">✗ Dikunci (Khusus Admin)</td>
+                </tr>
+                <tr>
+                  <td class="py-2">Mengubah Konfigurasi Token, Durasi & KKM</td>
+                  <td class="text-center font-bold text-emerald-600">✓ Ya</td>
+                  <td class="text-center font-bold text-rose-600">✗ Dikunci (Khusus Admin)</td>
+                </tr>
+                <tr>
+                  <td class="py-2">Mengganti Logo Sekolah Resmi</td>
+                  <td class="text-center font-bold text-emerald-600">✓ Ya</td>
+                  <td class="text-center font-bold text-rose-600">✗ Dikunci (Khusus Admin)</td>
+                </tr>
+                <tr>
+                  <td class="py-2">Mereset / Menghapus Seluruh Rekap Nilai</td>
+                  <td class="text-center font-bold text-emerald-600">✓ Ya</td>
+                  <td class="text-center font-bold text-rose-600">✗ Dilarang (Khusus Admin)</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -1267,6 +1402,7 @@
             <p class="text-xs text-slate-500">Unggah file spreadsheet yang berisi daftar soal pilihan ganda.</p>
           </div>
         </div>
+
         <button onclick="tutupModalImportExcel()" class="text-slate-400 hover:text-slate-600 font-bold text-2xl">&times;</button>
       </div>
 
@@ -1314,6 +1450,7 @@
             </table>
           </div>
         </div>
+
       </div>
 
       <!-- Action Footer -->
@@ -1342,6 +1479,7 @@
             <p class="text-xs text-slate-500">Unggah berkas Word (.docx) atau salin-tempel (copy-paste) teks dokumen.</p>
           </div>
         </div>
+
         <button onclick="tutupModalImportWord()" class="text-slate-400 hover:text-slate-600 font-bold text-2xl">&times;</button>
       </div>
 
@@ -1373,6 +1511,7 @@
           </div>
         </div>
 
+
         <!-- Mode 1: Copy Paste Textarea -->
         <div id="word-pane-paste" class="space-y-2">
           <div class="flex justify-between items-center text-xs">
@@ -1398,6 +1537,7 @@
           </div>
         </div>
 
+
         <!-- Preview Kartu Soal Hasil Ekstraksi Word -->
         <div id="preview-word-area" class="hidden space-y-3 pt-2">
           <div class="flex items-center justify-between">
@@ -1409,6 +1549,7 @@
             <!-- Dynamically populated cards -->
           </div>
         </div>
+
       </div>
 
       <!-- Action Footer -->
@@ -1531,6 +1672,7 @@
           </div>
         </div>
 
+
         <div>
           <label class="block font-semibold text-slate-700 mb-1">Teks Stimulus / Bacaan (Opsional)</label>
           <textarea id="form-soal-bacaan" rows="2" placeholder="Kosongkan bila soal tidak memiliki bacaan panjang" onfocus="catatFokusInputFormula(this)" class="w-full px-3 py-2 rounded-xl border border-slate-300"></textarea>
@@ -1570,6 +1712,7 @@
             <div id="preview-rumus-konten" class="text-slate-900 font-medium leading-relaxed bg-white p-2 rounded-lg border border-indigo-100"></div>
           </div>
         </div>
+
 
         <!-- Opsi Gambar Soal (Untuk IPA, Matematika, Gambar Cerita, dsb) -->
         <div class="p-3.5 bg-blue-50/60 border border-blue-200 rounded-2xl space-y-3">
@@ -1611,6 +1754,7 @@
           </div>
         </div>
 
+
         <!-- Opsi Jawaban untuk Pilihan Ganda (PG & PGK) -->
         <div id="box-form-opsi-pg" class="space-y-2">
           <label class="block font-semibold text-slate-700">Pilihan Jawaban (A, B, C, D) <span class="text-red-500">*</span></label>
@@ -1632,6 +1776,7 @@
           </div>
         </div>
 
+
         <!-- Box Input untuk Soal Benar / Salah (BS) -->
         <div id="box-form-soal-bs" class="hidden space-y-3 bg-amber-50/70 p-4 rounded-xl border border-amber-200">
           <div>
@@ -1644,6 +1789,7 @@
             <p class="text-[10px] text-amber-800 mt-1">B = Benar, S = Salah. Contoh untuk 3 pernyataan: B,S,B</p>
           </div>
         </div>
+
 
         <!-- Box Input untuk Soal Isian Singkat -->
         <div id="box-form-soal-isian" class="hidden space-y-2 bg-emerald-50/70 p-4 rounded-xl border border-emerald-200">
@@ -1694,6 +1840,7 @@
           </div>
         </div>
 
+
         <div class="pt-4 border-t border-slate-200 flex justify-end space-x-3">
           <button type="button" onclick="tutupModalTambahSoal()" class="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-100 font-bold text-xs">Batal</button>
           <button type="submit" class="px-5 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-xl font-bold text-xs shadow">Simpan Soal</button>
@@ -1716,6 +1863,7 @@
             <p class="text-xs text-slate-500">Klik salah satu kotak rumus di bawah ini untuk langsung menyisipkannya ke lembar soal.</p>
           </div>
         </div>
+
         <button onclick="tutupModalKatalogRumus()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-lg transition">&times;</button>
       </div>
 
@@ -1801,6 +1949,7 @@
             <p class="text-xs text-slate-500">Nilai otomatis tersimpan ke Google Sheet sekolah secara gratis tanpa sewa server.</p>
           </div>
         </div>
+
         <button onclick="tutupModalPanduanGoogleSheet()" class="text-slate-400 hover:text-slate-600 font-bold text-2xl">&times;</button>
       </div>
 
@@ -1919,6 +2068,7 @@ function doGet(e) {
             </div>
           </div>
         </div>
+
       </div>
 
       <div class="pt-4 border-t border-slate-200 flex justify-end">
@@ -1960,6 +2110,7 @@ function doGet(e) {
           </div>
         </div>
 
+
         <div class="pt-4 border-t border-blue-800/60">
           <span class="px-3 py-1 bg-amber-500/30 text-amber-300 rounded-full text-xs font-bold uppercase tracking-wider">Langkah 2: Masukkan Token Ujian</span>
           <div class="mt-3 flex items-center justify-between bg-black/40 p-4 rounded-2xl border border-amber-500/40 flex-wrap gap-2">
@@ -1967,6 +2118,7 @@ function doGet(e) {
             <span id="proyektor-token-display" class="font-mono text-3xl sm:text-5xl font-black text-amber-400 tracking-widest">SMP77JUARA</span>
           </div>
         </div>
+
       </div>
 
       <!-- Kolom 2: QR Code Scan Cepat -->
@@ -2041,7 +2193,9 @@ function doGet(e) {
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Kelas / Rombel <span class="text-red-500">*</span></label>
-            <input type="text" id="form-peserta-kelas" required placeholder="Contoh: VII-A atau VIII-B" class="w-full px-3 py-2 rounded-xl border border-slate-300">
+            <select id="form-peserta-kelas" required class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-medium">
+              <option value="">-- Pilih Kelas --</option>
+            </select>
           </div>
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Ruang / Sesi</label>
@@ -2049,9 +2203,147 @@ function doGet(e) {
           </div>
         </div>
 
+
         <div class="pt-4 border-t border-slate-200 flex justify-end space-x-3">
           <button type="button" onclick="tutupModalFormPeserta()" class="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-100 font-bold text-xs">Batal</button>
           <button type="submit" class="px-5 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-xl font-bold text-xs shadow">Simpan Peserta</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL TAMBAH / EDIT KELAS ==================== -->
+  <div id="modal-form-kelas" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-slate-200">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-4">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold">
+            🏫
+          </div>
+          <div>
+            <h3 id="modal-kelas-title" class="font-bold text-slate-800 text-base">Tambah Kelas / Rombel Baru</h3>
+            <p class="text-[11px] text-slate-500">Kelola data kelas SMP Negeri 77 Jakarta</p>
+          </div>
+        </div>
+        <button onclick="tutupModalFormKelas()" class="text-slate-400 hover:text-slate-600 font-bold text-xl">&times;</button>
+      </div>
+
+      <form id="form-kelola-kelas" onsubmit="handleSimpanKelas(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="form-kelas-orig-kode" value="">
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Kode Kelas / Rombel <span class="text-red-500">*</span></label>
+          <input type="text" id="form-kelas-kode" required placeholder="Contoh: VII-A, VIII-H, IX-G" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold uppercase tracking-wider">
+          <p class="text-[10px] text-slate-500 mt-1">Gunakan format singkatan (misal: VII-A, VII-B, VIII-A, dst).</p>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Nama Lengkap Kelas <span class="text-red-500">*</span></label>
+          <input type="text" id="form-kelas-nama" required placeholder="Contoh: Kelas VII-A" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-medium">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Tingkat Kelas <span class="text-red-500">*</span></label>
+          <select id="form-kelas-tingkat" required class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-semibold">
+            <option value="VII">Tingkat VII (Tujuh)</option>
+            <option value="VIII">Tingkat VIII (Delapan)</option>
+            <option value="IX">Tingkat IX (Sembilan)</option>
+            <option value="Lainnya">Lainnya / Khusus</option>
+          </select>
+        </div>
+
+        <div class="pt-4 border-t border-slate-200 flex justify-end space-x-3">
+          <button type="button" onclick="tutupModalFormKelas()" class="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-100 font-bold text-xs">Batal</button>
+          <button type="submit" class="px-5 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-xl font-bold text-xs shadow">Simpan Kelas</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL TAMBAH / EDIT AKUN GURU & PENUGASAN ==================== -->
+  <div id="modal-form-guru" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-6 border border-slate-200 my-8 max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-4 shrink-0">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-800 flex items-center justify-center font-bold">
+            👤
+          </div>
+          <div>
+            <h3 id="modal-guru-title" class="font-bold text-slate-800 text-base">Tambah Akun Guru Baru</h3>
+            <p class="text-xs text-slate-500">Atur kredensial login dan pilih kelas yang diampu oleh guru ini.</p>
+          </div>
+        </div>
+        <button onclick="tutupModalFormGuru()" class="text-slate-400 hover:text-slate-600 font-bold text-xl">&times;</button>
+      </div>
+
+      <form id="form-kelola-guru" onsubmit="handleSimpanGuru(event)" class="space-y-4 text-xs overflow-y-auto pr-1 flex-1">
+        <input type="hidden" id="form-guru-id" value="">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Nama Lengkap & Gelar <span class="text-red-500">*</span></label>
+            <input type="text" id="form-guru-nama" required placeholder="Contoh: Dra. Hj. Sri Wahyuni, M.Pd" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-medium">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">NIP (Nomor Induk Pegawai)</label>
+            <input type="text" id="form-guru-nip" placeholder="Contoh: 197205141998022001 (atau -)" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Mata Pelajaran <span class="text-red-500">*</span></label>
+            <input type="text" id="form-guru-mapel" required placeholder="Contoh: Bahasa Indonesia" class="w-full px-3 py-2 rounded-xl border border-slate-300">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Username Login <span class="text-red-500">*</span></label>
+            <input type="text" id="form-guru-username" required placeholder="Contoh: sriwahyuni" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono font-bold">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Kata Sandi (Password) <span class="text-red-500">*</span></label>
+            <input type="text" id="form-guru-password" required placeholder="Minimal 4 karakter" value="guru77" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono">
+          </div>
+        </div>
+
+        <!-- Section Penugasan Kelas Diajar -->
+        <div class="p-3.5 bg-blue-50/70 border border-blue-200 rounded-xl space-y-2.5">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <label class="block font-bold text-blue-950 text-xs">Penugasan Kelas yang Diajar (Relasi):</label>
+              <p class="text-[11px] text-blue-800">Guru ini hanya dapat melihat data & rekap nilai siswa dari kelas yang dicentang.</p>
+            </div>
+            <!-- Tombol Cepat Pemilihan Kelas -->
+            <div class="flex items-center space-x-1 flex-wrap gap-1">
+              <button type="button" onclick="pilihCepatKelasGuru('VII')" class="px-2 py-1 bg-white hover:bg-blue-100 text-blue-800 border border-blue-300 rounded font-bold text-[10px] transition">
+                + Hanya Kelas VII
+              </button>
+              <button type="button" onclick="pilihCepatKelasGuru('VIII')" class="px-2 py-1 bg-white hover:bg-blue-100 text-blue-800 border border-blue-300 rounded font-bold text-[10px] transition">
+                + Hanya Kelas VIII
+              </button>
+              <button type="button" onclick="pilihCepatKelasGuru('IX')" class="px-2 py-1 bg-white hover:bg-blue-100 text-blue-800 border border-blue-300 rounded font-bold text-[10px] transition">
+                + Hanya Kelas IX
+              </button>
+              <button type="button" onclick="pilihCepatKelasGuru('VII_VIII')" class="px-2 py-1 bg-white hover:bg-blue-100 text-blue-800 border border-blue-300 rounded font-bold text-[10px] transition">
+                + Kelas VII & VIII
+              </button>
+              <button type="button" onclick="pilihCepatKelasGuru('SEMUA')" class="px-2 py-1 bg-blue-700 hover:bg-blue-800 text-white rounded font-bold text-[10px] transition">
+                Pilih Semua
+              </button>
+              <button type="button" onclick="pilihCepatKelasGuru('KOSONG')" class="px-2 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded font-bold text-[10px] transition">
+                Hapus Semua
+              </button>
+            </div>
+          </div>
+
+          <!-- Dynamic Checkbox Container -->
+          <div id="container-checkbox-kelas-guru" class="space-y-2 pt-2 border-t border-blue-200/80 max-h-48 overflow-y-auto pr-1">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-200 flex justify-end space-x-3 shrink-0">
+          <button type="button" onclick="tutupModalFormGuru()" class="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-100 font-bold text-xs">Batal</button>
+          <button type="submit" class="px-5 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-xl font-bold text-xs shadow">Simpan Data Guru</button>
         </div>
       </form>
     </div>
@@ -2071,6 +2363,7 @@ function doGet(e) {
             <p class="text-xs text-slate-500">Klik salah satu kotak rumus di bawah ini untuk langsung menyisipkannya ke lembar soal.</p>
           </div>
         </div>
+
         <button onclick="tutupModalKatalogRumus()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-lg transition">&times;</button>
       </div>
 
@@ -2118,6 +2411,7 @@ function doGet(e) {
             <p class="text-xs text-slate-500">Format resmi berlogo SMPN 77 Jakarta dilengkapi QR Code login perorangan (4 kartu per lembar A4).</p>
           </div>
         </div>
+
         <div class="flex items-center space-x-2 flex-wrap">
           <select id="cetak-kartu-filter-kelas" onchange="renderKartuPesertaPrint()" class="px-3 py-1.5 rounded-lg border border-slate-300 text-xs bg-white outline-none font-bold text-blue-900">
             <option value="SEMUA">Semua Kelas</option>
@@ -2153,6 +2447,94 @@ function doGet(e) {
     const STORAGE_KEY_LOGO = 'cbt_smpn77_logo_custom_v1';
     const STORAGE_KEY_AUTH = 'cbt_smpn77_auth_v2';
     const STORAGE_KEY_PESERTA = 'cbt_smpn77_peserta_v1';
+    const STORAGE_KEY_KELAS = 'cbt_smpn77_kelas_v1';
+    const STORAGE_KEY_GURU = 'cbt_smpn77_guru_v1';
+
+    // Daftar kelas bawaan SMPN 77 (21 Rombel)
+    const DEFAULT_KELAS_LIST = [
+      { kode: 'VII-A', nama: 'Kelas VII-A', tingkat: 'VII' },
+      { kode: 'VII-B', nama: 'Kelas VII-B', tingkat: 'VII' },
+      { kode: 'VII-C', nama: 'Kelas VII-C', tingkat: 'VII' },
+      { kode: 'VII-D', nama: 'Kelas VII-D', tingkat: 'VII' },
+      { kode: 'VII-E', nama: 'Kelas VII-E', tingkat: 'VII' },
+      { kode: 'VII-F', nama: 'Kelas VII-F', tingkat: 'VII' },
+      { kode: 'VII-G', nama: 'Kelas VII-G', tingkat: 'VII' },
+      { kode: 'VIII-A', nama: 'Kelas VIII-A', tingkat: 'VIII' },
+      { kode: 'VIII-B', nama: 'Kelas VIII-B', tingkat: 'VIII' },
+      { kode: 'VIII-C', nama: 'Kelas VIII-C', tingkat: 'VIII' },
+      { kode: 'VIII-D', nama: 'Kelas VIII-D', tingkat: 'VIII' },
+      { kode: 'VIII-E', nama: 'Kelas VIII-E', tingkat: 'VIII' },
+      { kode: 'VIII-F', nama: 'Kelas VIII-F', tingkat: 'VIII' },
+      { kode: 'VIII-G', nama: 'Kelas VIII-G', tingkat: 'VIII' },
+      { kode: 'IX-A', nama: 'Kelas IX-A', tingkat: 'IX' },
+      { kode: 'IX-B', nama: 'Kelas IX-B', tingkat: 'IX' },
+      { kode: 'IX-C', nama: 'Kelas IX-C', tingkat: 'IX' },
+      { kode: 'IX-D', nama: 'Kelas IX-D', tingkat: 'IX' },
+      { kode: 'IX-E', nama: 'Kelas IX-E', tingkat: 'IX' },
+      { kode: 'IX-F', nama: 'Kelas IX-F', tingkat: 'IX' },
+      { kode: 'IX-G', nama: 'Kelas IX-G', tingkat: 'IX' }
+    ];
+
+    // Daftar akun guru bawaan dengan username, password, dan relasi kelas diajar
+    const DEFAULT_GURU_LIST = [
+      {
+        id: 'guru-1',
+        nama: 'Dra. Hj. Sri Wahyuni, M.Pd',
+        nip: '197205141998022001',
+        username: 'sriwahyuni',
+        password: 'guru77',
+        mapel: 'Bahasa Indonesia',
+        tingkat: ['VII'],
+        kelasDiajar: ['VII-A', 'VII-B', 'VII-C', 'VII-D', 'VII-E', 'VII-F', 'VII-G']
+      },
+      {
+        id: 'guru-2',
+        nama: 'Budi Utomo, S.Pd, M.M',
+        nip: '197908232005011004',
+        username: 'budiutomo',
+        password: 'guru77',
+        mapel: 'Matematika',
+        tingkat: ['VIII'],
+        kelasDiajar: ['VIII-A', 'VIII-B', 'VIII-C', 'VIII-D', 'VIII-E', 'VIII-F', 'VIII-G']
+      },
+      {
+        id: 'guru-3',
+        nama: 'Ratna Sari Dewi, S.Pd',
+        nip: '198503122010012015',
+        username: 'ratnasari',
+        password: 'guru77',
+        mapel: 'Ilmu Pengetahuan Alam',
+        tingkat: ['VII', 'VIII'],
+        kelasDiajar: ['VII-A', 'VII-B', 'VII-C', 'VII-D', 'VII-E', 'VII-F', 'VII-G', 'VIII-A', 'VIII-B', 'VIII-C', 'VIII-D', 'VIII-E', 'VIII-F', 'VIII-G']
+      },
+      {
+        id: 'guru-4',
+        nama: 'Ahmad Fauzi, M.Pd',
+        nip: '198211052009021003',
+        username: 'ahmadfauzi',
+        password: 'guru77',
+        mapel: 'Bahasa Inggris',
+        tingkat: ['IX'],
+        kelasDiajar: ['IX-A', 'IX-B', 'IX-C', 'IX-D', 'IX-E', 'IX-F', 'IX-G']
+      },
+      {
+        id: 'guru-default',
+        nama: 'Pengawas Ruang / Guru Umum',
+        nip: '-',
+        username: 'guru',
+        password: 'guru77',
+        mapel: 'Semua Mata Pelajaran',
+        tingkat: ['VII', 'VIII', 'IX'],
+        kelasDiajar: [
+          'VII-A', 'VII-B', 'VII-C', 'VII-D', 'VII-E', 'VII-F', 'VII-G',
+          'VIII-A', 'VIII-B', 'VIII-C', 'VIII-D', 'VIII-E', 'VIII-F', 'VIII-G',
+          'IX-A', 'IX-B', 'IX-C', 'IX-D', 'IX-E', 'IX-F', 'IX-G'
+        ]
+      }
+    ];
+
+    // Guru yang sedang aktif login (null jika admin)
+    let currentGuruUser = null;
 
     // Kredensial akun default
     const DEFAULT_AUTH = {
@@ -2282,6 +2664,8 @@ function doGet(e) {
       try { await muatPengaturanPusat(); } catch (e) { console.error('muatPengaturanPusat error:', e); }
       try { initLogo(); } catch (e) { console.error('initLogo error:', e); }
       try { initPengaturan(); } catch (e) { console.error('initPengaturan error:', e); }
+      try { initKelas(); } catch (e) { console.error('initKelas error:', e); }
+      try { initGuru(); } catch (e) { console.error('initGuru error:', e); }
       try { initPeserta(); } catch (e) { console.error('initPeserta error:', e); }
       try { await initBankSoal(); } catch (e) { console.error('initBankSoal error:', e); }
       try { cekSesiTersimpan(); } catch (e) { console.error('cekSesi error:', e); }
@@ -2858,7 +3242,7 @@ function doGet(e) {
       const target = document.getElementById(`view-${viewName}`);
       if (target) target.classList.remove('hidden');
 
-      const siteHeader = document.querySelector('header');
+      const siteHeader = document.getElementById('site-main-header') || document.querySelector('header');
       const siteFooter = document.querySelector('footer');
       const btnAdmin = document.getElementById('btn-nav-admin');
       const btnSiswa = document.getElementById('btn-nav-siswa');
@@ -2866,32 +3250,59 @@ function doGet(e) {
       if (viewName === 'cbt-room') {
         // SAAT SISWA MULAI MENGERJAKAN UJIAN (RUANG UJIAN CBT):
         // Sembunyikan TOTAL header atas dan footer bawah agar tidak ada menu petugas/guru yang muncul!
-        if (siteHeader) siteHeader.classList.add('hidden');
-        if (siteFooter) siteFooter.classList.add('hidden');
-        if (btnAdmin) btnAdmin.classList.add('hidden');
-        if (btnSiswa) btnSiswa.classList.add('hidden');
-      } else if (viewName === 'admin-login' || viewName === 'admin-panel') {
-        if (siteHeader) siteHeader.classList.remove('hidden');
-        if (siteFooter) siteFooter.classList.remove('hidden');
-        if (btnAdmin) {
-          btnAdmin.classList.remove('hidden');
-          btnAdmin.classList.add('flex');
+        document.body.classList.add('in-cbt-room');
+        if (siteHeader) {
+          siteHeader.style.setProperty('display', 'none', 'important');
+          siteHeader.classList.add('hidden');
         }
-        if (btnSiswa) {
-          btnSiswa.classList.remove('hidden');
-          btnSiswa.classList.add('flex');
+        if (siteFooter) {
+          siteFooter.style.setProperty('display', 'none', 'important');
+          siteFooter.classList.add('hidden');
         }
-      } else {
-        // Saat siswa login atau lihat hasil
-        if (siteHeader) siteHeader.classList.remove('hidden');
-        if (siteFooter) siteFooter.classList.remove('hidden');
         if (btnAdmin) {
+          btnAdmin.style.setProperty('display', 'none', 'important');
           btnAdmin.classList.add('hidden');
           btnAdmin.classList.remove('flex');
         }
         if (btnSiswa) {
+          btnSiswa.style.setProperty('display', 'none', 'important');
           btnSiswa.classList.add('hidden');
           btnSiswa.classList.remove('flex');
+        }
+      } else {
+        document.body.classList.remove('in-cbt-room');
+        if (siteHeader) {
+          siteHeader.style.removeProperty('display');
+          siteHeader.classList.remove('hidden');
+        }
+        if (siteFooter) {
+          siteFooter.style.removeProperty('display');
+          siteFooter.classList.remove('hidden');
+        }
+
+        if (viewName === 'admin-login' || viewName === 'admin-panel') {
+          if (btnAdmin) {
+            btnAdmin.style.removeProperty('display');
+            btnAdmin.classList.remove('hidden');
+            btnAdmin.classList.add('flex');
+          }
+          if (btnSiswa) {
+            btnSiswa.style.removeProperty('display');
+            btnSiswa.classList.remove('hidden');
+            btnSiswa.classList.add('flex');
+          }
+        } else {
+          // Saat siswa login atau lihat hasil: Tombol petugas/guru tetap 100% terkunci tersembunyi
+          if (btnAdmin) {
+            btnAdmin.style.setProperty('display', 'none', 'important');
+            btnAdmin.classList.add('hidden');
+            btnAdmin.classList.remove('flex');
+          }
+          if (btnSiswa) {
+            btnSiswa.style.setProperty('display', 'none', 'important');
+            btnSiswa.classList.add('hidden');
+            btnSiswa.classList.remove('flex');
+          }
         }
       }
 
@@ -4011,26 +4422,28 @@ function doGet(e) {
         btnAdmin.className = 'py-2.5 rounded-lg bg-blue-700 text-white shadow-sm transition flex items-center justify-center space-x-1.5';
         btnGuru.className = 'py-2.5 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center justify-center space-x-1.5';
         userField.value = 'admin';
+        userField.placeholder = 'admin';
         descEl.className = 'p-3.5 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 space-y-1';
         descEl.innerHTML = `
           <p class="font-bold flex items-center space-x-1 text-amber-900">
             <span>👑 Hak Akses Administrator:</span>
           </p>
-          <p class="text-amber-800">Akses penuh: Mengubah token harian, durasi ujian, pengaturan logo, bank soal, akun pengguna, dan reset nilai siswa.</p>
+          <p class="text-amber-800">Akses penuh: Mengubah token harian, durasi ujian, pengaturan logo, bank soal, kelola kelas/rombel, akun pengguna, dan reset nilai siswa.</p>
           <p class="text-[11px] text-amber-700 font-medium">Akun bawaan: User <code class="font-mono bg-amber-100 px-1 py-0.5 rounded font-bold">admin</code> / Sandi <code class="font-mono bg-amber-100 px-1 py-0.5 rounded font-bold">admin77</code></p>
         `;
         submitBtn.innerHTML = `<span>Masuk sebagai Administrator</span><svg class="w-4 h-4 ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>`;
       } else {
         btnGuru.className = 'py-2.5 rounded-lg bg-blue-700 text-white shadow-sm transition flex items-center justify-center space-x-1.5';
         btnAdmin.className = 'py-2.5 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center justify-center space-x-1.5';
-        userField.value = 'guru';
+        userField.value = 'sriwahyuni';
+        userField.placeholder = 'Username guru (contoh: sriwahyuni, budiutomo, guru)';
         descEl.className = 'p-3.5 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-900 space-y-1';
         descEl.innerHTML = `
           <p class="font-bold flex items-center space-x-1 text-blue-900">
-            <span>👤 Hak Akses Guru / Pengawas Ruang:</span>
+            <span>👤 Hak Akses Guru Mata Pelajaran / Pengawas:</span>
           </p>
-          <p class="text-blue-800">Akses terbatas: Memantau jalannya tes, melihat token ujian harian, mengunduh rekap nilai Excel, dan bank soal.</p>
-          <p class="text-[11px] text-blue-700 font-medium">Akun bawaan: User <code class="font-mono bg-blue-100 px-1 py-0.5 rounded font-bold">guru</code> / Sandi <code class="font-mono bg-blue-100 px-1 py-0.5 rounded font-bold">guru77</code></p>
+          <p class="text-blue-800">Login dengan akun masing-masing. Sistem otomatis menyesuaikan rekap nilai dan data peserta dengan kelas yang Anda ampu.</p>
+          <p class="text-[11px] text-blue-700 font-medium">Akun bawaan: <code class="font-mono bg-blue-100 px-1 py-0.5 rounded font-bold">sriwahyuni</code> (B. Indo / Kls VII), <code class="font-mono bg-blue-100 px-1 py-0.5 rounded font-bold">budiutomo</code> (Mat / Kls VIII), atau <code class="font-mono bg-blue-100 px-1 py-0.5 rounded font-bold">guru</code> (Umum) / Sandi: <code class="font-mono bg-blue-100 px-1 py-0.5 rounded font-bold">guru77</code></p>
         `;
         submitBtn.innerHTML = `<span>Masuk sebagai Guru / Pengawas</span><svg class="w-4 h-4 ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>`;
       }
@@ -4042,18 +4455,38 @@ function doGet(e) {
       const username = document.getElementById('petugas-username').value.trim();
       const password = document.getElementById('petugas-password').value;
       const auth = getAuth();
+      const guruList = getDaftarGuru();
 
       let loginBerhasil = false;
 
-      if (role === 'admin') {
-        if (username.toLowerCase() === auth.adminUser.toLowerCase() && password === auth.adminPass) {
-          loginBerhasil = true;
-          currentRole = 'admin';
-        }
+      // 1. Cek Kredensial Administrator Utama
+      if (username.toLowerCase() === auth.adminUser.toLowerCase() && password === auth.adminPass) {
+        loginBerhasil = true;
+        currentRole = 'admin';
+        currentGuruUser = null;
       } else {
-        if (username.toLowerCase() === auth.guruUser.toLowerCase() && password === auth.guruPass) {
+        // 2. Cek apakah cocok dengan salah satu Akun Guru Terdaftar
+        const matchedTeacher = guruList.find(g => 
+          g.username && g.username.toLowerCase() === username.toLowerCase() && g.password === password
+        );
+
+        if (matchedTeacher) {
           loginBerhasil = true;
           currentRole = 'guru';
+          currentGuruUser = { ...matchedTeacher };
+        } else if (username.toLowerCase() === (auth.guruUser || 'guru').toLowerCase() && password === (auth.guruPass || 'guru77')) {
+          // 3. Fallback akun guru umum bawaan
+          loginBerhasil = true;
+          currentRole = 'guru';
+          const defaultG = guruList.find(g => g.username.toLowerCase() === 'guru') || {
+            id: 'guru-default',
+            nama: 'Guru / Pengawas Ruang',
+            nip: '-',
+            username: 'guru',
+            mapel: 'Semua Mata Pelajaran',
+            kelasDiajar: getDaftarKelas().map(k => k.kode)
+          };
+          currentGuruUser = { ...defaultG };
         }
       }
 
@@ -4065,13 +4498,14 @@ function doGet(e) {
         updateAdminCounts();
         initPengaturan();
       } else {
-        alert(`❌ Username atau kata sandi ${role === 'admin' ? 'Administrator' : 'Guru / Pengawas'} tidak tepat!`);
+        alert('❌ Nama pengguna (username) atau kata sandi tidak cocok!\nSilakan periksa kembali huruf besar/kecil.');
       }
     }
 
     function applyRolePermissions() {
       const badgeRole = document.getElementById('admin-role-badge');
       const tabToken = document.getElementById('tab-btn-token');
+      const tabKelas = document.getElementById('tab-btn-kelas');
       const tabAkun = document.getElementById('tab-btn-akun');
       const btnResetSoal = document.getElementById('btn-reset-soal-admin');
       const btnResetNilai = document.getElementById('btn-reset-semua-nilai');
@@ -4083,35 +4517,46 @@ function doGet(e) {
           badgeRole.innerHTML = '👑 Administrator (Akses Penuh)';
         }
         if (tabToken) tabToken.classList.remove('hidden');
+        if (tabKelas) tabKelas.classList.remove('hidden');
         if (tabAkun) tabAkun.classList.remove('hidden');
         if (btnResetSoal) btnResetSoal.classList.remove('hidden');
         if (btnResetNilai) btnResetNilai.classList.remove('hidden');
       } else {
-        // Mode Guru / Pengawas (Akses Terbatas)
+        // Mode Guru / Pengawas (Akses Terfilter Kelas)
         if (badgeRole) {
-          badgeRole.className = 'text-xs bg-blue-100 text-blue-900 border border-blue-300 font-bold px-2.5 py-0.5 rounded-full';
-          badgeRole.innerHTML = '👤 Guru / Pengawas Ruang (Akses Terbatas)';
+          badgeRole.className = 'text-xs bg-blue-100 text-blue-900 border border-blue-300 font-bold px-2.5 py-0.5 rounded-full flex items-center space-x-1.5 flex-wrap';
+          const namaG = currentGuruUser ? currentGuruUser.nama : 'Guru';
+          const mapelG = currentGuruUser ? currentGuruUser.mapel : 'Mapel';
+          const kelasCount = (currentGuruUser && Array.isArray(currentGuruUser.kelasDiajar)) ? currentGuruUser.kelasDiajar.length : 0;
+          badgeRole.innerHTML = `<span>👤 ${namaG} (${mapelG})</span><span class="bg-blue-200 text-blue-950 px-1.5 py-0.5 rounded text-[10px] font-mono font-bold">${kelasCount} Kelas Binaan</span>`;
         }
-        // Guru dibatasi dari konfigurasi sistem, logo, dan reset
+        // Guru dibatasi dari konfigurasi sistem, kelola kelas, kelola akun, dan reset
         if (tabToken) tabToken.classList.add('hidden');
+        if (tabKelas) tabKelas.classList.add('hidden');
         if (tabAkun) tabAkun.classList.add('hidden');
         if (btnResetSoal) btnResetSoal.classList.add('hidden');
         if (btnResetNilai) btnResetNilai.classList.add('hidden');
       }
+
+      // Update dropdown filter sesuai hak kelas guru
+      populateFilterKelasRekap();
+      populatePesertaKelasDropdown();
     }
 
     function logoutAdmin() {
+      currentRole = 'admin';
+      currentGuruUser = null;
       switchView('siswa-login');
     }
 
     function switchAdminTab(tabName) {
       // Keamanan: Cek hak akses jika role guru mencoba membuka tab admin
-      if (currentRole === 'guru' && (tabName === 'token' || tabName === 'akun')) {
-        alert('🔒 Hak Akses Terbatas!\nMenu Konfigurasi & Manajemen Akun hanya dapat diakses oleh Administrator Utama.');
+      if (currentRole === 'guru' && (tabName === 'token' || tabName === 'kelas' || tabName === 'akun')) {
+        alert('🔒 Hak Akses Terbatas!\nMenu Konfigurasi, Kelola Kelas, dan Manajemen Akun hanya dapat diakses oleh Administrator Utama.');
         return;
       }
 
-      ['dashboard', 'soal', 'token', 'rekap', 'peserta', 'akun'].forEach(t => {
+      ['dashboard', 'soal', 'token', 'rekap', 'peserta', 'kelas', 'akun'].forEach(t => {
         const el = document.getElementById(`admin-tab-${t}`);
         if (el) el.classList.add('hidden');
         const btn = document.getElementById(`tab-btn-${t}`);
@@ -4135,6 +4580,8 @@ function doGet(e) {
         sinkronisasiNilaiOtomatis(true);
       }
       if (tabName === 'peserta') renderAdminPesertaList();
+      if (tabName === 'kelas') renderAdminKelasList();
+      if (tabName === 'akun') renderAdminGuruList();
       if (tabName === 'dashboard') {
         updateAdminCounts();
         sinkronisasiNilaiOtomatis(true);
@@ -4165,8 +4612,8 @@ function doGet(e) {
     }
 
     function simpanSandiGuru() {
-      const p1 = document.getElementById('input-sandi-guru-baru').value;
-      const p2 = document.getElementById('input-sandi-guru-konfirm').value;
+      const p1 = document.getElementById('input-sandi-guru-baru') ? document.getElementById('input-sandi-guru-baru').value : '';
+      const p2 = document.getElementById('input-sandi-guru-konfirm') ? document.getElementById('input-sandi-guru-konfirm').value : '';
 
       if (!p1 || p1.length < 5) {
         alert('Sandi baru minimal 5 karakter!');
@@ -4181,51 +4628,66 @@ function doGet(e) {
       auth.guruPass = p1;
       saveAuth(auth);
 
-      document.getElementById('input-sandi-guru-baru').value = '';
-      document.getElementById('input-sandi-guru-konfirm').value = '';
-      alert('✓ Kata sandi Guru / Pengawas berhasil diperbarui!');
+      alert('✓ Kata sandi Guru berhasil diperbarui!');
     }
 
     function updateAdminCounts() {
       const soalList = getBankSoal();
       const rekapList = getRekapNilai();
       const pesertaList = getPeserta();
+      const kelasList = getDaftarKelas();
+      const guruList = getDaftarGuru();
 
       const elBadgeSoal = document.getElementById('admin-badge-count-soal');
       if (elBadgeSoal) elBadgeSoal.innerText = soalList.length;
 
+      const elBadgeKelas = document.getElementById('admin-badge-count-kelas');
+      if (elBadgeKelas) elBadgeKelas.innerText = kelasList.length;
+
+      const elBadgeGuru = document.getElementById('admin-badge-count-guru');
+      if (elBadgeGuru) elBadgeGuru.innerText = guruList.length;
+
+      // Filtered counts jika role guru aktif
+      let displayRekap = rekapList;
+      let displayPeserta = pesertaList;
+
+      if (currentRole === 'guru' && currentGuruUser && Array.isArray(currentGuruUser.kelasDiajar)) {
+        displayRekap = rekapList.filter(r => currentGuruUser.kelasDiajar.includes(r.kelas));
+        displayPeserta = pesertaList.filter(p => currentGuruUser.kelasDiajar.includes(p.kelas));
+      }
+
       const elBadgeNilai = document.getElementById('admin-badge-count-nilai');
-      if (elBadgeNilai) elBadgeNilai.innerText = rekapList.length;
+      if (elBadgeNilai) elBadgeNilai.innerText = displayRekap.length;
 
       const elBadgePeserta = document.getElementById('admin-badge-count-peserta');
-      if (elBadgePeserta) elBadgePeserta.innerText = pesertaList.length;
+      if (elBadgePeserta) elBadgePeserta.innerText = displayPeserta.length;
 
       const elDashSoal = document.getElementById('dash-total-soal');
       if (elDashSoal) elDashSoal.innerText = soalList.length;
 
       const elDashPeserta = document.getElementById('dash-total-peserta');
-      if (elDashPeserta) elDashPeserta.innerText = rekapList.length;
+      if (elDashPeserta) elDashPeserta.innerText = displayRekap.length;
 
       // Card counts di Tab Peserta
-      const totalPesertaEl = document.getElementById('peserta-total-count');
-      if (totalPesertaEl) totalPesertaEl.innerText = pesertaList.length;
+      const totalPesertaEl = document.getElementById('dash-peserta-total') || document.getElementById('peserta-total-count');
+      if (totalPesertaEl) totalPesertaEl.innerText = displayPeserta.length;
 
-      const sudahUjianCount = pesertaList.filter(p => p.statusUjian === 'Sudah Ujian').length;
-      const sudahUjianEl = document.getElementById('peserta-selesai-count');
+      const sudahUjianCount = displayPeserta.filter(p => p.statusUjian === 'Sudah Ujian').length;
+      const sudahUjianEl = document.getElementById('dash-peserta-sudah') || document.getElementById('peserta-selesai-count');
       if (sudahUjianEl) sudahUjianEl.innerText = sudahUjianCount;
 
-      const belumUjianEl = document.getElementById('peserta-belum-count');
-      if (belumUjianEl) belumUjianEl.innerText = Math.max(0, pesertaList.length - sudahUjianCount);
+      const belumUjianEl = document.getElementById('dash-peserta-belum') || document.getElementById('peserta-belum-count');
+      if (belumUjianEl) belumUjianEl.innerText = Math.max(0, displayPeserta.length - sudahUjianCount);
 
       const elDashAvg = document.getElementById('dash-avg-nilai');
       const elDashMax = document.getElementById('dash-max-nilai');
       const elDashMin = document.getElementById('dash-min-nilai');
 
-      if (rekapList.length > 0) {
-        const sum = rekapList.reduce((acc, curr) => acc + curr.nilai, 0);
-        const avg = Math.round(sum / rekapList.length);
-        const max = Math.max(...rekapList.map(r => r.nilai));
-        const min = Math.min(...rekapList.map(r => r.nilai));
+      if (displayRekap.length > 0) {
+        const sum = displayRekap.reduce((acc, curr) => acc + (Number(curr.nilai) || 0), 0);
+        const avg = Math.round(sum / displayRekap.length);
+        const max = Math.max(...displayRekap.map(r => Number(r.nilai) || 0));
+        const min = Math.min(...displayRekap.map(r => Number(r.nilai) || 0));
 
         if (elDashAvg) elDashAvg.innerText = avg;
         if (elDashMax) elDashMax.innerText = max;
@@ -4443,7 +4905,7 @@ function doGet(e) {
       }
     }
 
-    function kirimHasilKeGoogleSheet(hasil, webhookUrl) {
+    function kirimHasilKeGoogleSheet(hasil, webhookUrl, attempt = 1) {
       if (!webhookUrl || !webhookUrl.startsWith('http')) return;
 
       const payload = {
@@ -4461,7 +4923,7 @@ function doGet(e) {
       };
 
       const syncEl = document.getElementById('sync-sheets-status');
-      if (syncEl) {
+      if (syncEl && attempt === 1) {
         syncEl.classList.remove('hidden');
         syncEl.className = 'mb-6 p-3 rounded-xl text-xs font-bold flex items-center justify-center space-x-2 bg-amber-50 text-amber-800 border border-amber-300 no-print';
         syncEl.innerHTML = `
@@ -4488,10 +4950,18 @@ function doGet(e) {
         }
       })
       .catch((err) => {
-        console.warn('Gagal sync Google Sheet:', err);
-        if (syncEl) {
-          syncEl.className = 'mb-6 p-3 rounded-xl text-xs font-bold flex items-center justify-center space-x-2 bg-slate-100 text-slate-700 border border-slate-300 no-print';
-          syncEl.innerHTML = `<span>Nilai ujian Anda tetap tersimpan aman di kartu evaluasi ini.</span>`;
+        console.warn(`Gagal sync Google Sheet (Percobaan ke-${attempt}):`, err);
+        if (attempt < 3) {
+          // Jitter delay 1.5 - 3.5 detik untuk mengurai antrean lonjakan 600+ siswa submit bersamaan
+          const delayMs = Math.floor(Math.random() * 2000) + 1500;
+          setTimeout(() => {
+            kirimHasilKeGoogleSheet(hasil, webhookUrl, attempt + 1);
+          }, delayMs);
+        } else {
+          if (syncEl) {
+            syncEl.className = 'mb-6 p-3 rounded-xl text-xs font-bold flex items-center justify-center space-x-2 bg-slate-100 text-slate-700 border border-slate-300 no-print';
+            syncEl.innerHTML = `<span>✓ Nilai ujian Anda tetap tersimpan aman di kartu evaluasi ini (Kode Verifikasi: ${hasil.id || 'SMP77'}).</span>`;
+          }
         }
       });
     }
@@ -5823,20 +6293,44 @@ Pembahasan: Mitokondria adalah pusat penghasil energi sel melalui respirasi.`;
        REKAP NILAI SISWA & EXPORT EXCEL (CSV)
     ======================================================== */
     function renderAdminRekapNilai() {
-      const q = document.getElementById('filter-cari-siswa').value.toLowerCase();
-      const fKelas = document.getElementById('filter-rekap-kelas').value;
+      const q = (document.getElementById('filter-cari-siswa') ? document.getElementById('filter-cari-siswa').value : '').toLowerCase().trim();
+      const fKelas = document.getElementById('filter-rekap-kelas') ? document.getElementById('filter-rekap-kelas').value : 'SEMUA';
 
       let all = getRekapNilai();
+
+      // Filter khusus Role Guru: Batasi hanya pada kelas binaan yang diajar
+      const bannerGuru = document.getElementById('guru-rekap-info-banner');
+      if (currentRole === 'guru' && currentGuruUser && Array.isArray(currentGuruUser.kelasDiajar)) {
+        if (bannerGuru) {
+          bannerGuru.classList.remove('hidden');
+          const elNama = document.getElementById('guru-banner-nama');
+          const elMapel = document.getElementById('guru-banner-mapel');
+          const elKelas = document.getElementById('guru-banner-kelas');
+          if (elNama) elNama.innerText = currentGuruUser.nama;
+          if (elMapel) elMapel.innerText = currentGuruUser.mapel;
+          if (elKelas) elKelas.innerText = currentGuruUser.kelasDiajar.join(', ');
+        }
+        all = all.filter(r => currentGuruUser.kelasDiajar.includes(r.kelas));
+      } else {
+        if (bannerGuru) bannerGuru.classList.add('hidden');
+      }
+
       if (fKelas !== 'SEMUA') {
-        all = all.filter(r => r.kelas.startsWith(fKelas));
+        if (fKelas === 'VII' || fKelas === 'VIII' || fKelas === 'IX') {
+          all = all.filter(r => r.kelas && r.kelas.startsWith(fKelas));
+        } else {
+          all = all.filter(r => r.kelas === fKelas);
+        }
       }
       if (q) {
-        all = all.filter(r => r.nama.toLowerCase().includes(q) || r.nisn.toLowerCase().includes(q));
+        all = all.filter(r => (r.nama && r.nama.toLowerCase().includes(q)) || (r.nisn && r.nisn.toLowerCase().includes(q)));
       }
 
       const tbody = document.getElementById('tbody-admin-rekap');
+      if (!tbody) return;
+
       if (all.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-slate-400">Belum ada rekaman nilai siswa yang sesuai.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-slate-400">Belum ada rekaman nilai siswa yang sesuai kriteria filter.</td></tr>`;
         return;
       }
 
@@ -5915,39 +6409,70 @@ Pembahasan: Mitokondria adalah pusat penghasil energi sel melalui respirasi.`;
     }
 
     function populatePesertaKelasDropdown() {
-      const list = getPeserta();
-      const kelasSet = new Set(list.map(p => p.kelas).filter(Boolean));
-      const sortedKelas = Array.from(kelasSet).sort();
+      const kelasList = getDaftarKelas();
+      const filterAdmin = document.getElementById('filter-peserta-kelas') || document.getElementById('admin-filter-peserta-kelas');
+      const filterCetak = document.getElementById('cetak-kartu-filter-kelas');
 
-      const filterAdmin = document.getElementById('admin-filter-peserta-kelas');
+      const isGuru = (currentRole === 'guru' && currentGuruUser && Array.isArray(currentGuruUser.kelasDiajar));
+      const allowedKelas = isGuru ? currentGuruUser.kelasDiajar : kelasList.map(k => k.kode);
+
       if (filterAdmin) {
         const curVal = filterAdmin.value;
-        filterAdmin.innerHTML = '<option value="SEMUA">Semua Kelas</option>' + 
-          sortedKelas.map(k => `<option value="${k}">${k}</option>`).join('');
-        if (sortedKelas.includes(curVal)) filterAdmin.value = curVal;
+        let optHtml = isGuru ? '<option value="SEMUA">Semua Kelas Binaan</option>' : `
+          <option value="SEMUA">Semua Kelas</option>
+          <option value="VII">Tingkat VII</option>
+          <option value="VIII">Tingkat VIII</option>
+          <option value="IX">Tingkat IX</option>
+        `;
+        allowedKelas.forEach(k => {
+          optHtml += `<option value="${k}">Kelas ${k}</option>`;
+        });
+        filterAdmin.innerHTML = optHtml;
+        if (allowedKelas.includes(curVal) || curVal === 'SEMUA') filterAdmin.value = curVal;
       }
 
-      const filterCetak = document.getElementById('cetak-kartu-filter-kelas');
       if (filterCetak) {
         const curVal = filterCetak.value;
-        filterCetak.innerHTML = '<option value="SEMUA">Semua Kelas</option>' + 
-          sortedKelas.map(k => `<option value="${k}">${k}</option>`).join('');
-        if (sortedKelas.includes(curVal)) filterCetak.value = curVal;
+        let optHtml = '<option value="SEMUA">Semua Kelas</option>';
+        allowedKelas.forEach(k => {
+          optHtml += `<option value="${k}">Kelas ${k}</option>`;
+        });
+        filterCetak.innerHTML = optHtml;
+        if (allowedKelas.includes(curVal) || curVal === 'SEMUA') filterCetak.value = curVal;
       }
     }
 
     function renderAdminPesertaList() {
-      const q = (document.getElementById('cari-admin-peserta') ? document.getElementById('cari-admin-peserta').value : '').toLowerCase().trim();
-      const fKelas = document.getElementById('admin-filter-peserta-kelas') ? document.getElementById('admin-filter-peserta-kelas').value : 'SEMUA';
+      const q = (document.getElementById('cari-admin-peserta') || document.getElementById('filter-cari-peserta') || {}).value || '';
+      const cleanQ = q.toLowerCase().trim();
+      const fKelasEl = document.getElementById('filter-peserta-kelas') || document.getElementById('admin-filter-peserta-kelas');
+      const fKelas = fKelasEl ? fKelasEl.value : 'SEMUA';
 
-      const all = getPeserta();
-      let filtered = all;
+      let all = getPeserta();
 
-      if (fKelas !== 'SEMUA') {
-        filtered = filtered.filter(p => p.kelas === fKelas);
+      // Filter khusus Role Guru: Batasi hanya pada kelas yang diajar
+      const bannerGuru = document.getElementById('guru-peserta-info-banner');
+      if (currentRole === 'guru' && currentGuruUser && Array.isArray(currentGuruUser.kelasDiajar)) {
+        if (bannerGuru) {
+          bannerGuru.classList.remove('hidden');
+          const elKelas = document.getElementById('guru-peserta-banner-kelas');
+          if (elKelas) elKelas.innerText = currentGuruUser.kelasDiajar.join(', ');
+        }
+        all = all.filter(p => currentGuruUser.kelasDiajar.includes(p.kelas));
+      } else {
+        if (bannerGuru) bannerGuru.classList.add('hidden');
       }
-      if (q) {
-        filtered = filtered.filter(p => (p.nama && p.nama.toLowerCase().includes(q)) || (p.nisn && p.nisn.toLowerCase().includes(q)));
+
+      let filtered = all;
+      if (fKelas !== 'SEMUA') {
+        if (fKelas === 'VII' || fKelas === 'VIII' || fKelas === 'IX') {
+          filtered = filtered.filter(p => p.kelas && p.kelas.startsWith(fKelas));
+        } else {
+          filtered = filtered.filter(p => p.kelas === fKelas);
+        }
+      }
+      if (cleanQ) {
+        filtered = filtered.filter(p => (p.nama && p.nama.toLowerCase().includes(cleanQ)) || (p.nisn && p.nisn.toLowerCase().includes(cleanQ)));
       }
 
       const tbody = document.getElementById('tbody-admin-peserta');
@@ -5978,6 +6503,16 @@ Pembahasan: Mitokondria adalah pusat penghasil energi sel melalui respirasi.`;
             <td class="px-4 py-3 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-900 text-xs font-bold">${p.kelas}</span></td>
             <td class="px-4 py-3 text-slate-600 text-xs">${p.ruang || '-'}</td>
             <td class="px-4 py-3 text-center">${statusBadge}</td>
+            <td class="px-4 py-3 text-center space-x-1 whitespace-nowrap">
+              <button onclick="bukaModalEditPeserta('${p.nisn}')" class="px-2.5 py-1 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded font-bold text-xs transition">Edit</button>
+              <button onclick="hapusPeserta('${p.nisn}')" class="px-2.5 py-1 bg-rose-100 hover:bg-rose-200 text-rose-800 rounded font-bold text-xs transition">Hapus</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      updateAdminCounts();
+    }
             <td class="px-4 py-3 text-center space-x-1 whitespace-nowrap">
               <button onclick="bukaModalEditPeserta('${p.nisn}')" class="px-2.5 py-1 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded font-bold text-xs transition">Edit</button>
               <button onclick="hapusPeserta('${p.nisn}')" class="px-2.5 py-1 bg-rose-100 hover:bg-rose-200 text-rose-800 rounded font-bold text-xs transition">Hapus</button>
@@ -6278,6 +6813,7 @@ Pembahasan: Mitokondria adalah pusat penghasil energi sel melalui respirasi.`;
             <span class="font-bold text-slate-700">Kepala Sekolah SMPN 77</span>
           </div>
         </div>
+
       `).join('');
 
       // Generate QR Code untuk setiap kartu peserta
@@ -6348,6 +6884,588 @@ Pembahasan: Mitokondria adalah pusat penghasil energi sel melalui respirasi.`;
         list[idx].statusUjian = statusBaru;
         savePeserta(list);
       }
+    }
+
+    /* ========================================================
+       MODUL MANAJEMEN KELAS & ROMBEL (FITUR EDIT KELAS DINAMIS)
+    ======================================================== */
+    function getDaftarKelas() {
+      const saved = localStorage.getItem(STORAGE_KEY_KELAS);
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {
+          console.warn('Gagal parse kelas dari storage:', e);
+        }
+      }
+      return [...DEFAULT_KELAS_LIST];
+    }
+
+    function saveDaftarKelas(list) {
+      localStorage.setItem(STORAGE_KEY_KELAS, JSON.stringify(list));
+      populateAllKelasDropdowns();
+      updateAdminCounts();
+    }
+
+    function initKelas() {
+      if (!localStorage.getItem(STORAGE_KEY_KELAS)) {
+        saveDaftarKelas([...DEFAULT_KELAS_LIST]);
+      } else {
+        populateAllKelasDropdowns();
+      }
+    }
+
+    function populateAllKelasDropdowns() {
+      const kelasList = getDaftarKelas();
+
+      // 1. Dropdown Siswa Login (#siswa-kelas)
+      const siswaKelasSelect = document.getElementById('siswa-kelas');
+      if (siswaKelasSelect) {
+        const curVal = siswaKelasSelect.value;
+        const vii = kelasList.filter(k => k.tingkat === 'VII');
+        const viii = kelasList.filter(k => k.tingkat === 'VIII');
+        const ix = kelasList.filter(k => k.tingkat === 'IX');
+        const lainnya = kelasList.filter(k => !['VII', 'VIII', 'IX'].includes(k.tingkat));
+
+        let optHtml = '<option value="">-- Pilih Kelas --</option>';
+        if (vii.length > 0) {
+          optHtml += `<optgroup label="Tingkat VII (Tujuh)">${vii.map(k => `<option value="${k.kode}">${k.nama}</option>`).join('')}</optgroup>`;
+        }
+        if (viii.length > 0) {
+          optHtml += `<optgroup label="Tingkat VIII (Delapan)">${viii.map(k => `<option value="${k.kode}">${k.nama}</option>`).join('')}</optgroup>`;
+        }
+        if (ix.length > 0) {
+          optHtml += `<optgroup label="Tingkat IX (Sembilan)">${ix.map(k => `<option value="${k.kode}">${k.nama}</option>`).join('')}</optgroup>`;
+        }
+        if (lainnya.length > 0) {
+          optHtml += `<optgroup label="Kelas Lainnya">${lainnya.map(k => `<option value="${k.kode}">${k.nama}</option>`).join('')}</optgroup>`;
+        }
+        siswaKelasSelect.innerHTML = optHtml;
+        if (curVal && kelasList.some(k => k.kode === curVal)) {
+          siswaKelasSelect.value = curVal;
+        }
+      }
+
+      // 2. Dropdown Filter Rekap Nilai (#filter-rekap-kelas)
+      populateFilterKelasRekap();
+
+      // 3. Dropdown Filter Peserta (#filter-peserta-kelas)
+      populatePesertaKelasDropdown();
+
+      // 4. Dropdown di Modal Tambah/Edit Peserta (#form-peserta-kelas)
+      const formPesertaKelas = document.getElementById('form-peserta-kelas');
+      if (formPesertaKelas && formPesertaKelas.tagName === 'SELECT') {
+        const curVal = formPesertaKelas.value;
+        formPesertaKelas.innerHTML = '<option value="">-- Pilih Kelas --</option>' +
+          kelasList.map(k => `<option value="${k.kode}">${k.nama} (${k.kode})</option>`).join('');
+        if (curVal) formPesertaKelas.value = curVal;
+      }
+    }
+
+    function populateFilterKelasRekap() {
+      const filterRekap = document.getElementById('filter-rekap-kelas');
+      if (!filterRekap) return;
+
+      const kelasList = getDaftarKelas();
+      const curVal = filterRekap.value;
+
+      if (currentRole === 'guru' && currentGuruUser && Array.isArray(currentGuruUser.kelasDiajar)) {
+        // Mode Guru: Hanya tampilkan kelas binaannya
+        let optionsHtml = '<option value="SEMUA">Semua Kelas yang Saya Ajar</option>';
+        currentGuruUser.kelasDiajar.forEach(kd => {
+          optionsHtml += `<option value="${kd}">Kelas ${kd}</option>`;
+        });
+        filterRekap.innerHTML = optionsHtml;
+        if (currentGuruUser.kelasDiajar.includes(curVal) || curVal === 'SEMUA') {
+          filterRekap.value = curVal;
+        } else {
+          filterRekap.value = 'SEMUA';
+        }
+      } else {
+        // Mode Admin: Tampilkan Semua Tingkat & Semua Kelas
+        let optionsHtml = `
+          <option value="SEMUA">Semua Kelas</option>
+          <option value="VII">Semua Tingkat VII</option>
+          <option value="VIII">Semua Tingkat VIII</option>
+          <option value="IX">Semua Tingkat IX</option>
+        `;
+        kelasList.forEach(k => {
+          optionsHtml += `<option value="${k.kode}">${k.nama}</option>`;
+        });
+        filterRekap.innerHTML = optionsHtml;
+        if (curVal) filterRekap.value = curVal;
+      }
+    }
+
+    function renderAdminKelasList() {
+      const q = (document.getElementById('filter-cari-kelas') ? document.getElementById('filter-cari-kelas').value : '').toLowerCase().trim();
+      const fTingkat = document.getElementById('filter-tingkat-kelas') ? document.getElementById('filter-tingkat-kelas').value : 'SEMUA';
+
+      const all = getDaftarKelas();
+      const pesertaList = getPeserta();
+      const guruList = getDaftarGuru();
+
+      let filtered = all;
+      if (fTingkat !== 'SEMUA') {
+        if (fTingkat === 'LAINNYA') {
+          filtered = filtered.filter(k => !['VII', 'VIII', 'IX'].includes(k.tingkat));
+        } else {
+          filtered = filtered.filter(k => k.tingkat === fTingkat);
+        }
+      }
+      if (q) {
+        filtered = filtered.filter(k => (k.kode && k.kode.toLowerCase().includes(q)) || (k.nama && k.nama.toLowerCase().includes(q)));
+      }
+
+      const tbody = document.getElementById('tbody-admin-kelas');
+      if (!tbody) return;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400">Belum ada data kelas yang sesuai kriteria filter.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map((k, idx) => {
+        // Hitung jumlah siswa di kelas ini
+        const jmlSiswa = pesertaList.filter(p => p.kelas === k.kode).length;
+
+        // Cari guru yang mengajar kelas ini
+        const guruPengajar = guruList.filter(g => Array.isArray(g.kelasDiajar) && g.kelasDiajar.includes(k.kode));
+        const guruNames = guruPengajar.map(g => `<span class="inline-block bg-blue-50 text-blue-900 border border-blue-200 px-2 py-0.5 rounded text-[11px] font-semibold mr-1 mb-1">${g.nama} (${g.mapel})</span>`).join('');
+
+        return `
+          <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+            <td class="px-4 py-3 text-center text-slate-400 font-bold">${idx + 1}</td>
+            <td class="px-4 py-3 font-mono font-bold text-blue-900 text-sm">
+              <span class="px-2.5 py-1 rounded-lg bg-blue-100 border border-blue-200">${k.kode}</span>
+            </td>
+            <td class="px-4 py-3 font-bold text-slate-800">${k.nama}</td>
+            <td class="px-4 py-3 text-center">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold ${k.tingkat === 'VII' ? 'bg-indigo-100 text-indigo-800 border border-indigo-200' : k.tingkat === 'VIII' ? 'bg-purple-100 text-purple-800 border border-purple-200' : 'bg-emerald-100 text-emerald-800 border border-emerald-200'}">
+                Tingkat ${k.tingkat}
+              </span>
+            </td>
+            <td class="px-4 py-3 text-center font-bold text-slate-700">
+              <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-xs">${jmlSiswa} Siswa</span>
+            </td>
+            <td class="px-4 py-3">
+              ${guruNames || '<span class="text-xs text-slate-400 italic">Belum ada guru ditugaskan</span>'}
+            </td>
+            <td class="px-4 py-3 text-center space-x-1 whitespace-nowrap">
+              <button onclick="bukaModalEditKelas('${k.kode}')" class="px-2.5 py-1 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded font-bold text-xs transition">Edit</button>
+              <button onclick="hapusKelas('${k.kode}')" class="px-2.5 py-1 bg-rose-100 hover:bg-rose-200 text-rose-800 rounded font-bold text-xs transition">Hapus</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      // Update stat cards
+      const elTot = document.getElementById('dash-kelas-total');
+      const elVii = document.getElementById('dash-kelas-vii');
+      const elViii = document.getElementById('dash-kelas-viii');
+      const elIx = document.getElementById('dash-kelas-ix');
+      if (elTot) elTot.innerText = all.length;
+      if (elVii) elVii.innerText = all.filter(k => k.tingkat === 'VII').length;
+      if (elViii) elViii.innerText = all.filter(k => k.tingkat === 'VIII').length;
+      if (elIx) elIx.innerText = all.filter(k => k.tingkat === 'IX').length;
+    }
+
+    function bukaModalTambahKelas() {
+      document.getElementById('modal-kelas-title').innerText = 'Tambah Kelas / Rombel Baru';
+      document.getElementById('form-kelas-orig-kode').value = '';
+      document.getElementById('form-kelas-kode').value = '';
+      document.getElementById('form-kelas-nama').value = '';
+      document.getElementById('form-kelas-tingkat').value = 'VII';
+      document.getElementById('modal-form-kelas').classList.remove('hidden');
+    }
+
+    function bukaModalEditKelas(kode) {
+      const list = getDaftarKelas();
+      const k = list.find(item => item.kode === kode);
+      if (!k) return;
+
+      document.getElementById('modal-kelas-title').innerText = 'Edit Data Kelas / Rombel';
+      document.getElementById('form-kelas-orig-kode').value = k.kode;
+      document.getElementById('form-kelas-kode').value = k.kode;
+      document.getElementById('form-kelas-nama').value = k.nama;
+      document.getElementById('form-kelas-tingkat').value = k.tingkat || 'VII';
+      document.getElementById('modal-form-kelas').classList.remove('hidden');
+    }
+
+    function tutupModalFormKelas() {
+      document.getElementById('modal-form-kelas').classList.add('hidden');
+    }
+
+    function handleSimpanKelas(e) {
+      e.preventDefault();
+      const origKode = document.getElementById('form-kelas-orig-kode').value.trim();
+      const kode = document.getElementById('form-kelas-kode').value.trim().toUpperCase();
+      const nama = document.getElementById('form-kelas-nama').value.trim();
+      const tingkat = document.getElementById('form-kelas-tingkat').value;
+
+      if (!kode || !nama) {
+        alert('Kode kelas dan Nama lengkap kelas wajib diisi!');
+        return;
+      }
+
+      const list = getDaftarKelas();
+
+      // Cek duplikasi jika tambah baru atau ubah kode
+      if (!origKode || origKode !== kode) {
+        if (list.some(k => k.kode === kode)) {
+          alert(`Kode kelas "${kode}" sudah ada di sistem! Harap gunakan kode lain.`);
+          return;
+        }
+      }
+
+      if (origKode) {
+        // Mode Edit
+        const idx = list.findIndex(k => k.kode === origKode);
+        if (idx >= 0) {
+          list[idx].kode = kode;
+          list[idx].nama = nama;
+          list[idx].tingkat = tingkat;
+
+          // Jika kode kelas berubah, perbarui juga di data peserta dan penugasan guru
+          if (origKode !== kode) {
+            const peserta = getPeserta();
+            let pChanged = false;
+            peserta.forEach(p => {
+              if (p.kelas === origKode) {
+                p.kelas = kode;
+                pChanged = true;
+              }
+            });
+            if (pChanged) savePeserta(peserta);
+
+            const gurus = getDaftarGuru();
+            let gChanged = false;
+            gurus.forEach(g => {
+              if (Array.isArray(g.kelasDiajar) && g.kelasDiajar.includes(origKode)) {
+                g.kelasDiajar = g.kelasDiajar.map(c => c === origKode ? kode : c);
+                gChanged = true;
+              }
+            });
+            if (gChanged) saveDaftarGuru(gurus);
+          }
+        }
+      } else {
+        // Mode Tambah
+        list.push({ kode, nama, tingkat });
+      }
+
+      saveDaftarKelas(list);
+      tutupModalFormKelas();
+      renderAdminKelasList();
+      alert('✓ Data kelas berhasil disimpan!');
+    }
+
+    function hapusKelas(kode) {
+      const pesertaList = getPeserta();
+      const adaSiswa = pesertaList.some(p => p.kelas === kode);
+      if (adaSiswa) {
+        if (!confirm(`Peringatan: Masih ada siswa yang terdaftar di kelas ${kode}!\nApakah Anda yakin tetap ingin menghapus kelas ini?`)) return;
+      } else {
+        if (!confirm(`Hapus kelas ${kode}?`)) return;
+      }
+
+      const list = getDaftarKelas().filter(k => k.kode !== kode);
+      saveDaftarKelas(list);
+      renderAdminKelasList();
+    }
+
+    function resetKelasDefault() {
+      if (!confirm('Kembalikan daftar kelas ke 21 Rombel standar SMPN 77 (VII-A s.d IX-G)?')) return;
+      saveDaftarKelas([...DEFAULT_KELAS_LIST]);
+      renderAdminKelasList();
+      alert('✓ Daftar kelas berhasil dikembalikan ke default!');
+    }
+
+    /* ========================================================
+       MODUL MANAJEMEN AKUN GURU & PENUGASAN KELAS
+    ======================================================== */
+    function getDaftarGuru() {
+      const saved = localStorage.getItem(STORAGE_KEY_GURU);
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {
+          console.warn('Gagal parse guru:', e);
+        }
+      }
+      return [...DEFAULT_GURU_LIST];
+    }
+
+    function saveDaftarGuru(list) {
+      localStorage.setItem(STORAGE_KEY_GURU, JSON.stringify(list));
+      updateAdminCounts();
+    }
+
+    function initGuru() {
+      if (!localStorage.getItem(STORAGE_KEY_GURU)) {
+        saveDaftarGuru([...DEFAULT_GURU_LIST]);
+      }
+    }
+
+    function renderAdminGuruList() {
+      const q = (document.getElementById('filter-cari-guru') ? document.getElementById('filter-cari-guru').value : '').toLowerCase().trim();
+      const fMapel = document.getElementById('filter-mapel-guru') ? document.getElementById('filter-mapel-guru').value : 'SEMUA';
+
+      const all = getDaftarGuru();
+
+      // Populate filter mapel jika belum
+      const selMapel = document.getElementById('filter-mapel-guru');
+      if (selMapel) {
+        const mapelSet = Array.from(new Set(all.map(g => g.mapel).filter(Boolean))).sort();
+        const curMapel = selMapel.value;
+        selMapel.innerHTML = '<option value="SEMUA">Semua Mapel</option>' +
+          mapelSet.map(m => `<option value="${m}">${m}</option>`).join('');
+        if (mapelSet.includes(curMapel) || curMapel === 'SEMUA') selMapel.value = curMapel;
+      }
+
+      let filtered = all;
+      if (fMapel !== 'SEMUA') {
+        filtered = filtered.filter(g => g.mapel === fMapel);
+      }
+      if (q) {
+        filtered = filtered.filter(g =>
+          (g.nama && g.nama.toLowerCase().includes(q)) ||
+          (g.nip && g.nip.toLowerCase().includes(q)) ||
+          (g.username && g.username.toLowerCase().includes(q)) ||
+          (g.mapel && g.mapel.toLowerCase().includes(q))
+        );
+      }
+
+      const tbody = document.getElementById('tbody-admin-guru');
+      if (!tbody) return;
+
+      const totalCountEl = document.getElementById('guru-total-count');
+      if (totalCountEl) totalCountEl.innerText = all.length;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400">Belum ada akun guru yang sesuai kriteria pencarian/filter.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map((g, idx) => {
+        const kelasBadges = (Array.isArray(g.kelasDiajar) && g.kelasDiajar.length > 0)
+          ? g.kelasDiajar.map(k => `<span class="inline-block bg-blue-100 text-blue-900 border border-blue-200 px-1.5 py-0.5 rounded text-[10px] font-bold font-mono mr-1 mb-1">${k}</span>`).join('')
+          : '<span class="text-xs text-rose-600 italic">Belum ada kelas ditugaskan</span>';
+
+        return `
+          <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+            <td class="px-4 py-3 text-center text-slate-400 font-bold">${idx + 1}</td>
+            <td class="px-4 py-3">
+              <div class="font-bold text-slate-900 text-sm">${g.nama}</div>
+              <div class="text-[11px] text-slate-500 font-mono">NIP: ${g.nip || '-'}</div>
+            </td>
+            <td class="px-4 py-3 font-semibold text-slate-800">
+              <span class="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-900 border border-indigo-200 text-xs font-bold">${g.mapel}</span>
+            </td>
+            <td class="px-4 py-3">
+              <div class="font-mono text-xs font-bold text-blue-900">User: <code class="bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200">${g.username}</code></div>
+              <div class="font-mono text-[11px] text-slate-500 mt-0.5">Sandi: <span class="bg-slate-100 px-1.5 py-0.5 rounded font-bold text-slate-700">${g.password}</span></div>
+            </td>
+            <td class="px-4 py-3 max-w-xs">
+              <div class="text-xs font-bold text-slate-700 mb-1">
+                Mengajar: <span class="text-blue-700 font-bold">${(g.kelasDiajar || []).length} Kelas</span>
+              </div>
+              <div class="flex flex-wrap max-h-16 overflow-y-auto">
+                ${kelasBadges}
+              </div>
+            </td>
+            <td class="px-4 py-3 text-center space-x-1 whitespace-nowrap">
+              <button onclick="bukaModalEditGuru('${g.id}')" class="px-2.5 py-1 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded font-bold text-xs transition">Edit</button>
+              <button onclick="hapusGuru('${g.id}')" class="px-2.5 py-1 bg-rose-100 hover:bg-rose-200 text-rose-800 rounded font-bold text-xs transition">Hapus</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function bukaModalTambahGuru() {
+      document.getElementById('modal-guru-title').innerText = 'Tambah Akun Guru Baru';
+      document.getElementById('form-guru-id').value = '';
+      document.getElementById('form-guru-nama').value = '';
+      document.getElementById('form-guru-nip').value = '';
+      document.getElementById('form-guru-mapel').value = '';
+      document.getElementById('form-guru-username').value = '';
+      document.getElementById('form-guru-password').value = 'guru77';
+      renderCheckboxesKelasGuru([]);
+      document.getElementById('modal-form-guru').classList.remove('hidden');
+    }
+
+    function bukaModalEditGuru(id) {
+      const list = getDaftarGuru();
+      const g = list.find(item => item.id === id);
+      if (!g) return;
+
+      document.getElementById('modal-guru-title').innerText = 'Edit Akun Guru & Penugasan Kelas';
+      document.getElementById('form-guru-id').value = g.id;
+      document.getElementById('form-guru-nama').value = g.nama;
+      document.getElementById('form-guru-nip').value = g.nip || '';
+      document.getElementById('form-guru-mapel').value = g.mapel || '';
+      document.getElementById('form-guru-username').value = g.username;
+      document.getElementById('form-guru-password').value = g.password;
+      renderCheckboxesKelasGuru(g.kelasDiajar || []);
+      document.getElementById('modal-form-guru').classList.remove('hidden');
+    }
+
+    function tutupModalFormGuru() {
+      document.getElementById('modal-form-guru').classList.add('hidden');
+    }
+
+    function renderCheckboxesKelasGuru(selectedClasses) {
+      const container = document.getElementById('container-checkbox-kelas-guru');
+      if (!container) return;
+
+      const kelasList = getDaftarKelas();
+      const vii = kelasList.filter(k => k.tingkat === 'VII');
+      const viii = kelasList.filter(k => k.tingkat === 'VIII');
+      const ix = kelasList.filter(k => k.tingkat === 'IX');
+      const lainnya = kelasList.filter(k => !['VII', 'VIII', 'IX'].includes(k.tingkat));
+
+      const renderGroup = (label, items) => {
+        if (items.length === 0) return '';
+        return `
+          <div class="mb-2">
+            <span class="block font-bold text-[11px] text-slate-700 mb-1">${label}</span>
+            <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-1.5">
+              ${items.map(k => {
+                const isChecked = selectedClasses.includes(k.kode);
+                return `
+                  <label class="flex items-center space-x-1.5 p-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer text-xs">
+                    <input type="checkbox" name="cb_kelas_guru" value="${k.kode}" ${isChecked ? 'checked' : ''} class="w-3.5 h-3.5 text-blue-600 rounded">
+                    <span class="font-bold text-slate-800 text-[11px]">${k.kode}</span>
+                  </label>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      };
+
+      container.innerHTML = `
+        ${renderGroup('Tingkat VII (Tujuh)', vii)}
+        ${renderGroup('Tingkat VIII (Delapan)', viii)}
+        ${renderGroup('Tingkat IX (Sembilan)', ix)}
+        ${renderGroup('Tingkat Lainnya', lainnya)}
+      `;
+    }
+
+    function pilihCepatKelasGuru(mode) {
+      const cbs = document.querySelectorAll('input[name="cb_kelas_guru"]');
+      const kelasList = getDaftarKelas();
+
+      cbs.forEach(cb => {
+        const val = cb.value;
+        const kObj = kelasList.find(k => k.kode === val);
+        const t = kObj ? kObj.tingkat : '';
+
+        if (mode === 'VII') {
+          cb.checked = (t === 'VII');
+        } else if (mode === 'VIII') {
+          cb.checked = (t === 'VIII');
+        } else if (mode === 'IX') {
+          cb.checked = (t === 'IX');
+        } else if (mode === 'VII_VIII') {
+          cb.checked = (t === 'VII' || t === 'VIII');
+        } else if (mode === 'SEMUA') {
+          cb.checked = true;
+        } else if (mode === 'KOSONG') {
+          cb.checked = false;
+        }
+      });
+    }
+
+    function handleSimpanGuru(e) {
+      e.preventDefault();
+      const id = document.getElementById('form-guru-id').value.trim();
+      const nama = document.getElementById('form-guru-nama').value.trim();
+      const nip = document.getElementById('form-guru-nip').value.trim() || '-';
+      const mapel = document.getElementById('form-guru-mapel').value.trim();
+      const username = document.getElementById('form-guru-username').value.trim().toLowerCase();
+      const password = document.getElementById('form-guru-password').value.trim();
+
+      if (!nama || !username || !password || !mapel) {
+        alert('Nama, Mata Pelajaran, Username, dan Password wajib diisi!');
+        return;
+      }
+
+      // Kumpulkan kelas terpilih
+      const selectedKelas = [];
+      document.querySelectorAll('input[name="cb_kelas_guru"]:checked').forEach(cb => {
+        selectedKelas.push(cb.value);
+      });
+
+      if (selectedKelas.length === 0) {
+        if (!confirm('Peringatan: Anda belum memilih satu pun kelas yang diajar oleh guru ini.\nGuru tidak akan dapat melihat rekap nilai atau data peserta sampai kelas ditugaskan. Lanjutkan?')) {
+          return;
+        }
+      }
+
+      const list = getDaftarGuru();
+
+      // Cek keunikan username
+      if (!id) {
+        if (list.some(g => g.username.toLowerCase() === username)) {
+          alert(`Username "${username}" sudah digunakan! Harap pilih username lain.`);
+          return;
+        }
+      } else {
+        if (list.some(g => g.id !== id && g.username.toLowerCase() === username)) {
+          alert(`Username "${username}" sudah digunakan oleh guru lain!`);
+          return;
+        }
+      }
+
+      if (id) {
+        // Edit mode
+        const idx = list.findIndex(g => g.id === id);
+        if (idx >= 0) {
+          list[idx].nama = nama;
+          list[idx].nip = nip;
+          list[idx].mapel = mapel;
+          list[idx].username = username;
+          list[idx].password = password;
+          list[idx].kelasDiajar = selectedKelas;
+        }
+      } else {
+        // Tambah baru
+        list.push({
+          id: 'guru-' + Date.now(),
+          nama,
+          nip,
+          mapel,
+          username,
+          password,
+          kelasDiajar: selectedKelas
+        });
+      }
+
+      saveDaftarGuru(list);
+      tutupModalFormGuru();
+      renderAdminGuruList();
+      alert('✓ Akun guru dan relasi kelas berhasil disimpan!');
+    }
+
+    function hapusGuru(id) {
+      const list = getDaftarGuru();
+      const g = list.find(item => item.id === id);
+      if (!g) return;
+
+      if (!confirm(`Hapus akun guru "${g.nama}" (${g.username})?`)) return;
+
+      const updated = list.filter(item => item.id !== id);
+      saveDaftarGuru(updated);
+      renderAdminGuruList();
+    }
+
+    function resetGuruDefault() {
+      if (!confirm('Kembalikan daftar guru ke pengaturan awal sekolah? Data guru kustom akan direset.')) return;
+      saveDaftarGuru([...DEFAULT_GURU_LIST]);
+      renderAdminGuruList();
+      alert('✓ Daftar akun guru berhasil dikembalikan ke default.');
     }
   </script>
 </body>
