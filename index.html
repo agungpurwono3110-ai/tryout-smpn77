@@ -106,14 +106,14 @@
 
       <!-- Navigasi Menu Kanan -->
       <div id="nav-menu-kanan" class="flex items-center space-x-2 sm:space-x-3 text-sm">
-        <button id="btn-nav-siswa" onclick="switchView('siswa-login')" class="hidden px-3.5 py-1.5 rounded-lg bg-blue-700/80 hover:bg-blue-600 transition font-medium items-center space-x-1.5 shadow-sm text-xs sm:text-sm">
+        <a href="#siswa" id="btn-nav-siswa" onclick="switchView('siswa-login');" class="hidden px-3.5 py-1.5 rounded-lg bg-blue-700/80 hover:bg-blue-600 transition font-medium items-center space-x-1.5 shadow-sm text-xs sm:text-sm cursor-pointer no-underline text-white">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
           <span>Ruang Siswa</span>
-        </button>
-        <button id="btn-nav-admin" onclick="switchView('admin-login')" class="flex px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 transition font-medium items-center space-x-1.5 shadow-sm text-xs sm:text-sm cursor-pointer">
+        </a>
+        <a href="#admin" id="btn-nav-admin" onclick="switchView('admin-login');" class="flex px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 transition font-medium items-center space-x-1.5 shadow-sm text-xs sm:text-sm cursor-pointer no-underline text-white">
           <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
           <span>Petugas / Guru</span>
-        </button>
+        </a>
       </div>
     </div>
   </header>
@@ -209,10 +209,10 @@
 
           <!-- Tautan Cepat Khusus Guru / Administrator -->
           <div class="pt-2 text-center border-t border-slate-100">
-            <button type="button" onclick="switchView('admin-login')" class="text-xs text-slate-500 hover:text-blue-700 font-medium transition inline-flex items-center space-x-1 py-1 px-3 rounded-lg hover:bg-blue-50">
+            <a href="#admin" onclick="switchView('admin-login');" class="text-xs text-slate-500 hover:text-blue-700 font-medium transition inline-flex items-center space-x-1 py-1 px-3 rounded-lg hover:bg-blue-50 cursor-pointer">
               <svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
               <span>Login Khusus Guru / Administrator</span>
-            </button>
+            </a>
           </div>
         </form>
       </div>
@@ -1389,10 +1389,10 @@
         <p class="mt-0.5 text-slate-500">Mendukung Pelaksanaan Asesmen Nasional Berbasis Komputer (ANBK) & Ujian Sekolah</p>
       </div>
       <div>
-        <button type="button" onclick="switchView('admin-login')" title="Pintu Masuk Guru / Proktor (Pintasan: Ctrl+Shift+A)" class="text-slate-500 hover:text-slate-300 transition text-[11px] underline flex items-center justify-center sm:justify-end space-x-1 cursor-pointer">
-          <svg class="w-3.5 h-3.5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        <a href="#admin" onclick="switchView('admin-login');" title="Pintu Masuk Guru / Proktor (Pintasan: Ctrl+Shift+A atau F2)" class="text-slate-400 hover:text-amber-300 transition text-[11px] underline flex items-center justify-center sm:justify-end space-x-1 cursor-pointer">
+          <svg class="w-3.5 h-3.5 inline text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
           <span>Akses Masuk Pengawas / Guru</span>
-        </button>
+        </a>
       </div>
     </div>
   </footer>
@@ -2668,24 +2668,13 @@ function doGet(e) {
       }
     });
 
-    document.addEventListener('DOMContentLoaded', async () => {
-      try { await muatPengaturanPusat(); } catch (e) { console.error('muatPengaturanPusat error:', e); }
-      try { initLogo(); } catch (e) { console.error('initLogo error:', e); }
-      try { initPengaturan(); } catch (e) { console.error('initPengaturan error:', e); }
-      try { initKelas(); } catch (e) { console.error('initKelas error:', e); }
-      try { initGuru(); } catch (e) { console.error('initGuru error:', e); }
-      try { initPeserta(); } catch (e) { console.error('initPeserta error:', e); }
-      try { await initBankSoal(); } catch (e) { console.error('initBankSoal error:', e); }
-      try { cekSesiTersimpan(); } catch (e) { console.error('cekSesi error:', e); }
-      try { setupAntiCurangListener(); } catch (e) { console.error('setupAntiCurang error:', e); }
+    // Cek rute URL & Hash langsung secara sinkron (Prioritas Utama)
+    function checkUrlRoute() {
       try {
-        updateRealtimeClock();
-        setInterval(updateRealtimeClock, 1000);
-      } catch (e) {}
+        const search = window.location.search || '';
+        const hash = window.location.hash || '';
+        const urlParams = new URLSearchParams(search);
 
-      // Cek parameter URL: ?admin, ?guru, ?proktor, atau ?nisn=...
-      try {
-        const urlParams = new URLSearchParams(window.location.search);
         const urlNisn = urlParams.get('nisn');
         if (urlNisn) {
           const inpNisn = document.getElementById('siswa-nisn');
@@ -2695,26 +2684,66 @@ function doGet(e) {
           }
         }
 
-        if (urlParams.has('admin') || urlParams.has('guru') || urlParams.has('proktor')) {
+        const isAdmin = urlParams.has('admin') || urlParams.has('proktor') || hash.includes('admin') || hash.includes('proktor');
+        const isGuru = urlParams.has('guru') || hash.includes('guru');
+
+        if (isAdmin || isGuru) {
           switchView('admin-login');
-          if (urlParams.has('guru')) {
+          if (isGuru) {
             pilihRoleLogin('guru');
           } else {
             pilihRoleLogin('admin');
           }
-        } else {
-          switchView('siswa-login');
         }
+      } catch (e) {
+        console.warn('checkUrlRoute error:', e);
+      }
+    }
+
+    // Dengarkan perubahan hash secara real-time (klik menu atau ganti hash di address bar)
+    window.addEventListener('hashchange', checkUrlRoute);
+    window.addEventListener('popstate', checkUrlRoute);
+
+    // Bootloader Aplikasi CBT SMPN 77
+    async function bootApp() {
+      // 1. Cek rute URL & Hash SEGERA
+      checkUrlRoute();
+
+      // 2. Inisialisasi komponen data lokal
+      try { initLogo(); } catch (e) { console.error('initLogo error:', e); }
+      try { initPengaturan(); } catch (e) { console.error('initPengaturan error:', e); }
+      try { initKelas(); } catch (e) { console.error('initKelas error:', e); }
+      try { initGuru(); } catch (e) { console.error('initGuru error:', e); }
+      try { initPeserta(); } catch (e) { console.error('initPeserta error:', e); }
+      try { cekSesiTersimpan(); } catch (e) { console.error('cekSesi error:', e); }
+      try { setupAntiCurangListener(); } catch (e) { console.error('setupAntiCurang error:', e); }
+      try {
+        updateRealtimeClock();
+        setInterval(updateRealtimeClock, 1000);
       } catch (e) {}
+
+      // 3. Muat data eksternal di background (asinkron)
+      try { await muatPengaturanPusat(); } catch (e) { console.error('muatPengaturanPusat error:', e); }
+      try { await initBankSoal(); } catch (e) { console.error('initBankSoal error:', e); }
+
+      // 4. Pastikan rute tetap terjaga
+      checkUrlRoute();
 
       // Interval otomatis sinkronisasi nilai setiap 15 detik saat panel admin dibuka
       setInterval(() => {
         const adminView = document.getElementById('view-admin-panel');
-        if (adminView && !adminView.classList.contains('hidden')) {
+        if (adminView && adminView.style.display !== 'none' && !adminView.classList.contains('hidden')) {
           sinkronisasiNilaiOtomatis(true);
         }
       }, 15000);
-    });
+    }
+
+    // Jalankan bootApp segera jika dokumen sudah siap, atau saat DOMContentLoaded
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootApp);
+    } else {
+      bootApp();
+    }
 
     function initLogo() {
       const customLogo = localStorage.getItem(STORAGE_KEY_LOGO);
@@ -3249,11 +3278,17 @@ function doGet(e) {
       const views = ['siswa-login', 'cbt-room', 'siswa-hasil', 'admin-login', 'admin-panel'];
       views.forEach(v => {
         const el = document.getElementById(`view-${v}`);
-        if (el) el.classList.add('hidden');
+        if (el) {
+          el.classList.add('hidden');
+          el.style.display = 'none';
+        }
       });
 
       const target = document.getElementById(`view-${viewName}`);
-      if (target) target.classList.remove('hidden');
+      if (target) {
+        target.classList.remove('hidden');
+        target.style.display = '';
+      }
 
       const siteHeader = document.getElementById('site-main-header') || document.querySelector('header');
       const siteFooter = document.querySelector('footer');
@@ -3295,6 +3330,12 @@ function doGet(e) {
 
         if (viewName === 'admin-login' || viewName === 'admin-panel') {
           // Saat di Ruang Petugas / Guru: Tampilkan tombol kembali ke Siswa
+          try {
+            if (window.location.hash !== '#admin' && window.location.hash !== '#guru') {
+              history.replaceState(null, '', '#admin');
+            }
+          } catch (e) {}
+
           if (btnAdmin) {
             btnAdmin.style.setProperty('display', 'none', 'important');
             btnAdmin.classList.add('hidden');
@@ -3307,6 +3348,12 @@ function doGet(e) {
           }
         } else {
           // Saat di Ruang Siswa (Login / Hasil): Tampilkan tombol "Petugas / Guru"
+          try {
+            if (window.location.hash === '#admin' || window.location.hash === '#guru') {
+              history.replaceState(null, '', window.location.pathname + window.location.search);
+            }
+          } catch (e) {}
+
           if (btnAdmin) {
             btnAdmin.style.removeProperty('display');
             btnAdmin.classList.remove('hidden');
