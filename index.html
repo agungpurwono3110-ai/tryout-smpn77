@@ -662,15 +662,40 @@
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
             <!-- Box Link Akses Siswa -->
-            <div class="bg-blue-50/70 p-4 rounded-xl border border-blue-200 space-y-2">
-              <span class="font-bold text-blue-900 uppercase text-[11px] tracking-wider block">1. Tautan Web Ujian (Link Siswa):</span>
-              <div class="flex items-center space-x-2">
-                <input type="text" id="input-link-siswa" readonly value="http://localhost:3000" class="w-full px-3 py-2 rounded-lg bg-white border border-blue-300 font-mono text-sm font-bold text-blue-900 select-all outline-none">
-                <button onclick="salinLinkSiswa()" class="px-3 py-2 bg-blue-700 hover:bg-blue-800 text-white font-bold rounded-lg whitespace-nowrap transition">
-                  Salin Link
-                </button>
+            <div class="bg-blue-50/70 p-4 rounded-xl border border-blue-200 space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-blue-900 uppercase text-[11px] tracking-wider block">1. Tautan Web Ujian (Link Siswa):</span>
+                <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded border border-emerald-300">Siap Diakses Siswa</span>
               </div>
-              <p class="text-slate-600 text-[11px]">Siswa di komputer lab cukup membuka Google Chrome lalu mengetik alamat link di atas.</p>
+
+              <!-- Pilihan 1: Tautan Pendek Resmi (Sangat mudah diketik siswa) -->
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-[11px] font-bold text-slate-700">Tautan Pendek Resmi (Tulis di Papan Tulis):</span>
+                  <span class="text-[10px] text-blue-700 font-semibold">Rekomendasi</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="text" id="input-link-tinyurl" readonly value="https://tinyurl.com/cbtsmpn77" class="w-full px-3 py-2 rounded-lg bg-white border border-blue-300 font-mono text-sm font-bold text-blue-900 select-all outline-none">
+                  <button type="button" onclick="salinLinkTinyURL()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg whitespace-nowrap transition text-xs shadow-xs cursor-pointer">
+                    Salin TinyURL
+                  </button>
+                </div>
+              </div>
+
+              <!-- Pilihan 2: Tautan Lengkap Server GitHub Pages -->
+              <div>
+                <span class="text-[10px] font-bold text-slate-500 mb-1 block">Tautan Lengkap Server (GitHub Pages):</span>
+                <div class="flex items-center space-x-2">
+                  <input type="text" id="input-link-siswa" readonly value="https://agungpurwono3110-ai.github.io/tryout-smpn77/" class="w-full px-3 py-1.5 rounded-lg bg-white border border-slate-300 font-mono text-xs font-bold text-slate-700 select-all outline-none">
+                  <button type="button" onclick="salinLinkSiswa()" class="px-3.5 py-1.5 bg-blue-700 hover:bg-blue-800 text-white font-bold rounded-lg whitespace-nowrap transition text-xs cursor-pointer">
+                    Salin Link
+                  </button>
+                </div>
+              </div>
+
+              <p class="text-slate-500 text-[10px] leading-relaxed pt-1 border-t border-blue-100">
+                Siswa dapat langsung membuka <strong>tinyurl.com/cbtsmpn77</strong> di browser HP/laptop untuk masuk ke ruang ujian.
+              </p>
             </div>
 
             <!-- Box Petunjuk Siswa Masuk -->
@@ -2899,11 +2924,30 @@ function doGet(e) {
     /* ========================================================
        MANAJEMEN LINK SERVER & MODE PROYEKTOR LAB
     ======================================================== */
-    let serverLinkAktif = (window.location.origin && window.location.origin.startsWith('http')) 
-      ? window.location.origin 
-      : 'http://localhost:3000';
+    function hitungUrlSiswaLengkap() {
+      // 1. Jika diakses dari GitHub Pages (*.github.io)
+      if (window.location.hostname && window.location.hostname.endsWith('github.io')) {
+        const segments = window.location.pathname.split('/').filter(Boolean);
+        let repoPart = (segments.length > 0 && !segments[0].endsWith('.html')) ? segments[0] : 'tryout-smpn77';
+        return `${window.location.origin}/${repoPart}/`;
+      }
+
+      // 2. Jika diakses dari web server HTTP/HTTPS lain (Netlify, Custom Domain, atau Localhost)
+      if (window.location.protocol.startsWith('http')) {
+        let cleanPath = window.location.pathname.replace(/\/(index|admin|guru)\.html.*$/i, '');
+        if (!cleanPath.endsWith('/')) cleanPath += '/';
+        return `${window.location.origin}${cleanPath}`;
+      }
+
+      // 3. Fallback jika dibuka sebagai file lokal file:///
+      return 'https://tinyurl.com/cbtsmpn77';
+    }
+
+    const TAUTAN_PENDEK_RESMI = 'https://tinyurl.com/cbtsmpn77';
+    let serverLinkAktif = hitungUrlSiswaLengkap();
 
     async function deteksiLinkServer() {
+      serverLinkAktif = hitungUrlSiswaLengkap();
       try {
         const resp = await fetch('/api/server-info');
         if (resp.ok) {
@@ -2913,29 +2957,49 @@ function doGet(e) {
           }
         }
       } catch (e) {
-        if (window.location.origin && window.location.origin.startsWith('http')) {
-          serverLinkAktif = window.location.origin;
-        }
+        serverLinkAktif = hitungUrlSiswaLengkap();
       }
 
       const inputLink = document.getElementById('input-link-siswa');
       if (inputLink) inputLink.value = serverLinkAktif;
+
+      const inputTiny = document.getElementById('input-link-tinyurl');
+      if (inputTiny) inputTiny.value = TAUTAN_PENDEK_RESMI;
+
       const proyektorLink = document.getElementById('proyektor-link-display');
-      if (proyektorLink) proyektorLink.innerText = serverLinkAktif;
+      if (proyektorLink) {
+        proyektorLink.innerText = (window.location.protocol.startsWith('http') && !window.location.hostname.includes('localhost'))
+          ? 'tinyurl.com/cbtsmpn77'
+          : serverLinkAktif;
+      }
     }
 
     function salinLinkSiswa() {
       const input = document.getElementById('input-link-siswa');
+      if (!input) return;
       input.select();
       navigator.clipboard.writeText(input.value)
-        .then(() => alert('✓ Tautan ujian berhasil disalin ke clipboard!'))
+        .then(() => alert('✓ Tautan server lengkap berhasil disalin:\n' + input.value))
+        .catch(() => alert('Tautan: ' + input.value));
+    }
+
+    function salinLinkTinyURL() {
+      const input = document.getElementById('input-link-tinyurl');
+      if (!input) return;
+      input.select();
+      navigator.clipboard.writeText(input.value)
+        .then(() => alert('✓ Tautan pendek resmi (tinyurl.com/cbtsmpn77) berhasil disalin!'))
         .catch(() => alert('Tautan: ' + input.value));
     }
 
     function bukaModalProyektor() {
       const settings = getSettings();
       document.getElementById('proyektor-token-display').innerText = settings.token;
-      document.getElementById('proyektor-link-display').innerText = serverLinkAktif;
+
+      const displayUrl = (window.location.protocol.startsWith('http') && !window.location.hostname.includes('localhost'))
+        ? 'tinyurl.com/cbtsmpn77'
+        : serverLinkAktif;
+      document.getElementById('proyektor-link-display').innerText = displayUrl;
 
       const logoProyektor = document.getElementById('proyektor-logo-img');
       const customLogo = localStorage.getItem(STORAGE_KEY_LOGO);
