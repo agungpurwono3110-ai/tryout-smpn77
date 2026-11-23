@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ruang Guru & Pengawas - CBT SMPN 77 Jakarta</title>
-  <meta http-equiv="refresh" content="0; url=index.html#guru">
+  <meta http-equiv="refresh" content="0; url=index.html?guru=1#guru">
   <script>
-    window.location.replace("index.html#guru");
+    // Langsung arahkan ke index.html dengan parameter guru + hash guru agar browser memuat ulang
+    window.location.replace("index.html?guru=1&t=" + Date.now() + "#guru");
   </script>
 </head>
 <body style="font-family: sans-serif; text-align: center; padding: 60px 20px; background: #0f172a; color: #f8fafc;">
@@ -14,7 +15,7 @@
     <div style="font-size: 40px; margin-bottom: 12px;">👤</div>
     <h2 style="margin: 0 0 8px 0; color: #60a5fa;">Ruang Guru / Pengawas</h2>
     <p style="color: #94a3b8; font-size: 13px; margin: 0 0 20px 0;">Menghubungkan ke Ruang Login Guru CBT SMP Negeri 77 Jakarta...</p>
-    <a href="index.html#guru" style="display: inline-block; padding: 10px 20px; background: #2563eb; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px;">Klik di Sini Jika Tidak Terbuka Otomatis</a>
+    <a href="index.html?guru=1#guru" style="display: inline-block; padding: 10px 20px; background: #2563eb; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px;">Klik di Sini Jika Tidak Terbuka Otomatis</a>
   </div>
 </body>
 </html>
