@@ -1,0 +1,172 @@
+[
+  {
+    "id": "guru-triati",
+    "nama": "Tri Ati Agustini, S.Pd.",
+    "nip": "-",
+    "username": "triati",
+    "password": "guru77",
+    "mapel": "Matematika",
+    "tingkat": ["VII"],
+    "kelasDiajar": [
+      "VII-A", "VII-B", "VII-C", "VII-D", "VII-E", "VII-F", "VII-G"
+    ]
+  },
+  {
+    "id": "guru-jemiati",
+    "nama": "Dra. Jemiati",
+    "nip": "-",
+    "username": "jemiati",
+    "password": "guru77",
+    "mapel": "Bahasa Indonesia",
+    "tingkat": ["VII"],
+    "kelasDiajar": [
+      "VII-A", "VII-B", "VII-C", "VII-D", "VII-E", "VII-F", "VII-G"
+    ]
+  },
+  {
+    "id": "guru-umu",
+    "nama": "Umu Sangadah, S.Pd",
+    "nip": "-",
+    "username": "umusangadah",
+    "password": "guru77",
+    "mapel": "Bimbingan Konseling (BK)",
+    "tingkat": ["VII"],
+    "kelasDiajar": [
+      "VII-A", "VII-B", "VII-C", "VII-D", "VII-E", "VII-F", "VII-G"
+    ]
+  },
+  {
+    "id": "guru-fitri",
+    "nama": "Fitri Muzayyanah, S.Pd",
+    "nip": "-",
+    "username": "fitrimuzayyanah",
+    "password": "guru77",
+    "mapel": "Bahasa Indonesia",
+    "tingkat": ["VII"],
+    "kelasDiajar": [
+      "VII-A", "VII-B", "VII-C", "VII-D", "VII-E", "VII-F", "VII-G"
+    ]
+  },
+  {
+    "id": "guru-timbul",
+    "nama": "Drs. Timbul",
+    "nip": "-",
+    "username": "timbul",
+    "password": "guru77",
+    "mapel": "PJOK",
+    "tingkat": ["VII"],
+    "kelasDiajar": [
+      "VII-A", "VII-B", "VII-C", "VII-D", "VII-E", "VII-F", "VII-G"
+    ]
+  },
+  {
+    "id": "guru-iin",
+    "nama": "Iin Hidayati, S.Pd",
+    "nip": "-",
+    "username": "iinhidayati",
+    "password": "guru77",
+    "mapel": "PJOK",
+    "tingkat": ["VII"],
+    "kelasDiajar": [
+      "VII-A", "VII-B", "VII-C", "VII-D", "VII-E", "VII-F", "VII-G"
+    ]
+  },
+  {
+    "id": "guru-samsinar",
+    "nama": "Samsinar Dumaria, S.S, MM.",
+    "nip": "-",
+    "username": "samsinar",
+    "password": "guru77",
+    "mapel": "Bahasa Inggris",
+    "tingkat": ["VII"],
+    "kelasDiajar": [
+      "VII-A", "VII-B", "VII-C", "VII-D", "VII-E", "VII-F", "VII-G"
+    ]
+  },
+  {
+    "id": "guru-mulya",
+    "nama": "Mulya Handayani, S.Pd.",
+    "nip": "-",
+    "username": "mulyahandayani",
+    "password": "guru77",
+    "mapel": "Informatika / TIK",
+    "tingkat": ["VII"],
+    "kelasDiajar": [
+      "VII-A", "VII-B", "VII-C", "VII-D", "VII-E", "VII-F", "VII-G"
+    ]
+  },
+  {
+    "id": "guru-indri",
+    "nama": "Indri Nurani Larasati, S.Pd.",
+    "nip": "-",
+    "username": "indrinurani",
+    "password": "guru77",
+    "mapel": "Matematika",
+    "tingkat": ["VII"],
+    "kelasDiajar": [
+      "VII-A", "VII-B", "VII-C", "VII-D", "VII-E", "VII-F", "VII-G"
+    ]
+  },
+  {
+    "id": "guru-agung",
+    "nama": "Agung Palgunadi, S.Pd.",
+    "nip": "-",
+    "username": "agungpalgunadi",
+    "password": "guru77",
+    "mapel": "Matematika",
+    "tingkat": ["VII"],
+    "kelasDiajar": [
+      "VII-A", "VII-B", "VII-C", "VII-D", "VII-E", "VII-F", "VII-G"
+    ]
+  },
+  {
+    "id": "guru-rahmawati",
+    "nama": "Rahmawati, S.Pt.",
+    "nip": "-",
+    "username": "rahmawati",
+    "password": "guru77",
+    "mapel": "Ilmu Pengetahuan Alam (IPA)",
+    "tingkat": ["VII"],
+    "kelasDiajar": [
+      "VII-A", "VII-B", "VII-C", "VII-D", "VII-E", "VII-F", "VII-G"
+    ]
+  },
+  {
+    "id": "guru-otong",
+    "nama": "Otong Bukhori, S.Pd.",
+    "nip": "-",
+    "username": "otongbukhori",
+    "password": "guru77",
+    "mapel": "Ilmu Pengetahuan Alam (IPA)",
+    "tingkat": ["VII"],
+    "kelasDiajar": [
+      "VII-A", "VII-B", "VII-C", "VII-D", "VII-E", "VII-F", "VII-G"
+    ]
+  },
+  {
+    "id": "guru-heriyanti",
+    "nama": "Dra. Heriyanti",
+    "nip": "-",
+    "username": "heriyanti",
+    "password": "guru77",
+    "mapel": "Ilmu Pengetahuan Sosial (IPS)",
+    "tingkat": ["VII"],
+    "kelasDiajar": [
+      "VII-A", "VII-B", "VII-C", "VII-D", "VII-E", "VII-F", "VII-G"
+    ]
+  },
+  {
+    "id": "guru-default",
+    "nama": "Pengawas Ruang / Guru Umum",
+    "nip": "-",
+    "username": "guru",
+    "password": "guru77",
+    "mapel": "Semua Mata Pelajaran",
+    "tingkat": ["VII", "VIII", "IX"],
+    "kelasDiajar": [
+      "VII-A", "VII-B", "VII-C", "VII-D", "VII-E", "VII-F", "VII-G",
+      "VIII-A", "VIII-B", "VIII-C", "VIII-D", "VIII-E", "VIII-F", "VIII-G",
+      "IX-A", "IX-B", "IX-C", "IX-D", "IX-E", "IX-F", "IX-G"
+    ]
+  }
+]

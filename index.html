@@ -535,12 +535,12 @@
 
           <div>
             <label class="block text-sm font-semibold text-slate-700 mb-1.5">Nama Pengguna (Username)</label>
-            <input type="text" id="petugas-username" required value="admin" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 outline-none font-medium">
+            <input type="text" id="petugas-username" required value="admin" autocapitalize="none" autocomplete="username" spellcheck="false" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 outline-none font-medium">
           </div>
 
           <div>
             <label class="block text-sm font-semibold text-slate-700 mb-1.5">Kata Sandi</label>
-            <input type="password" id="petugas-password" required placeholder="Masukkan kata sandi..." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 outline-none">
+            <input type="password" id="petugas-password" required placeholder="Masukkan kata sandi..." autocomplete="current-password" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 outline-none">
           </div>
 
           <!-- Keterangan Hak Akses Peran -->
@@ -1267,13 +1267,25 @@
               <p class="text-xs text-slate-500 mt-0.5">Tiap guru dapat login dengan username dan password masing-masing, serta direlasikan khusus ke kelas yang diajar (misal: hanya kelas VII, kelas VIII, atau VII, VIII, IX).</p>
             </div>
           </div>
-          <div class="flex items-center space-x-2">
-            <button onclick="bukaModalTambahGuru()" class="px-4 py-2.5 bg-blue-700 hover:bg-blue-800 text-white rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow">
+          <div class="flex items-center space-x-2 flex-wrap gap-y-2">
+            <button onclick="bukaModalTambahGuru()" class="px-3.5 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-              <span>+ Tambah Akun Guru Baru</span>
+              <span>+ Tambah Akun</span>
             </button>
+            <button onclick="unduhGuruJson()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow" title="Unduh berkas guru.json untuk diunggah ke GitHub">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              <span>💾 Unduh guru.json (GitHub)</span>
+            </button>
+            <button onclick="salinDaftarAkunGuruWa()" class="px-3.5 py-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow" title="Salin seluruh akun guru untuk dibagikan ke WhatsApp">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+              <span>📋 Salin ke WA</span>
+            </button>
+            <button onclick="bukaModalImportGuru()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition" title="Impor data guru dari berkas guru.json">
+              📥 Impor JSON
+            </button>
+            <input type="file" id="input-file-import-guru" accept=".json" onchange="handleImportGuruFile(event)" class="hidden">
             <button onclick="resetGuruDefault()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition">
-              Reset Akun Guru
+              Reset Bawaan
             </button>
           </div>
         </div>
@@ -2511,44 +2523,134 @@ function doGet(e) {
     // Daftar akun guru bawaan dengan username, password, dan relasi kelas diajar
     const DEFAULT_GURU_LIST = [
       {
-        id: 'guru-1',
-        nama: 'Dra. Hj. Sri Wahyuni, M.Pd',
-        nip: '197205141998022001',
-        username: 'sriwahyuni',
+        id: 'guru-triati',
+        nama: 'Tri Ati Agustini, S.Pd.',
+        nip: '-',
+        username: 'triati',
+        password: 'guru77',
+        mapel: 'Matematika',
+        tingkat: ['VII'],
+        kelasDiajar: ['VII-A', 'VII-B', 'VII-C', 'VII-D', 'VII-E', 'VII-F', 'VII-G']
+      },
+      {
+        id: 'guru-jemiati',
+        nama: 'Dra. Jemiati',
+        nip: '-',
+        username: 'jemiati',
         password: 'guru77',
         mapel: 'Bahasa Indonesia',
         tingkat: ['VII'],
         kelasDiajar: ['VII-A', 'VII-B', 'VII-C', 'VII-D', 'VII-E', 'VII-F', 'VII-G']
       },
       {
-        id: 'guru-2',
-        nama: 'Budi Utomo, S.Pd, M.M',
-        nip: '197908232005011004',
-        username: 'budiutomo',
+        id: 'guru-umu',
+        nama: 'Umu Sangadah, S.Pd',
+        nip: '-',
+        username: 'umusangadah',
         password: 'guru77',
-        mapel: 'Matematika',
-        tingkat: ['VIII'],
-        kelasDiajar: ['VIII-A', 'VIII-B', 'VIII-C', 'VIII-D', 'VIII-E', 'VIII-F', 'VIII-G']
+        mapel: 'Bimbingan Konseling (BK)',
+        tingkat: ['VII'],
+        kelasDiajar: ['VII-A', 'VII-B', 'VII-C', 'VII-D', 'VII-E', 'VII-F', 'VII-G']
       },
       {
-        id: 'guru-3',
-        nama: 'Ratna Sari Dewi, S.Pd',
-        nip: '198503122010012015',
-        username: 'ratnasari',
+        id: 'guru-fitri',
+        nama: 'Fitri Muzayyanah, S.Pd',
+        nip: '-',
+        username: 'fitrimuzayyanah',
         password: 'guru77',
-        mapel: 'Ilmu Pengetahuan Alam',
-        tingkat: ['VII', 'VIII'],
-        kelasDiajar: ['VII-A', 'VII-B', 'VII-C', 'VII-D', 'VII-E', 'VII-F', 'VII-G', 'VIII-A', 'VIII-B', 'VIII-C', 'VIII-D', 'VIII-E', 'VIII-F', 'VIII-G']
+        mapel: 'Bahasa Indonesia',
+        tingkat: ['VII'],
+        kelasDiajar: ['VII-A', 'VII-B', 'VII-C', 'VII-D', 'VII-E', 'VII-F', 'VII-G']
       },
       {
-        id: 'guru-4',
-        nama: 'Ahmad Fauzi, M.Pd',
-        nip: '198211052009021003',
-        username: 'ahmadfauzi',
+        id: 'guru-timbul',
+        nama: 'Drs. Timbul',
+        nip: '-',
+        username: 'timbul',
+        password: 'guru77',
+        mapel: 'PJOK',
+        tingkat: ['VII'],
+        kelasDiajar: ['VII-A', 'VII-B', 'VII-C', 'VII-D', 'VII-E', 'VII-F', 'VII-G']
+      },
+      {
+        id: 'guru-iin',
+        nama: 'Iin Hidayati, S.Pd',
+        nip: '-',
+        username: 'iinhidayati',
+        password: 'guru77',
+        mapel: 'PJOK',
+        tingkat: ['VII'],
+        kelasDiajar: ['VII-A', 'VII-B', 'VII-C', 'VII-D', 'VII-E', 'VII-F', 'VII-G']
+      },
+      {
+        id: 'guru-samsinar',
+        nama: 'Samsinar Dumaria, S.S, MM.',
+        nip: '-',
+        username: 'samsinar',
         password: 'guru77',
         mapel: 'Bahasa Inggris',
-        tingkat: ['IX'],
-        kelasDiajar: ['IX-A', 'IX-B', 'IX-C', 'IX-D', 'IX-E', 'IX-F', 'IX-G']
+        tingkat: ['VII'],
+        kelasDiajar: ['VII-A', 'VII-B', 'VII-C', 'VII-D', 'VII-E', 'VII-F', 'VII-G']
+      },
+      {
+        id: 'guru-mulya',
+        nama: 'Mulya Handayani, S.Pd.',
+        nip: '-',
+        username: 'mulyahandayani',
+        password: 'guru77',
+        mapel: 'Informatika / TIK',
+        tingkat: ['VII'],
+        kelasDiajar: ['VII-A', 'VII-B', 'VII-C', 'VII-D', 'VII-E', 'VII-F', 'VII-G']
+      },
+      {
+        id: 'guru-indri',
+        nama: 'Indri Nurani Larasati, S.Pd.',
+        nip: '-',
+        username: 'indrinurani',
+        password: 'guru77',
+        mapel: 'Matematika',
+        tingkat: ['VII'],
+        kelasDiajar: ['VII-A', 'VII-B', 'VII-C', 'VII-D', 'VII-E', 'VII-F', 'VII-G']
+      },
+      {
+        id: 'guru-agung',
+        nama: 'Agung Palgunadi, S.Pd.',
+        nip: '-',
+        username: 'agungpalgunadi',
+        password: 'guru77',
+        mapel: 'Matematika',
+        tingkat: ['VII'],
+        kelasDiajar: ['VII-A', 'VII-B', 'VII-C', 'VII-D', 'VII-E', 'VII-F', 'VII-G']
+      },
+      {
+        id: 'guru-rahmawati',
+        nama: 'Rahmawati, S.Pt.',
+        nip: '-',
+        username: 'rahmawati',
+        password: 'guru77',
+        mapel: 'Ilmu Pengetahuan Alam (IPA)',
+        tingkat: ['VII'],
+        kelasDiajar: ['VII-A', 'VII-B', 'VII-C', 'VII-D', 'VII-E', 'VII-F', 'VII-G']
+      },
+      {
+        id: 'guru-otong',
+        nama: 'Otong Bukhori, S.Pd.',
+        nip: '-',
+        username: 'otongbukhori',
+        password: 'guru77',
+        mapel: 'Ilmu Pengetahuan Alam (IPA)',
+        tingkat: ['VII'],
+        kelasDiajar: ['VII-A', 'VII-B', 'VII-C', 'VII-D', 'VII-E', 'VII-F', 'VII-G']
+      },
+      {
+        id: 'guru-heriyanti',
+        nama: 'Dra. Heriyanti',
+        nip: '-',
+        username: 'heriyanti',
+        password: 'guru77',
+        mapel: 'Ilmu Pengetahuan Sosial (IPS)',
+        tingkat: ['VII'],
+        kelasDiajar: ['VII-A', 'VII-B', 'VII-C', 'VII-D', 'VII-E', 'VII-F', 'VII-G']
       },
       {
         id: 'guru-default',
@@ -2664,6 +2766,50 @@ function doGet(e) {
       }
     }
 
+    async function muatGuruPusat() {
+      try {
+        const resp = await fetch('guru.json?t=' + Date.now());
+        if (resp.ok) {
+          const centralGuru = await resp.json();
+          if (Array.isArray(centralGuru) && centralGuru.length > 0) {
+            const savedStr = localStorage.getItem(STORAGE_KEY_GURU);
+            if (!savedStr) {
+              localStorage.setItem(STORAGE_KEY_GURU, JSON.stringify(centralGuru));
+            } else {
+              try {
+                const localList = JSON.parse(savedStr);
+                let adaBaru = false;
+                centralGuru.forEach(cg => {
+                  const idx = localList.findIndex(lg => 
+                    (lg.id && cg.id && lg.id === cg.id) ||
+                    (lg.username && cg.username && lg.username.toLowerCase() === cg.username.toLowerCase())
+                  );
+                  if (idx < 0) {
+                    localList.push(cg);
+                    adaBaru = true;
+                  } else {
+                    localList[idx].nama = cg.nama || localList[idx].nama;
+                    localList[idx].mapel = cg.mapel || localList[idx].mapel;
+                    if (Array.isArray(cg.kelasDiajar) && cg.kelasDiajar.length > 0) {
+                      localList[idx].kelasDiajar = Array.from(new Set([...(localList[idx].kelasDiajar || []), ...cg.kelasDiajar]));
+                    }
+                    adaBaru = true;
+                  }
+                });
+                if (adaBaru) {
+                  localStorage.setItem(STORAGE_KEY_GURU, JSON.stringify(localList));
+                }
+              } catch (e) {
+                localStorage.setItem(STORAGE_KEY_GURU, JSON.stringify(centralGuru));
+              }
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('Gagal memuat guru.json terpusat:', err);
+      }
+    }
+
     /* ========================================================
        AKSES RAHASIA PROKTOR / GURU (Logo 3x & Shortcut Ctrl+Shift+A)
     ======================================================== */
@@ -2749,6 +2895,7 @@ function doGet(e) {
 
       // 3. Muat data eksternal di background (asinkron)
       try { await muatPengaturanPusat(); } catch (e) { console.error('muatPengaturanPusat error:', e); }
+      try { await muatGuruPusat(); } catch (e) { console.error('muatGuruPusat error:', e); }
       try { await initBankSoal(); } catch (e) { console.error('initBankSoal error:', e); }
 
       // 4. Pastikan rute tetap terjaga
@@ -4566,8 +4713,8 @@ function doGet(e) {
         if (btnGuru) btnGuru.className = 'py-2.5 rounded-lg bg-blue-700 text-white shadow-sm transition flex items-center justify-center space-x-1.5';
         if (btnAdmin) btnAdmin.className = 'py-2.5 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center justify-center space-x-1.5';
         if (userField) {
-          userField.value = 'sriwahyuni';
-          userField.placeholder = 'Username guru (contoh: sriwahyuni, budiutomo, guru)';
+          userField.value = '';
+          userField.placeholder = 'Ketik Username Guru (contoh: triati, jemiati, timbul, guru)';
         }
         if (descEl) {
           descEl.className = 'p-3.5 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-900 space-y-1';
@@ -4575,8 +4722,8 @@ function doGet(e) {
             <p class="font-bold flex items-center space-x-1 text-blue-900">
               <span>👤 Hak Akses Guru Mata Pelajaran / Pengawas:</span>
             </p>
-            <p class="text-blue-800">Login dengan akun masing-masing. Sistem otomatis menyesuaikan rekap nilai dan data peserta dengan kelas yang Anda ampu.</p>
-            <p class="text-[11px] text-blue-700 font-medium">Akun bawaan: <code class="font-mono bg-blue-100 px-1 py-0.5 rounded font-bold">sriwahyuni</code> (B. Indo / Kls VII), <code class="font-mono bg-blue-100 px-1 py-0.5 rounded font-bold">budiutomo</code> (Mat / Kls VIII), atau <code class="font-mono bg-blue-100 px-1 py-0.5 rounded font-bold">guru</code> (Umum) / Sandi: <code class="font-mono bg-blue-100 px-1 py-0.5 rounded font-bold">guru77</code></p>
+            <p class="text-blue-800">Login dengan akun masing-masing guru SMPN 77. Sistem otomatis menyaring rekap nilai dan peserta sesuai kelas yang Anda ampu.</p>
+            <p class="text-[11px] text-blue-700 font-medium">Akun resmi: <code class="font-mono bg-blue-100 px-1 py-0.5 rounded font-bold">triati</code>, <code class="font-mono bg-blue-100 px-1 py-0.5 rounded font-bold">jemiati</code>, <code class="font-mono bg-blue-100 px-1 py-0.5 rounded font-bold">timbul</code>, dll. atau <code class="font-mono bg-blue-100 px-1 py-0.5 rounded font-bold">guru</code> / Sandi: <code class="font-mono bg-blue-100 px-1 py-0.5 rounded font-bold">guru77</code></p>
           `;
         }
         if (submitBtn) submitBtn.innerHTML = `<span>Masuk sebagai Guru / Pengawas</span><svg class="w-4 h-4 ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>`;
@@ -4586,33 +4733,61 @@ function doGet(e) {
     function handleLoginPetugas(e) {
       e.preventDefault();
       const role = document.getElementById('login-active-role').value;
-      const username = document.getElementById('petugas-username').value.trim();
-      const password = document.getElementById('petugas-password').value;
+      const rawUser = document.getElementById('petugas-username').value || '';
+      const rawPass = document.getElementById('petugas-password').value || '';
+      const username = rawUser.trim();
+      const password = rawPass.trim();
       const auth = getAuth();
       const guruList = getDaftarGuru();
 
       let loginBerhasil = false;
 
       // 1. Cek Kredensial Administrator Utama
-      if (username.toLowerCase() === auth.adminUser.toLowerCase() && password === auth.adminPass) {
+      if (username.toLowerCase() === auth.adminUser.toLowerCase() && (password === auth.adminPass || password.toLowerCase() === auth.adminPass.toLowerCase())) {
         loginBerhasil = true;
         currentRole = 'admin';
         currentGuruUser = null;
       } else {
         // 2. Cek apakah cocok dengan salah satu Akun Guru Terdaftar
-        const matchedTeacher = guruList.find(g => 
-          g.username && g.username.toLowerCase() === username.toLowerCase() && g.password === password
-        );
+        const cleanUser = username.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const cleanPass = password;
+
+        const matchedTeacher = guruList.find(g => {
+          if (!g) return false;
+          const gUser = String(g.username || '').toLowerCase().trim();
+          const gCleanUser = gUser.replace(/[^a-z0-9]/g, '');
+          const gName = String(g.nama || '').toLowerCase();
+          const gCleanName = gName.replace(/[^a-z0-9]/g, '');
+          const gPass = String(g.password || '').trim();
+
+          const userMatch = (
+            gUser === username.toLowerCase() ||
+            gCleanUser === cleanUser ||
+            (cleanUser.length >= 3 && gCleanName.includes(cleanUser)) ||
+            (cleanUser.length >= 3 && gCleanUser.includes(cleanUser)) ||
+            (g.nip && g.nip !== '-' && g.nip === username)
+          );
+
+          const passMatch = (
+            gPass === cleanPass ||
+            gPass.toLowerCase() === cleanPass.toLowerCase()
+          );
+
+          return userMatch && passMatch;
+        });
 
         if (matchedTeacher) {
           loginBerhasil = true;
           currentRole = 'guru';
           currentGuruUser = { ...matchedTeacher };
-        } else if (username.toLowerCase() === (auth.guruUser || 'guru').toLowerCase() && password === (auth.guruPass || 'guru77')) {
+        } else if (
+          (username.toLowerCase() === (auth.guruUser || 'guru').toLowerCase() || cleanUser === 'guru') && 
+          (password === (auth.guruPass || 'guru77') || password.toLowerCase() === 'guru77')
+        ) {
           // 3. Fallback akun guru umum bawaan
           loginBerhasil = true;
           currentRole = 'guru';
-          const defaultG = guruList.find(g => g.username.toLowerCase() === 'guru') || {
+          const defaultG = guruList.find(g => (g.username || '').toLowerCase() === 'guru') || {
             id: 'guru-default',
             nama: 'Guru / Pengawas Ruang',
             nip: '-',
@@ -4632,7 +4807,7 @@ function doGet(e) {
         updateAdminCounts();
         initPengaturan();
       } else {
-        alert('❌ Nama pengguna (username) atau kata sandi tidak cocok!\nSilakan periksa kembali huruf besar/kecil.');
+        alert('❌ Nama pengguna (username) atau kata sandi tidak cocok!\n\nTips Login Guru SMPN 77:\n• Masukkan username Anda (contoh: triati, jemiati, fitri, timbul, dll.)\n• Kata sandi standar guru: guru77\n• Jika masih kendala, Anda dapat masuk sementara menggunakan username "guru" dan sandi "guru77".');
       }
     }
 
@@ -7323,11 +7498,34 @@ Pembahasan: Mitokondria adalah pusat penghasil energi sel melalui respirasi.`;
     function saveDaftarGuru(list) {
       localStorage.setItem(STORAGE_KEY_GURU, JSON.stringify(list));
       updateAdminCounts();
+      if (window.location.protocol.startsWith('http')) {
+        try {
+          fetch('/api/simpan-guru', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(list)
+          }).catch(() => {});
+        } catch (e) {}
+      }
     }
 
     function initGuru() {
-      if (!localStorage.getItem(STORAGE_KEY_GURU)) {
+      const saved = localStorage.getItem(STORAGE_KEY_GURU);
+      if (!saved) {
         saveDaftarGuru([...DEFAULT_GURU_LIST]);
+      } else {
+        try {
+          const list = JSON.parse(saved);
+          const hasTriAti = list.some(g => (g.username || '').toLowerCase() === 'triati' || (g.nama || '').includes('Tri Ati'));
+          if (!hasTriAti) {
+            DEFAULT_GURU_LIST.forEach(dg => {
+              if (!list.some(lg => (lg.username || '').toLowerCase() === (dg.username || '').toLowerCase())) {
+                list.push(dg);
+              }
+            });
+            saveDaftarGuru(list);
+          }
+        } catch (e) {}
       }
     }
 
@@ -7590,6 +7788,87 @@ Pembahasan: Mitokondria adalah pusat penghasil energi sel melalui respirasi.`;
       saveDaftarGuru([...DEFAULT_GURU_LIST]);
       renderAdminGuruList();
       alert('✓ Daftar akun guru berhasil dikembalikan ke default.');
+    }
+
+    function unduhGuruJson() {
+      const guruList = getDaftarGuru();
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(guruList, null, 2));
+      const dlAnchor = document.createElement('a');
+      dlAnchor.setAttribute("href", dataStr);
+      dlAnchor.setAttribute("download", "guru.json");
+      document.body.appendChild(dlAnchor);
+      dlAnchor.click();
+      dlAnchor.remove();
+      alert('✓ Berkas "guru.json" berhasil diunduh ke laptop Anda!\n\nLangkah agar semua guru di HP/Laptop mereka bisa langsung login:\n1. Buka repositori GitHub (agungpurwono3110-ai/tryout-smpn77).\n2. Klik "Add file" -> "Upload files", lalu pilih berkas "guru.json" dari folder Downloads.\n3. Klik "Commit changes".\n\nSelesai! Seluruh akun guru dan kelas binaan otomatis aktif di semua perangkat guru.');
+    }
+
+    function bukaModalImportGuru() {
+      const input = document.getElementById('input-file-import-guru');
+      if (input) input.click();
+    }
+
+    function handleImportGuruFile(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        try {
+          const data = JSON.parse(evt.target.result);
+          if (Array.isArray(data) && data.length > 0) {
+            saveDaftarGuru(data);
+            renderAdminGuruList();
+            alert(`✓ Sukses mengimpor ${data.length} akun guru dari berkas!`);
+          } else {
+            alert('Format berkas JSON tidak valid.');
+          }
+        } catch (err) {
+          alert('Gagal membaca berkas: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    }
+
+    function salinDaftarAkunGuruWa() {
+      const guruList = getDaftarGuru();
+      const webUrl = (typeof hitungUrlSiswaLengkap === 'function') 
+        ? hitungUrlSiswaLengkap() 
+        : 'https://tinyurl.com/cbtsmpn77';
+      const guruUrl = webUrl.includes('?') ? (webUrl + '&guru=1#guru') : (webUrl.replace(/\/+$/, '') + '/#guru');
+
+      let teks = `📋 *DAFTAR AKUN LOGIN GURU & PENGAWAS*\n*CBT SMP NEGERI 77 JAKARTA*\n\n`;
+      teks += `🌐 *Link Ruang Guru:* ${guruUrl}\n`;
+      teks += `Atau buka *tinyurl.com/cbtsmpn77* lalu klik tombol *"Petugas / Guru"* di pojok kanan atas.\n\n`;
+      teks += `--------------------------------------\n`;
+
+      guruList.forEach((g, idx) => {
+        const jmlKls = Array.isArray(g.kelasDiajar) ? g.kelasDiajar.length : 0;
+        const daftarKls = (g.kelasDiajar && g.kelasDiajar.length > 0) ? g.kelasDiajar.join(', ') : 'Belum diatur';
+        teks += `${idx + 1}. *${g.nama}*\n`;
+        teks += `   • Mapel: ${g.mapel}\n`;
+        teks += `   • Username: *${g.username}*\n`;
+        teks += `   • Sandi: *${g.password}*\n`;
+        teks += `   • Kelas: ${jmlKls} kelas (${daftarKls})\n\n`;
+      });
+
+      teks += `--------------------------------------\n`;
+      teks += `👑 *Akun Administrator Utama (Akses Penuh):*\n`;
+      teks += `   • Username: *admin*\n`;
+      teks += `   • Sandi: *admin77*\n`;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(teks).then(() => {
+          alert('✓ Seluruh data akun guru berhasil disalin ke clipboard!\n\nAnda dapat langsung menempelkannya (Paste / Ctrl+V) di grup WhatsApp Guru SMPN 77 Jakarta.');
+        }).catch(() => {
+          tampilkanTeksPrompt(teks);
+        });
+      } else {
+        tampilkanTeksPrompt(teks);
+      }
+    }
+
+    function tampilkanTeksPrompt(teks) {
+      window.prompt('Salin daftar akun guru di bawah ini (Ctrl+C):', teks);
     }
   </script>
 </body>
