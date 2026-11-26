@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CBT Try Out - SMP Negeri 77 Jakarta</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231e3a8a'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>">
+  <!-- PWA Manifest & App Standalone Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1d4ed8">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="CBT SMPN 77">
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Library SheetJS untuk membaca berkas Excel (.xlsx, .xls, .csv) -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -106,6 +113,11 @@
 
       <!-- Navigasi Menu Kanan -->
       <div id="nav-menu-kanan" class="flex items-center space-x-2 sm:space-x-3 text-sm">
+        <button type="button" id="btn-install-pwa" onclick="picuInstallPwa()" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition flex items-center space-x-1.5 shadow-sm cursor-pointer" title="Pasang aplikasi di Desktop PC atau Layar Utama HP">
+          <svg class="w-4 h-4 text-emerald-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span class="hidden sm:inline">Pasang Aplikasi</span>
+          <span class="sm:hidden">Install</span>
+        </button>
         <a href="#siswa" id="btn-nav-siswa" onclick="switchView('siswa-login');" class="hidden px-3.5 py-1.5 rounded-lg bg-blue-700/80 hover:bg-blue-600 transition font-medium items-center space-x-1.5 shadow-sm text-xs sm:text-sm cursor-pointer no-underline text-white">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
           <span>Ruang Siswa</span>
@@ -207,11 +219,14 @@
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
           </button>
 
-          <!-- Tautan Cepat Khusus Guru / Administrator -->
-          <div class="pt-2 text-center border-t border-slate-100">
-            <a href="#admin" onclick="switchView('admin-login');" class="text-xs text-slate-500 hover:text-blue-700 font-medium transition inline-flex items-center space-x-1 py-1 px-3 rounded-lg hover:bg-blue-50 cursor-pointer">
+          <!-- Tautan Cepat & Pasang Aplikasi -->
+          <div class="pt-2 text-center border-t border-slate-100 flex items-center justify-between flex-wrap gap-2 text-xs">
+            <button type="button" onclick="bukaModalPanduanApp()" class="text-blue-700 hover:text-blue-900 font-bold transition inline-flex items-center space-x-1.5 py-1 px-2.5 rounded-lg hover:bg-blue-50 cursor-pointer">
+              <span>📲 Pasang Aplikasi di Layar HP / Desktop</span>
+            </button>
+            <a href="#admin" onclick="switchView('admin-login');" class="text-slate-500 hover:text-blue-700 font-medium transition inline-flex items-center space-x-1 py-1 px-2.5 rounded-lg hover:bg-blue-50 cursor-pointer">
               <svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-              <span>Login Khusus Guru / Administrator</span>
+              <span>Login Guru / Admin</span>
             </a>
           </div>
         </form>
@@ -2476,6 +2491,86 @@ function doGet(e) {
         <div id="grid-kartu-peserta" class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <!-- Rendered by JS -->
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL PANDUAN & PEMASANGAN APLIKASI (DESKTOP & HP) ==================== -->
+  <div id="modal-panduan-app" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto" onclick="tutupModalPanduanApp()">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full p-6 border border-slate-200 my-auto text-left" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-200 mb-5">
+        <div class="flex items-center space-x-3">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-700 to-indigo-800 text-white flex items-center justify-center text-2xl shadow-md">
+            📲
+          </div>
+          <div>
+            <h3 class="font-extrabold text-slate-800 text-lg sm:text-xl">Pasang Aplikasi CBT SMPN 77</h3>
+            <p class="text-xs text-slate-500">Akses langsung di Desktop Komputer Lab & Layar Utama HP</p>
+          </div>
+        </div>
+        <button onclick="tutupModalPanduanApp()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-xl transition">&times;</button>
+      </div>
+
+      <!-- Tab / Pilihan Perangkat -->
+      <div class="space-y-4 text-xs sm:text-sm">
+        <!-- Opsi 1: Desktop Windows -->
+        <div class="p-4 rounded-2xl bg-blue-50/70 border border-blue-200">
+          <div class="flex items-center space-x-2.5 font-bold text-blue-900 mb-2">
+            <span class="text-lg">🖥️</span>
+            <span class="text-sm sm:text-base">Komputer / Laptop Windows (PC Lab & Guru)</span>
+          </div>
+          <p class="text-slate-600 mb-3 leading-relaxed">
+            Anda dapat membuka CBT seperti program desktop mandiri (tanpa tab dan bilah alamat browser):
+          </p>
+          <div class="space-y-2">
+            <div class="flex items-start space-x-2 text-slate-700 bg-white p-2.5 rounded-xl border border-blue-100">
+              <span class="font-bold text-blue-700 shrink-0">Cara 1:</span>
+              <span>Klik tombol <strong>"Pasang Aplikasi"</strong> di kanan atas halaman ini atau klik ikon install/komputer di sebelah kanan bilah alamat (URL) Google Chrome/Edge.</span>
+            </div>
+            <div class="flex items-start space-x-2 text-slate-700 bg-white p-2.5 rounded-xl border border-blue-100">
+              <span class="font-bold text-blue-700 shrink-0">Cara 2:</span>
+              <span>Jalankan berkas <code class="bg-blue-100 text-blue-900 px-1.5 py-0.5 rounded font-mono font-bold">PASANG_DI_DESKTOP.bat</code> di folder CBT untuk membuat ikon shortcut permanen di Desktop Windows secara otomatis.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Opsi 2: HP Android -->
+        <div class="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200">
+          <div class="flex items-center space-x-2.5 font-bold text-emerald-900 mb-2">
+            <span class="text-lg">🤖</span>
+            <span class="text-sm sm:text-base">Ponsel Android (Google Chrome)</span>
+          </div>
+          <ol class="list-decimal list-inside space-y-1.5 text-slate-700">
+            <li>Buka link CBT di browser Google Chrome ponsel.</li>
+            <li>Ketuk menu <strong>titik tiga (⋮)</strong> di pojok kanan atas layar.</li>
+            <li>Pilih menu <strong>"Instal Aplikasi"</strong> atau <strong>"Tambahkan ke Layar Utama"</strong>.</li>
+            <li>Ikon <strong>CBT SMPN 77</strong> akan langsung muncul di beranda HP siswa seperti aplikasi Play Store.</li>
+          </ol>
+        </div>
+
+        <!-- Opsi 3: iPhone / iPad -->
+        <div class="p-4 rounded-2xl bg-purple-50/70 border border-purple-200">
+          <div class="flex items-center space-x-2.5 font-bold text-purple-900 mb-2">
+            <span class="text-lg">🍎</span>
+            <span class="text-sm sm:text-base">iPhone & iPad (Safari)</span>
+          </div>
+          <ol class="list-decimal list-inside space-y-1.5 text-slate-700">
+            <li>Buka link CBT di browser Safari iPhone/iPad.</li>
+            <li>Ketuk tombol <strong>Bagikan (ikon kotak dengan panah ke atas)</strong> di bilah bawah.</li>
+            <li>Gulir ke bawah dan ketuk <strong>"Tambahkan ke Layar Utama" (Add to Home Screen)</strong>.</li>
+            <li>Ketuk <strong>"Tambah"</strong> di pojok kanan atas.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="pt-4 mt-5 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
+        <button type="button" onclick="picuInstallPwa()" class="px-5 py-2.5 bg-gradient-to-r from-blue-700 to-indigo-800 hover:from-blue-800 hover:to-indigo-900 text-white font-bold rounded-xl text-xs sm:text-sm shadow-md transition flex items-center space-x-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span>Pasang ke Perangkat Ini Sekarang</span>
+        </button>
+        <button type="button" onclick="tutupModalPanduanApp()" class="px-4 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl text-xs sm:text-sm transition">
+          Tutup Panduan
+        </button>
       </div>
     </div>
   </div>
@@ -7892,6 +7987,62 @@ Pembahasan: Mitokondria adalah pusat penghasil energi sel melalui respirasi.`;
 
     function tampilkanTeksPrompt(teks) {
       window.prompt('Salin daftar akun guru di bawah ini (Ctrl+C):', teks);
+    }
+
+    /* ========================================================
+       PWA INSTALLATION & SERVICE WORKER
+    ======================================================== */
+    let deferredPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Cegah banner otomatis Chrome bawaan
+      e.preventDefault();
+      deferredPrompt = e;
+      const btnInstall = document.getElementById('btn-install-pwa');
+      if (btnInstall) {
+        btnInstall.classList.remove('hidden');
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      deferredPrompt = null;
+      console.log('CBT SMPN 77 berhasil diinstal sebagai aplikasi!');
+      alert('✓ Aplikasi CBT SMPN 77 Jakarta berhasil dipasang di perangkat Anda!');
+    });
+
+    function picuInstallPwa() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult && choiceResult.outcome === 'accepted') {
+            console.log('User menerima instalasi PWA');
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        bukaModalPanduanApp();
+      }
+    }
+
+    function bukaModalPanduanApp() {
+      const modal = document.getElementById('modal-panduan-app');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function tutupModalPanduanApp() {
+      const modal = document.getElementById('modal-panduan-app');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    // Daftarkan Service Worker jika didukung
+    if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').then((reg) => {
+          console.log('Service Worker CBT terdaftar:', reg.scope);
+        }).catch((err) => {
+          console.warn('Registrasi Service Worker gagal:', err);
+        });
+      });
     }
   </script>
 </body>

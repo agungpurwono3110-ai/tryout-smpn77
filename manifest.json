@@ -1,0 +1,26 @@
+{
+  "name": "CBT Try Out - SMP Negeri 77 Jakarta",
+  "short_name": "CBT SMPN 77",
+  "description": "Aplikasi CBT Try Out dan Simulasi Asesmen Nasional Berbasis Komputer SMP Negeri 77 Jakarta",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0f172a",
+  "theme_color": "#1d4ed8",
+  "categories": ["education"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 270' width='192' height='192'><path d='M 92,15 C 38,42 12,95 24,152 C 34,178 54,196 74,188 C 48,162 36,118 64,68 C 76,46 92,28 92,15 Z' fill='%231862b5'/><path d='M 104,42 C 68,66 42,108 52,152 C 60,172 74,184 88,178 C 68,154 60,122 80,82 C 90,64 104,50 104,42 Z' fill='%23f59e0b'/><path d='M 136,42 C 172,66 198,108 188,152 C 180,172 166,184 152,178 C 172,154 180,122 160,82 C 150,64 136,50 136,42 Z' fill='%23dc2626'/><path d='M 148,15 C 202,42 228,95 216,152 C 206,178 186,196 166,188 C 192,162 204,118 176,68 C 164,46 148,28 148,15 Z' fill='%2316a34a'/><text x='120' y='68' font-family='Arial, sans-serif' font-weight='900' font-size='22' fill='%231862b5' text-anchor='middle'>SMPN</text><text x='120' y='248' font-family='Arial, sans-serif' font-weight='900' font-size='14' fill='%231862b5' text-anchor='middle'>SMPN 77</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 270' width='512' height='512'><path d='M 92,15 C 38,42 12,95 24,152 C 34,178 54,196 74,188 C 48,162 36,118 64,68 C 76,46 92,28 92,15 Z' fill='%231862b5'/><path d='M 104,42 C 68,66 42,108 52,152 C 60,172 74,184 88,178 C 68,154 60,122 80,82 C 90,64 104,50 104,42 Z' fill='%23f59e0b'/><path d='M 136,42 C 172,66 198,108 188,152 C 180,172 166,184 152,178 C 172,154 180,122 160,82 C 150,64 136,50 136,42 Z' fill='%23dc2626'/><path d='M 148,15 C 202,42 228,95 216,152 C 206,178 186,196 166,188 C 192,162 204,118 176,68 C 164,46 148,28 148,15 Z' fill='%2316a34a'/><text x='120' y='68' font-family='Arial, sans-serif' font-weight='900' font-size='22' fill='%231862b5' text-anchor='middle'>SMPN</text><text x='120' y='248' font-family='Arial, sans-serif' font-weight='900' font-size='14' fill='%231862b5' text-anchor='middle'>SMPN 77 JAKARTA</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
