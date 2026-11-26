@@ -2653,6 +2653,20 @@ function doGet(e) {
         kelasDiajar: ['VII-A', 'VII-B', 'VII-C', 'VII-D', 'VII-E', 'VII-F', 'VII-G']
       },
       {
+        id: 'guru-rindi',
+        nama: 'Rindi Oktafiani, S.Pd.',
+        nip: '199410012019032023',
+        username: 'rindi oktafiani',
+        password: 'guru77',
+        mapel: 'Bahasa Indonesia',
+        tingkat: ['VII', 'VIII', 'IX'],
+        kelasDiajar: [
+          'VII-A', 'VII-B', 'VII-C', 'VII-D', 'VII-E', 'VII-F', 'VII-G',
+          'VIII-A', 'VIII-B', 'VIII-C', 'VIII-D', 'VIII-E', 'VIII-F', 'VIII-G',
+          'IX-A', 'IX-B', 'IX-C', 'IX-D', 'IX-E', 'IX-F', 'IX-G'
+        ]
+      },
+      {
         id: 'guru-default',
         nama: 'Pengawas Ruang / Guru Umum',
         nip: '-',
@@ -2780,10 +2794,11 @@ function doGet(e) {
                 const localList = JSON.parse(savedStr);
                 let adaBaru = false;
                 centralGuru.forEach(cg => {
-                  const idx = localList.findIndex(lg => 
-                    (lg.id && cg.id && lg.id === cg.id) ||
-                    (lg.username && cg.username && lg.username.toLowerCase() === cg.username.toLowerCase())
-                  );
+                  const cleanCg = (cg.username || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+                  const idx = localList.findIndex(lg => {
+                    const cleanLg = (lg.username || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+                    return (lg.id && cg.id && lg.id === cg.id) || (cleanCg && cleanCg === cleanLg);
+                  });
                   if (idx < 0) {
                     localList.push(cg);
                     adaBaru = true;
@@ -7516,16 +7531,24 @@ Pembahasan: Mitokondria adalah pusat penghasil energi sel melalui respirasi.`;
       } else {
         try {
           const list = JSON.parse(saved);
-          const hasTriAti = list.some(g => (g.username || '').toLowerCase() === 'triati' || (g.nama || '').includes('Tri Ati'));
-          if (!hasTriAti) {
-            DEFAULT_GURU_LIST.forEach(dg => {
-              if (!list.some(lg => (lg.username || '').toLowerCase() === (dg.username || '').toLowerCase())) {
-                list.push(dg);
-              }
+          let adaBaru = false;
+          DEFAULT_GURU_LIST.forEach(dg => {
+            const cleanDgUser = (dg.username || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+            const sudahAda = list.some(lg => {
+              const cleanLgUser = (lg.username || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+              return (lg.id && dg.id && lg.id === dg.id) || (cleanLgUser && cleanLgUser === cleanDgUser);
             });
+            if (!sudahAda) {
+              list.push(dg);
+              adaBaru = true;
+            }
+          });
+          if (adaBaru) {
             saveDaftarGuru(list);
           }
-        } catch (e) {}
+        } catch (e) {
+          saveDaftarGuru([...DEFAULT_GURU_LIST]);
+        }
       }
     }
 

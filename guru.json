@@ -156,6 +156,20 @@
     ]
   },
   {
+    "id": "guru-rindi",
+    "nama": "Rindi Oktafiani, S.Pd.",
+    "nip": "199410012019032023",
+    "username": "rindi oktafiani",
+    "password": "guru77",
+    "mapel": "Bahasa Indonesia",
+    "tingkat": ["VII", "VIII", "IX"],
+    "kelasDiajar": [
+      "VII-A", "VII-B", "VII-C", "VII-D", "VII-E", "VII-F", "VII-G",
+      "VIII-A", "VIII-B", "VIII-C", "VIII-D", "VIII-E", "VIII-F", "VIII-G",
+      "IX-A", "IX-B", "IX-C", "IX-D", "IX-E", "IX-F", "IX-G"
+    ]
+  },
+  {
     "id": "guru-default",
     "nama": "Pengawas Ruang / Guru Umum",
     "nip": "-",
